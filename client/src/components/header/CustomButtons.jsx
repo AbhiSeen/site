@@ -49,7 +49,7 @@ const LoginButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const CusttomButtons = () => {
+const CusttomButtons = ({setLoggedIn}) => {
   const [open, setOpen] = useState(false);
   const {account , setAccount}  = useContext(DataContext);
   const cartDetails = useSelector(state => state.cart);
@@ -73,7 +73,7 @@ const CusttomButtons = () => {
                 </Badge>
          <Typography style={{ marginLeft: 10 }}>Cart</Typography>
       </Container>
-      <LoginDialog open={open} setOpen={setOpen}/>
+      <LoginDialog open={open} setOpen={setOpen} setLoggedIn={setLoggedIn}/>
     </Wrapper>
   )
 }

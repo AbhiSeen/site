@@ -2,6 +2,10 @@ import React, { useState,useContext} from 'react';
 import { Dialog, DialogContent, TextField, Box, Button, Typography, styled } from '@mui/material';
 import {  authenticateLogin,authenticateSignup } from '../service/api.js';
 import {DataContext} from '../../context/DataProvider'
+import Dashboard from '../dashboard/Dashboard.jsx';
+
+import { useNavigate } from "react-router-dom";
+
 
 const Component = styled(DialogContent)`
     height: 70vh;
@@ -92,13 +96,13 @@ const accountInitialValues = {
     }
 }
 
-const LoginDialog = ({ open, setOpen }) => {
+const LoginDialog = ({ open, setOpen,setLoggedIn }) => {
     const [ account, toggleAccount ] = useState(accountInitialValues.login);
     const [ login, setLogin ] = useState(loginInitialValues);
     const [ signup, setSignup ] = useState(signupInitialValues);
     const [ error, setError] = useState(false);
     const {setAccount}   = useContext(DataContext);
-
+    const navigate=useNavigate()
 
     const handleClose = () => {
         setOpen(false);
@@ -118,10 +122,14 @@ const LoginDialog = ({ open, setOpen }) => {
     }
 
     const loginUser = async() => {
-        let response = await authenticateLogin(login);
-        if(response.status === 200) {
+        let response = await authenticateLogin(login);     
+        if(response.status === 200 && response.data.message!=="ok") {
             handleClose();
             setAccount(response.data.data.firstname);
+        }else if(response.data.message==="ok"){
+            setOpen(false);
+            setLoggedIn(true);
+            navigate("/dashboard")
         }
         else {
             setError(true);

@@ -37,6 +37,7 @@ const Header = () => {
 
 
   const [open, setOpen] = useState(false);
+  const [loggedin,setLoggedIn]=useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -57,7 +58,7 @@ const Header = () => {
 
 
   return (
-    <StyledHeader>
+    !loggedin?<StyledHeader>
       <Toolbar style={{ minHeight: 55 }}>
         <MenuButton
           color="inherit"
@@ -73,10 +74,10 @@ const Header = () => {
         </Component>
         <Search />
         <CustomButtonWrapper>
-          <CustomButtons />
+          <CustomButtons setLoggedIn={setLoggedIn}/>
         </CustomButtonWrapper>
       </Toolbar>
-    </StyledHeader>
+    </StyledHeader>:""
   )
 }
 
