@@ -58,7 +58,7 @@ const Header = () => {
 
 
   return (
-    false?<StyledHeader>
+    <StyledHeader>
       <Toolbar style={{ minHeight: 55 }}>
         <MenuButton
           color="inherit"
@@ -77,7 +77,7 @@ const Header = () => {
           <CustomButtons setLoggedIn={setLoggedIn}/>
         </CustomButtonWrapper>
       </Toolbar>
-    </StyledHeader>:""
+    </StyledHeader>
   )
 }
 

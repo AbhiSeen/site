@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Fragment } from 'react';
 import NavBar from './NavBar';
+import Header from "../header/Header";
 import Banner from './Banner';
 import { Box ,styled} from '@mui/material';
 import { getProducts } from '../../redux/actions/productActions';
@@ -23,6 +24,7 @@ const Home = () => {
   }, [dispatch])
   return (
     <Fragment>
+      <Header/>
       <NavBar />
       <Component>
         <Banner />
