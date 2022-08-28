@@ -37,7 +37,7 @@ const Header = () => {
 
 
   const [open, setOpen] = useState(false);
-  const [loggedin,setLoggedIn]=useState(false);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -74,7 +74,7 @@ const Header = () => {
         </Component>
         <Search />
         <CustomButtonWrapper>
-          <CustomButtons setLoggedIn={setLoggedIn}/>
+          <CustomButtons/>
         </CustomButtonWrapper>
       </Toolbar>
     </StyledHeader>

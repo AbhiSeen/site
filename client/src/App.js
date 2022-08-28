@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import List from './components/dashboard/list/List'
 import Single from './components/dashboard/single/Single'
 import New from './components/dashboard/New/New'
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}/>
               <Route path="/cart" element={<Cart />} />
-              <Route path="/dashboard/*" element={<Dashboard />}>
+              <Route path="/dashboard/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
                 <Route path="users">
                   <Route index element={<List />} />
                   <Route path=":userId" element={<Single />} />

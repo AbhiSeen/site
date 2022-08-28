@@ -2,7 +2,6 @@ import React, { useState,useContext} from 'react';
 import { Dialog, DialogContent, TextField, Box, Button, Typography, styled } from '@mui/material';
 import {  authenticateLogin,authenticateSignup } from '../service/api.js';
 import {DataContext} from '../../context/DataProvider'
-import Dashboard from '../dashboard/Dashboard.jsx';
 
 import { useNavigate } from "react-router-dom";
 
@@ -96,7 +95,7 @@ const accountInitialValues = {
     }
 }
 
-const LoginDialog = ({ open, setOpen,setLoggedIn }) => {
+const LoginDialog = ({ open, setOpen }) => {
     const [ account, toggleAccount ] = useState(accountInitialValues.login);
     const [ login, setLogin ] = useState(loginInitialValues);
     const [ signup, setSignup ] = useState(signupInitialValues);
@@ -128,7 +127,7 @@ const LoginDialog = ({ open, setOpen,setLoggedIn }) => {
             setAccount(response.data.data.firstname);
         }else if(response.data.message==="ok"){
             setOpen(false);
-            setLoggedIn(true);
+            localStorage.setItem("token",response.data.authToken)
             navigate("/dashboard")
         }
         else {
