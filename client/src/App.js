@@ -18,17 +18,14 @@ function App() {
       <BrowserRouter>
         <Box>
           <Routes>
-            <Route path="/" element={<Home />}/>
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/dashboard/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
-                <Route path="users">
-                  <Route index element={<List />} />
-                  <Route path=":userId" element={<Single />} />
-                  <Route path="new" element={<New />} />
-                </Route>
-              </Route>
-              <Route path="/product/:id" element={<DetailView />} />
-              </Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/users" element={<ProtectedRoute><List /></ProtectedRoute>} />
+            <Route path="/dashboard/users/:userId" element={<ProtectedRoute><Single /></ProtectedRoute>} />
+            <Route path="/dashboard/users/new" element={<ProtectedRoute><New /></ProtectedRoute>} />
+            <Route path="/product/:id" element={<DetailView />} />
+          </Routes>
         </Box>
       </BrowserRouter>
     </DataProvider>

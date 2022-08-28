@@ -39,6 +39,7 @@ export const userLogin = async (request, response) => {
       username: request.body.username,
     });
     const decryptedPassword=await bcrypt.compare(request.body.password,user.password);
+    console.log(decryptedPassword)
     const token=generateAccessToken(user);
     if (user.username !== "admin" && decryptedPassword) {
       return response.status(200).json({ data: user,authToken:token });
@@ -48,6 +49,7 @@ export const userLogin = async (request, response) => {
       return response.status(401).json("Invalid Login");
     }
   } catch (error) {
+    console.log(error.message)
     return response.status(500).json({error:"some error occured"});
   }
 };
