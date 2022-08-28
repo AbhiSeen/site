@@ -1,6 +1,6 @@
 import './datatable.scss'
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
+import { userColumns, userRows } from "../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Add New User
-        <Link to="/users/new" className="link">
+        <Link to="/dashboard/users/new" className="link">
           Add New
         </Link>
       </div>
