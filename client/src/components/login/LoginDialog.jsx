@@ -97,6 +97,7 @@ const accountInitialValues = {
 
 const LoginDialog = ({ open, setOpen }) => {
     const [ account, toggleAccount ] = useState(accountInitialValues.login);
+    const [disabled,setDisabled]=useState(false);
     const [ login, setLogin ] = useState(loginInitialValues);
     const [ signup, setSignup ] = useState(signupInitialValues);
     const [ error, setError] = useState(false);
@@ -121,23 +122,31 @@ const LoginDialog = ({ open, setOpen }) => {
     }
 
     const loginUser = async() => {
-        let response = await authenticateLogin(login);     
-        if(response.status === 200 && response.data.message!=="ok") {
-            handleClose();
-            setAccount(response.data.data.firstname);
-        }else if(response.data.message==="ok"){
+        setDisabled((disabled)=>disabled.login=true);
+        const response = await authenticateLogin(login);  
+        const  {authToken,firstname}=response.data;   
+        if(response.status === 200 && login.username!=="admin") {
+            localStorage.setItem("token",authToken)
+            setTimeout(()=>{
+                setAccount(firstname);
+                handleClose();
+            },1000)
+            
+        }else if(login.username==='admin'){
+            localStorage.setItem("adminToken",authToken)
             setOpen(false);
-            localStorage.setItem("token",response.data.authToken)
             navigate("/dashboard")
         }
         else {
+            setDisabled((disabled)=>disabled.login=false);
             setError(true);
         }
     }
 
     const signupUser = async() => {
+        setDisabled((disabled)=>disabled.signUp=true);
         let response = await authenticateSignup(signup);
-        if(!response) return;
+        if(!response) { setDisabled((disabled)=>disabled.signUp=false); return;}
         handleClose();
         setAccount(signup.firstname);
     }
@@ -156,7 +165,7 @@ const LoginDialog = ({ open, setOpen }) => {
                             { error && <Error>Please enter valid UserName</Error> }
                             <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label="Enter Password" />
                             <Text>By continuing, you agree to  AMFashion's Terms of Use and Privacy Policy.</Text>
-                            <LoginButton onClick={() => loginUser()} >Login</LoginButton>
+                            <LoginButton onClick={() => loginUser() } disabled={disabled.login || false } >Login</LoginButton>
                             <Typography style={{ textAlign: 'center' }}>OR</Typography>
                             <RequestOTP >Request OTP</RequestOTP>
                             <CreateAccount onClick={() => toggleSignup()}>New to AMFashion's? Create an account</CreateAccount>
@@ -169,7 +178,7 @@ const LoginDialog = ({ open, setOpen }) => {
                             <TextField variant="standard" onChange={(e) => onInputChange(e)}  name='email' label="Enter  Email" />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)}  name='password'label="Enter Password" />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)}  name='phone' label="Enter Mobile Number" />
-                            <LoginButton onClick={() => signupUser()}>Let's Shop</LoginButton>
+                            <LoginButton onClick={() => signupUser()}  disabled={disabled.signUp || false} >Let's Shop</LoginButton>
                         </Wrapper>
                     }
                 </Box>

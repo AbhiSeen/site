@@ -26,9 +26,21 @@ export const verifyToken = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    if (response.data.message === "ok") return true;
+    if (response.status===200) return true;
   } catch (err) {
-    console.log("some error occured");
+    return false;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${url}/logout`, "", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) return true;
+  } catch (err) {
     return false;
   }
 };
