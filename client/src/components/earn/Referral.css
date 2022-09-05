@@ -1,0 +1,23 @@
+#heading{
+    text-align: center;
+    /* margin-top: 15rem; */
+    margin: 0;
+}
+#referall-section{
+    display: flex;
+    justify-content: center;
+}
+#referall-section>input{
+    margin:0 1rem;
+}
+.referral-list{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border-collapse:collapse;
+    margin: 0;
+}
+.referral-list>tbody>tr>th,.referral-list>tbody>tr>td{
+    border:1px solid black;
+    
+}

@@ -61,8 +61,9 @@ const modifyUserInfo = async (id, token) => {
         $set: {
           authToken: token,
         },
-      },{
-        new:true
+      },
+      {
+        new: true,
       }
     );
     return true;
@@ -91,6 +92,35 @@ const deleteToken = async (id) => {
   }
 };
 
+const addReferrals = async (referredId, referreId, username) => {
+  const user = await User.findOneAndUpdate(
+    {
+      _id: referredId,
+    },
+    {
+      $push: {
+        referrals: {
+          referreId: mongoose.Types.ObjectId(referreId),
+          name: username,
+        },
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  // console.log(referredId+" "+referreId)
+  return user;
+};
+
+const getIdAndOrderfromUsername = async (name) => {
+  const user = await User.findOne({
+    username: name,
+  });
+  // console.log(user)
+  return user;
+};
+
 export const userSignUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
@@ -102,8 +132,8 @@ export const userSignUp = async (request, response) => {
     const newUser = request.body;
     const password = await bcrypt.hash(request.body.password, 10);
     const encryptedUser = { ...newUser, password };
-    const User = new User(encryptedUser);
-    await User.save();
+    const user = new User(encryptedUser);
+    await user.save();
     return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
     console.log("Error is: ", error);
@@ -116,43 +146,73 @@ export const userLogin = async (request, response) => {
     const user = await User.findOne({
       username: request.body.username,
     });
-    const decryptedPassword = await bcrypt.compare(
-      request.body.password,
-      user.password
-    );
-    const currentToken = await findCurrentToken(user._id);
-    if (currentToken) await expireToken(user._id, currentToken);
-    const token = generateAccessToken(user);
-    await modifyUserInfo(user._id, token);
-    delete user._doc.password;
+    // console.log(user)
+    if (user) {
+      const decryptedPassword = await bcrypt.compare(
+        request.body.password,
+        user.password
+      );
+      const currentToken = await findCurrentToken(user._id);
+      if (currentToken) await expireToken(user._id, currentToken);
+      const token = generateAccessToken(user);
+      await modifyUserInfo(user._id, token);
+      delete user._doc.password;
       if (user.username !== "admin" && decryptedPassword) {
-        return response.status(200).json({ ...user._doc,authToken:token });
+        return response.status(200).json({ ...user._doc, authToken: token });
       } else if (user.username === "admin") {
         return response.status(200).json({ message: "ok", authToken: token });
       } else {
-        return response.status(401).json("Invalid Login");
+        return response
+          .status(200)
+          .json({ message: "Invalid username/password" });
       }
-    
+    } else {
+      return response.status(401).json({ message: "user not found" });
+    }
   } catch (error) {
     console.log("Error is: ", error);
     return response.status(500).json({ error: "some error occured" });
   }
 };
 
-export const verifyToken = async (request, response) => {
+// export const verifyToken = async (request, response) => {
+//   const authHeader = request.headers.authorization;
+//   if (authHeader) {
+//     try {
+//       const token = authHeader.split(" ")[1];
+//       jwt.verify(token, process.env.JWT_SECRET, (err, userInfo) => {
+//         if (err) {
+//           return response.status(401).json({
+//             message: "You are not authenticated!",
+//           });
+//         } else {
+//           return response.status(200).json({
+//             message: "ok",
+//           });
+//         }
+//       });
+//     } catch (error) {
+//       console.log("Error is: ", error);
+//       return response.status(500).json({
+//         message: "cannot decode token",
+//       });
+//     }
+//   } else
+//     return response.status(401).json({ message: "You are not authenticated!" });
+// };
+
+export const verifyToken = async (request, response, next) => {
   const authHeader = request.headers.authorization;
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_SECRET, (err, userInfo) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err) => {
         if (err) {
-          return response.status(401).json({
-            message: "You are not authenticated!",
+          return response.status(200).json({
+            message: "Token is not valid!",
           });
         } else {
-          return response.status(200).json({
-            message: "ok",
-          });
+          next();
         }
       });
     } catch (error) {
@@ -161,8 +221,7 @@ export const verifyToken = async (request, response) => {
         message: "cannot decode token",
       });
     }
-  } else
-    return response.status(401).json({ message: "You are not authenticated!" });
+  } else return res.status(401).json({ message: "You are not authenticated!" });
 };
 
 export const logout = async (request, response) => {
@@ -195,5 +254,83 @@ export const logout = async (request, response) => {
   } catch (err) {
     console.log(err);
     return response.status(500).json({ message: "Some error occured" });
+  }
+};
+
+export const addReferral = async (request, response) => {
+  try {
+    const { referralCode, delivered } = request.body;
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id, username } = jwt.decode(authCode);
+    const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
+    const userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
+    // console.log(username)
+
+    await addReferrals(userInfo._id, id, username);
+    return response
+      .status(200)
+      .json({ message: "referral added successfully." });
+
+    // console.log("in else case");
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({ error: "some error occured" });
+  }
+};
+
+export const getReferrals = async (request, response) => {
+  try {
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(authCode);
+    const res = await User.findOne({
+      _id: mongoose.Types.ObjectId(id),
+    });
+    // console.log(res);
+    return response.status(200).json({ referrals: res.referrals });
+  } catch (error) {
+    console.log(error);
+    return response
+      .status(500)
+      .json({ error: "some error occured.Please try again after some time" });
+  }
+};
+
+export const addProducts = async (request, response) => {
+  try {
+    const products = request.body.products;
+    if (products) {
+      const authCode = request.headers.authorization.split(" ")[1];
+      const { id } = jwt.decode(authCode);
+      const orderedProducts = products.map((val) => {
+        const tempOrders = {
+          productId: mongoose.Types.ObjectId(val.id),
+          quantity: val.quantity,
+          value: val.orderValue,
+          status: "",
+        };
+        return tempOrders;
+      });
+      const result = await User.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(id),
+        },
+        {
+          $push: {
+            orders: {
+              orderId: new mongoose.Types.ObjectId(),
+              products: orderedProducts,
+            },
+          },
+        },
+        { new: true }
+      );
+      console.log(result);
+    }
+    return response.status(200).json({ message: "ok" });
+  } catch (err) {
+    console.log(err);
+    return response
+      .status(500)
+      .json({ message: "some error occured.Please try again after some time" });
   }
 };

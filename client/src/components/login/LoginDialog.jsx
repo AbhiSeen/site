@@ -97,7 +97,7 @@ const accountInitialValues = {
 
 const LoginDialog = ({ open, setOpen }) => {
     const [ account, toggleAccount ] = useState(accountInitialValues.login);
-    const [disabled,setDisabled]=useState(false);
+    const [disabled,setDisabled]=useState({});
     const [ login, setLogin ] = useState(loginInitialValues);
     const [ signup, setSignup ] = useState(signupInitialValues);
     const [ error, setError] = useState(false);
@@ -122,9 +122,9 @@ const LoginDialog = ({ open, setOpen }) => {
     }
 
     const loginUser = async() => {
-        setDisabled((disabled)=>disabled.login=true);
+        setDisabled({...disabled,login:true});
         const response = await authenticateLogin(login);  
-        const  {authToken,firstname}=response.data;   
+        const  {authToken,firstname,referrals}=response.data;   
         if(response.status === 200 && login.username!=="admin") {
             localStorage.setItem("token",authToken)
             setTimeout(()=>{
@@ -138,17 +138,15 @@ const LoginDialog = ({ open, setOpen }) => {
             navigate("/dashboard")
         }
         else {
-            setDisabled((disabled)=>disabled.login=false);
+            setDisabled({...disabled,login:false});
             setError(true);
         }
     }
 
     const signupUser = async() => {
-        setDisabled((disabled)=>disabled.signUp=true);
+        setDisabled({...disabled,signUp:true});
         let response = await authenticateSignup(signup);
-        if(!response) { setDisabled((disabled)=>disabled.signUp=false); return;}
-        handleClose();
-        setAccount(signup.firstname);
+        if(!response) { setDisabled({...disabled,signUp:false});}
     }
     return (
         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>

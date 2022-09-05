@@ -30,7 +30,7 @@ export const verifyToken = async () => {
   } catch (err) {
     return false;
   }
-};
+}; 
 
 export const logout = async () => {
   try {
