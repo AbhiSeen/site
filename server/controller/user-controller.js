@@ -121,6 +121,15 @@ const getIdAndOrderfromUsername = async (name) => {
   return user;
 };
 
+const checkTokenInBlackList=async(token,userId)=>{
+  const response=await BlackList.findOne({
+    user_id:mongoose.Types.ObjectId(userId),
+    expiredTokens:token
+  })
+  if(response) return true;
+  return false;
+}
+
 export const userSignUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
@@ -175,46 +184,30 @@ export const userLogin = async (request, response) => {
   }
 };
 
-// export const verifyToken = async (request, response) => {
-//   const authHeader = request.headers.authorization;
-//   if (authHeader) {
-//     try {
-//       const token = authHeader.split(" ")[1];
-//       jwt.verify(token, process.env.JWT_SECRET, (err, userInfo) => {
-//         if (err) {
-//           return response.status(401).json({
-//             message: "You are not authenticated!",
-//           });
-//         } else {
-//           return response.status(200).json({
-//             message: "ok",
-//           });
-//         }
-//       });
-//     } catch (error) {
-//       console.log("Error is: ", error);
-//       return response.status(500).json({
-//         message: "cannot decode token",
-//       });
-//     }
-//   } else
-//     return response.status(401).json({ message: "You are not authenticated!" });
-// };
-
 export const verifyToken = async (request, response, next) => {
   const authHeader = request.headers.authorization;
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_SECRET, (err) => {
-        if (err) {
+      if(token){
+        const {id}=jwt.decode(token);
+        const inBlackList=await checkTokenInBlackList(token,id);
+        if(inBlackList){
           return response.status(200).json({
             message: "Token is not valid!",
           });
-        } else {
-          next();
+        }else{
+          jwt.verify(token, process.env.JWT_SECRET, (err) => {
+            if (err) {
+              return response.status(200).json({
+                message: "Token is not valid!",
+              });
+            } else {
+              next();
+            }
+          });
         }
-      });
+      }
     } catch (error) {
       console.log("Error is: ", error);
       return response.status(500).json({
@@ -223,6 +216,23 @@ export const verifyToken = async (request, response, next) => {
     }
   } else return res.status(401).json({ message: "You are not authenticated!" });
 };
+
+export const getOrders=async(userIds)=>{
+  const orders=await User.find({
+    _id:{$in:userIds}
+},{
+  _id:0,orders:1
+});
+return orders;
+}
+
+const getReferralsfromUser=async(id)=>{
+  const res = await User.findOne({
+    _id: mongoose.Types.ObjectId(id),
+  },{_id:0,referrals:1});
+  
+  return res; 
+}
 
 export const logout = async (request, response) => {
   try {
@@ -259,14 +269,12 @@ export const logout = async (request, response) => {
 
 export const addReferral = async (request, response) => {
   try {
-    const { referralCode, delivered } = request.body;
+    const { referralCode} = request.body;
     const authCode = request.headers.authorization.split(" ")[1];
-    const { id, username } = jwt.decode(authCode);
+    const { id } = jwt.decode(authCode);
     const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
     const userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
-    // console.log(username)
-
-    await addReferrals(userInfo._id, id, username);
+    await addReferrals(userInfo._id, id,userInfo.email); 
     return response
       .status(200)
       .json({ message: "referral added successfully." });
@@ -278,8 +286,25 @@ export const addReferral = async (request, response) => {
   }
 };
 
+export const getEarnings=async(request,response)=>{
+  const authCode = request.headers.authorization.split(" ")[1];
+  const { id } = jwt.decode(authCode); 
+  const {referrals}=await getReferralsfromUser(id); 
+  // console.log(referrals)
+  if(referrals){
+    const ids=referrals.map((val)=>val.referreId);
+    const orders=await getOrders(ids);
+    
+    const orderValues=orders.reduce((arr,val)=>arr.concat(val.orders),[]).map((val)=>val.products).flat(2).filter((val)=>val.status==="delivered").map((val)=>val.orderValue);
+    const earnings=Math.round(orderValues.reduce((totalValue,value)=>totalValue+=value,0)*(7/100));
+    return response.status(200).json({"earnings":earnings}) 
+  }else{
+    return response.status(200).json({"message":"No referrals found"})
+  } 
+}    
+
 export const getReferrals = async (request, response) => {
-  try {
+  try { 
     const authCode = request.headers.authorization.split(" ")[1];
     const { id } = jwt.decode(authCode);
     const res = await User.findOne({
@@ -301,15 +326,10 @@ export const addProducts = async (request, response) => {
     if (products) {
       const authCode = request.headers.authorization.split(" ")[1];
       const { id } = jwt.decode(authCode);
-      const orderedProducts = products.map((val) => {
-        const tempOrders = {
-          productId: mongoose.Types.ObjectId(val.id),
-          quantity: val.quantity,
-          value: val.orderValue,
-          status: "",
-        };
-        return tempOrders;
+      const orderedProducts = products.map((val) => {     
+        return {...val,status: ""};
       });
+      // console.log(orderedProducts)
       const result = await User.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(id),

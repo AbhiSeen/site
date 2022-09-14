@@ -8,7 +8,7 @@ import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
 import TotalView from "./TotalView";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
-import Referral from "../earn/Referral";
+import Referral from "../Referral/Referral";
 import axios from "axios";
 import { PriceChange } from "@mui/icons-material";
 
@@ -58,9 +58,9 @@ const Cart = () => {
   const delivered = useRef(false);
   const dispatch = useDispatch();
 
-  axios.defaults.headers={
+  axios.defaults.headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
-  }
+  };
 
   useEffect(() => {
     if (cartItems && id !== cartItems.id) dispatch(addToCart(id));
@@ -82,17 +82,13 @@ const Cart = () => {
 
   const addProducts = async () => {
     const products = cartItems.map((val) => {
-      const product = {
-        productId: val._id,
-        quantity: val.quantity,
-        orderValue: val.price.cost,
-      };
-      return product
+      const temp = { productId: val._id, name: val.title.longTitle ,orderValue:val.price.cost};
+      return temp;
     });
-    const response=await axios.post("http://localhost:8000/addProducts",{
-        products:products,
+    const response = await axios.post("http://localhost:8000/addProducts", {
+      products: products,
     });
-    console.log(response);
+    // console.log(products);
   };
 
   return (
