@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
+  console.log(inputs);
 
   return (
     <div className="new">
@@ -28,7 +29,7 @@ const New = ({ inputs, title }) => {
           </div>
           <div className="right">
             <form>
-              <div className="formInput" key={title.tl}>
+              <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
@@ -41,6 +42,7 @@ const New = ({ inputs, title }) => {
               </div>
 
               {inputs.map((input) => (
+                
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input type={input.type} placeholder={input.placeholder} />

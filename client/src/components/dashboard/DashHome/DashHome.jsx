@@ -5,7 +5,7 @@ import Navbar from '../navbar/Navbar'
 import Widget from '../widget/Widget'
 import Featured from '../featured/Featured'
 import Chart from '../chart/Chart'
-import { Table } from '@mui/material'
+import { List } from '@mui/material'
 import '../style/dark.scss'
 
 
@@ -27,7 +27,7 @@ const DashHome = () => {
         </div>
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
-          <Table />
+          <List />
         </div>
       </div>
 

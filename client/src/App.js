@@ -10,6 +10,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 import List from './components/dashboard/list/List'
 import Single from './components/dashboard/single/Single'
 import New from './components/dashboard/New/New'
+import ProductList from "./components/dashboard/productList/ProductList";
+import NewProduct from "./components/dashboard/newProduct/NewProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
             <Route path="/dashboard/users" element={<ProtectedRoute><List /></ProtectedRoute>} />
             <Route path="/dashboard/users/:userId" element={<ProtectedRoute><Single /></ProtectedRoute>} />
             <Route path="/dashboard/users/new" element={<ProtectedRoute><New /></ProtectedRoute>} />
+            <Route path="/dashboard/products" element={<ProtectedRoute><ProductList /></ProtectedRoute>} />
+            <Route path="/dashboard/products/:productId" element={<ProtectedRoute><Single /></ProtectedRoute>} />
+            <Route path="/dashboard/products/newpro" element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
             <Route path="/product/:id" element={<DetailView />} />
           </Routes>
         </Box>
