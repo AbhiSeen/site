@@ -43,7 +43,8 @@ const userSchema = new mongoose.Schema({
     orders:{
         type:Array,
     },
-    authToken:{type:String}
+    authToken:{type:String},
+    referralCode:{type:String}
 });
 
 const user = mongoose.model('user', userSchema);

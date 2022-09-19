@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Header from "../header/Header";
 import { Box, Typography, Button, Grid, styled } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
 import Referral from "../Referral/Referral";
 import axios from "axios";
-import { PriceChange } from "@mui/icons-material";
+
 
 // import { post } from '../../utils/paytm';
 // import { payUsingPaytm } from '../../service/api';
@@ -55,7 +55,6 @@ const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
   const { cartItems } = cartDetails;
   const { id } = useParams();
-  const delivered = useRef(false);
   const dispatch = useDispatch();
 
   axios.defaults.headers = {

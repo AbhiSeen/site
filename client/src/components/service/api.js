@@ -2,6 +2,12 @@ import axios from "axios";
 
 const url = "http://localhost:8000";
 
+const axiosJWT=axios;
+
+axiosJWT.defaults.headers = {
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+};
+
 export const authenticateLogin = async (data) => {
   try {
     return await axios.post(`${url}/login`, data);
@@ -21,11 +27,7 @@ export const authenticateSignup = async (data) => {
 
 export const verifyToken = async () => {
   try {
-    const response = await axios.post(`${url}/verify`, "", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axiosJWT.post(`${url}/verify`, "");
     if (response.status===200) return true;
   } catch (err) {
     return false;
@@ -34,11 +36,7 @@ export const verifyToken = async () => {
 
 export const logout = async () => {
   try {
-    const response = await axios.post(`${url}/logout`, "", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axiosJWT.post(`${url}/logout`, "");
     if (response.status === 200) return true;
   } catch (err) {
     return false;

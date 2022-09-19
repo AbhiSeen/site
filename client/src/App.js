@@ -29,6 +29,7 @@ function App() {
                   <Route path="new" element={<New />} />
                 </Route>
               </Route>
+              <Route path="/product/:id/:link" element={<DetailView />} />
               <Route path="/product/:id" element={<DetailView />} />
               </Routes>
         </Box>

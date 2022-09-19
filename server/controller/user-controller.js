@@ -101,7 +101,7 @@ const addReferrals = async (referredId, referreId, username) => {
       $push: {
         referrals: {
           referreId: mongoose.Types.ObjectId(referreId),
-          name: username,
+          username: username,
         },
       },
     },
@@ -114,21 +114,40 @@ const addReferrals = async (referredId, referreId, username) => {
 };
 
 const getIdAndOrderfromUsername = async (name) => {
-  const user = await User.findOne({
-    username: name,
-  });
-  // console.log(user)
+  const user = await User.findOne(
+    {
+      username: name,
+    },
+  );
   return user;
 };
 
-const checkTokenInBlackList=async(token,userId)=>{
-  const response=await BlackList.findOne({
-    user_id:mongoose.Types.ObjectId(userId),
-    expiredTokens:token
-  })
-  if(response) return true;
+const checkTokenInBlackList = async (token, userId) => {
+  const response = await BlackList.findOne({
+    user_id: mongoose.Types.ObjectId(userId),
+    expiredTokens: token,
+  });
+  if (response) return true;
   return false;
-}
+};
+
+const getReferralsfromUserId = async (id) => {
+  const res = await User.findOne(
+    {
+      _id: mongoose.Types.ObjectId(id),
+    },
+    { _id: 0, referrals: 1 }
+  );
+  return res;
+};
+
+const getIdfromReferralCode = async (referralCode) => {
+  const res = await User.findOne({
+    referralCode: referralCode,
+  });
+
+  return res;
+};
 
 export const userSignUp = async (request, response) => {
   try {
@@ -189,14 +208,14 @@ export const verifyToken = async (request, response, next) => {
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      if(token){
-        const {id}=jwt.decode(token);
-        const inBlackList=await checkTokenInBlackList(token,id);
-        if(inBlackList){
+      if (token) {
+        const { id } = jwt.decode(token);
+        const inBlackList = await checkTokenInBlackList(token, id);
+        if (inBlackList) {
           return response.status(200).json({
             message: "Token is not valid!",
           });
-        }else{
+        } else {
           jwt.verify(token, process.env.JWT_SECRET, (err) => {
             if (err) {
               return response.status(200).json({
@@ -214,25 +233,146 @@ export const verifyToken = async (request, response, next) => {
         message: "cannot decode token",
       });
     }
-  } else return res.status(401).json({ message: "You are not authenticated!" });
+  } else
+    return response.status(401).json({ message: "You are not authenticated!" });
 };
 
-export const getOrders=async(userIds)=>{
-  const orders=await User.find({
-    _id:{$in:userIds}
-},{
-  _id:0,orders:1
-});
-return orders;
-}
+export const getOrders = async (userIds) => {
+  const orders = await User.find(
+    {
+      _id: { $in: userIds },
+    },
+    {
+      _id: 0,
+      orders: 1,
+    }
+  );
+  return orders;
+};
 
-const getReferralsfromUser=async(id)=>{
-  const res = await User.findOne({
-    _id: mongoose.Types.ObjectId(id),
-  },{_id:0,referrals:1});
-  
-  return res; 
-}
+export const addReferralLink = async (request, response) => {
+  try{
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(authCode);
+    const referralCode = request.body.referralCode;
+    // console.log(referralCode)
+    const result = await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        referralCode: referralCode,
+      },{
+        new:true
+      }
+      );
+    return response.status(200).json("referral added successfully")
+  }catch(err){
+    console.error(err);
+    return response.status(500).json("some error occured.Please try again after some time")
+  }
+};
+
+export const addReferral = async (request, response) => {
+  try {
+    const { referralCode } = request.body;
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id, username } = jwt.decode(authCode);
+    let userInfo = "";
+    if (referralCode.indexOf("#") !== -1) {
+      const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
+      userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
+    } else {
+      userInfo = await getIdfromReferralCode(referralCode);
+      // console.log(userInfo)
+    }
+    await addReferrals(userInfo._id, id, username);
+    return response
+      .status(200)
+      .json({ message: "referral added successfully." });
+
+    // console.log("in else case");
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({ error: "some error occured" });
+  }
+};
+
+export const getEarnings = async (request, response) => {
+  const authCode = request.headers.authorization.split(" ")[1];
+  const { id } = jwt.decode(authCode);
+  const { referrals } = await getReferralsfromUserId(id);
+  // console.log(referrals)
+  if (referrals) {
+    const ids = referrals.map((val) => val.referreId);
+    const orders = await getOrders(ids);
+    const orderValues = orders
+      .reduce((arr, val) => arr.concat(val.orders), [])
+      .map((val) => val.products)
+      .flat(2)
+      .filter((val) => val.status === "delivered")
+      .map((val) => val.orderValue);
+    const earnings = Math.round(
+      orderValues.reduce((totalValue, value) => (totalValue += value), 0) *
+        (7 / 100)
+    );
+    return response.status(200).json({ earnings: earnings });
+  } else {
+    return response.status(200).json({ message: "No referrals found" });
+  }
+};
+
+export const getReferrals = async (request, response) => {
+  try {
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(authCode);
+    const res = await User.findOne({
+      _id: mongoose.Types.ObjectId(id),
+    });
+    // console.log(res);
+    return response.status(200).json({ referrals: res.referrals });
+  } catch (error) {
+    console.log(error);
+    return response
+      .status(500)
+      .json({ error: "some error occured.Please try again after some time" });
+  }
+};
+
+export const addProducts = async (request, response) => {
+  try {
+    const products = request.body.products;
+    if (products) {
+      const authCode = request.headers.authorization.split(" ")[1];
+      const { id } = jwt.decode(authCode);
+      const orderedProducts = products.map((val) => {
+        return { ...val, status: "" };
+      });
+      // console.log(orderedProducts)
+      const result = await User.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(id),
+        },
+        {
+          $push: {
+            orders: {
+              orderId: new mongoose.Types.ObjectId(),
+              products: orderedProducts,
+            },
+          },
+        },
+        { new: true }
+      );
+      console.log(result);
+    }
+    return response.status(200).json({ message: "ok" });
+  } catch (err) {
+    console.log(err);
+    return response
+      .status(500)
+      .json({ message: "some error occured.Please try again after some time" });
+  }
+};
 
 export const logout = async (request, response) => {
   try {
@@ -264,93 +404,5 @@ export const logout = async (request, response) => {
   } catch (err) {
     console.log(err);
     return response.status(500).json({ message: "Some error occured" });
-  }
-};
-
-export const addReferral = async (request, response) => {
-  try {
-    const { referralCode} = request.body;
-    const authCode = request.headers.authorization.split(" ")[1];
-    const { id } = jwt.decode(authCode);
-    const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
-    const userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
-    await addReferrals(userInfo._id, id,userInfo.email); 
-    return response
-      .status(200)
-      .json({ message: "referral added successfully." });
-
-    // console.log("in else case");
-  } catch (err) {
-    console.log(err);
-    return response.status(500).json({ error: "some error occured" });
-  }
-};
-
-export const getEarnings=async(request,response)=>{
-  const authCode = request.headers.authorization.split(" ")[1];
-  const { id } = jwt.decode(authCode); 
-  const {referrals}=await getReferralsfromUser(id); 
-  // console.log(referrals)
-  if(referrals){
-    const ids=referrals.map((val)=>val.referreId);
-    const orders=await getOrders(ids);
-    
-    const orderValues=orders.reduce((arr,val)=>arr.concat(val.orders),[]).map((val)=>val.products).flat(2).filter((val)=>val.status==="delivered").map((val)=>val.orderValue);
-    const earnings=Math.round(orderValues.reduce((totalValue,value)=>totalValue+=value,0)*(7/100));
-    return response.status(200).json({"earnings":earnings}) 
-  }else{
-    return response.status(200).json({"message":"No referrals found"})
-  } 
-}    
-
-export const getReferrals = async (request, response) => {
-  try { 
-    const authCode = request.headers.authorization.split(" ")[1];
-    const { id } = jwt.decode(authCode);
-    const res = await User.findOne({
-      _id: mongoose.Types.ObjectId(id),
-    });
-    // console.log(res);
-    return response.status(200).json({ referrals: res.referrals });
-  } catch (error) {
-    console.log(error);
-    return response
-      .status(500)
-      .json({ error: "some error occured.Please try again after some time" });
-  }
-};
-
-export const addProducts = async (request, response) => {
-  try {
-    const products = request.body.products;
-    if (products) {
-      const authCode = request.headers.authorization.split(" ")[1];
-      const { id } = jwt.decode(authCode);
-      const orderedProducts = products.map((val) => {     
-        return {...val,status: ""};
-      });
-      // console.log(orderedProducts)
-      const result = await User.findOneAndUpdate(
-        {
-          _id: mongoose.Types.ObjectId(id),
-        },
-        {
-          $push: {
-            orders: {
-              orderId: new mongoose.Types.ObjectId(),
-              products: orderedProducts,
-            },
-          },
-        },
-        { new: true }
-      );
-      console.log(result);
-    }
-    return response.status(200).json({ message: "ok" });
-  } catch (err) {
-    console.log(err);
-    return response
-      .status(500)
-      .json({ message: "some error occured.Please try again after some time" });
   }
 };
