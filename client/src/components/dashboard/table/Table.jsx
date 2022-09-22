@@ -11,6 +11,7 @@ const List = () => {
   const rows = [
     {
       id: 1143155,
+      transaction_ID:"232323747438",
       product: "Acer Nitro 5",
       img: "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
@@ -18,9 +19,11 @@ const List = () => {
       amount: 785,
       method: "Cash on Delivery",
       status: "Approved",
+      
     },
     {
       id: 2235235,
+      transaction_ID:"685858986589",
       product: "Playstation 5",
       img: "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Michael Doe",
@@ -28,9 +31,11 @@ const List = () => {
       amount: 900,
       method: "Online Payment",
       status: "Pending",
+      
     },
     {
       id: 2342353,
+      transaction_ID:"545167223974",
       product: "Redragon S101",
       img: "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
@@ -38,9 +43,11 @@ const List = () => {
       amount: 35,
       method: "Cash on Delivery",
       status: "Pending",
+      
     },
     {
       id: 2357741,
+      transaction_ID:"779456157969",
       product: "Razer Blade 15",
       img: "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Jane Smith",
@@ -48,9 +55,11 @@ const List = () => {
       amount: 920,
       method: "Online",
       status: "Approved",
+      
     },
     {
       id: 2342355,
+      transaction_ID:"752356596589",
       product: "ASUS ROG Strix",
       img: "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Harold Carol",
@@ -58,6 +67,7 @@ const List = () => {
       amount: 2000,
       method: "Online",
       status: "Pending",
+     
     },
   ];
   return (
@@ -66,6 +76,7 @@ const List = () => {
         <TableHead>
           <TableRow>
             <TableCell className="tableCell">Tracking ID</TableCell>
+            <TableCell className="tableCell">Transaction ID</TableCell>
             <TableCell className="tableCell">Product</TableCell>
             <TableCell className="tableCell">Customer</TableCell>
             <TableCell className="tableCell">Date</TableCell>
@@ -78,6 +89,7 @@ const List = () => {
           {rows.map((row) => (
             <TableRow key={row.id}>
               <TableCell className="tableCell">{row.id}</TableCell>
+              <TableCell className="tableCell">{row.transaction_ID}</TableCell>
               <TableCell className="tableCell">
                 <div className="cellWrapper">
                   <img src={row.img} alt="" className="image" />
