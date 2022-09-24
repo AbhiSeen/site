@@ -36,7 +36,15 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String
-    }
+    },
+    referrals:{
+        type:Array,
+    },
+    orders:{
+        type:Array,
+    },
+    authToken:{type:String},
+    referralCode:{type:String}
 });
 
 const user = mongoose.model('user', userSchema);

@@ -1,7 +1,9 @@
 import User from "../model/user-schema.js";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
+import BlackList from "../model/blacklist-schema.js";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -16,19 +18,153 @@ const generateAccessToken = (user) => {
   );
 };
 
+const findCurrentToken = async (id) => {
+  try {
+    const { authToken } = await User.findOne(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      { _id: 0, authToken: 1 }
+    ).lean();
+    return authToken;
+  } catch (error) {
+    console.log("Error is: ", error);
+    return null;
+  }
+};
+
+const expireToken = async (id, currentToken) => {
+  try {
+    const createQuery = await BlackList.findOneAndUpdate(
+      {
+        user_id: mongoose.Types.ObjectId(id),
+      },
+      {
+        $push: { expiredTokens: currentToken },
+      },
+      { upsert: true }
+    );
+    return true;
+  } catch (error) {
+    console.log("Error is: ", error);
+    return false;
+  }
+};
+
+const modifyUserInfo = async (id, token) => {
+  try {
+    await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        $set: {
+          authToken: token,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    return true;
+  } catch (error) {
+    console.log("Error is:", error);
+    return false;
+  }
+};
+
+const deleteToken = async (id) => {
+  try {
+    await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        $set: {
+          authToken: "",
+        },
+      }
+    );
+    return true;
+  } catch (error) {
+    console.log("Error is:", error);
+    return false;
+  }
+};
+
+const addReferrals = async (referredId, referreId, username) => {
+  const user = await User.findOneAndUpdate(
+    {
+      _id: referredId,
+    },
+    {
+      $push: {
+        referrals: {
+          referreId: mongoose.Types.ObjectId(referreId),
+          username: username,
+        },
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  // console.log(referredId+" "+referreId)
+  return user;
+};
+
+const getIdAndOrderfromUsername = async (name) => {
+  const user = await User.findOne(
+    {
+      username: name,
+    },
+  );
+  return user;
+};
+
+const checkTokenInBlackList = async (token, userId) => {
+  const response = await BlackList.findOne({
+    user_id: mongoose.Types.ObjectId(userId),
+    expiredTokens: token,
+  });
+  if (response) return true;
+  return false;
+};
+
+const getReferralsfromUserId = async (id) => {
+  const res = await User.findOne(
+    {
+      _id: mongoose.Types.ObjectId(id),
+    },
+    { _id: 0, referrals: 1 }
+  );
+  return res;
+};
+
+const getIdfromReferralCode = async (referralCode) => {
+  const res = await User.findOne({
+    referralCode: referralCode,
+  });
+
+  return res;
+};
+
 export const userSignUp = async (request, response) => {
   try {
-    const exist = await User.findOne({ username: request.body.username });
-    if (exist) {
-      return response.status(401).json({ message: "User already exist" });
+    const existingUser = await User.findOne({
+      username: request.body.username,
+    });
+    if (existingUser) {
+      return response.status(200).json({ message: "User already exists" });
     }
-    const user = request.body;
-    const password=await bcrypt.hash(request.body.password, 10);
-    const encryptedUser={...user,password};
-    const newUser = new User(encryptedUser);
-    await newUser.save();
-    return response.status(200).json({ mesage: user });
+    const newUser = request.body;
+    const password = await bcrypt.hash(request.body.password, 10);
+    const encryptedUser = { ...newUser, password };
+    const user = new User(encryptedUser);
+    await user.save();
+    return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
+    console.log("Error is: ", error);
     return response.status(500).json({ message: "some error occured" });
   }
 };
@@ -38,42 +174,235 @@ export const userLogin = async (request, response) => {
     const user = await User.findOne({
       username: request.body.username,
     });
-    const decryptedPassword=await bcrypt.compare(request.body.password,user.password);
-    console.log(decryptedPassword)
-    const token=generateAccessToken(user);
-    if (user.username !== "admin" && decryptedPassword) {
-      return response.status(200).json({ data: user,authToken:token });
-    } else if (user.username === "admin") {
-      return response.status(200).json({ message: "ok",authToken:token });
+    // console.log(user)
+    if (user) {
+      const decryptedPassword = await bcrypt.compare(
+        request.body.password,
+        user.password
+      );
+      const currentToken = await findCurrentToken(user._id);
+      if (currentToken) await expireToken(user._id, currentToken);
+      const token = generateAccessToken(user);
+      await modifyUserInfo(user._id, token);
+      delete user._doc.password;
+      if (user.username !== "admin" && decryptedPassword) {
+        return response.status(200).json({ ...user._doc, authToken: token });
+      } else if (user.username === "admin") {
+        return response.status(200).json({ message: "ok", authToken: token });
+      } else {
+        return response
+          .status(200)
+          .json({ message: "Invalid username/password" });
+      }
     } else {
-      return response.status(401).json("Invalid Login");
+      return response.status(401).json({ message: "user not found" });
     }
   } catch (error) {
-    console.log(error.message)
-    return response.status(500).json({error:"some error occured"});
+    console.log("Error is: ", error);
+    return response.status(500).json({ error: "some error occured" });
   }
 };
 
-export const verifyToken=async(request,response)=>{
+export const verifyToken = async (request, response, next) => {
   const authHeader = request.headers.authorization;
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_SECRET, (err, userInfo) => {
-        if (err) {
-          return response.status(401).json({
-            message: "You are not authenticated!",
+      if (token) {
+        const { id } = jwt.decode(token);
+        const inBlackList = await checkTokenInBlackList(token, id);
+        if (inBlackList) {
+          return response.status(200).json({
+            message: "Token is not valid!",
           });
         } else {
-          return response.status(200).json({
-            message: "ok",
+          jwt.verify(token, process.env.JWT_SECRET, (err) => {
+            if (err) {
+              return response.status(200).json({
+                message: "Token is not valid!",
+              });
+            } else {
+              next();
+            }
           });
         }
-      });
-    } catch (err) {
+      }
+    } catch (error) {
+      console.log("Error is: ", error);
       return response.status(500).json({
         message: "cannot decode token",
       });
     }
-  } else return response.status(401).json({ message: "You are not authenticated!" });
-}
+  } else
+    return response.status(401).json({ message: "You are not authenticated!" });
+};
+
+export const getOrders = async (userIds) => {
+  const orders = await User.find(
+    {
+      _id: { $in: userIds },
+    },
+    {
+      _id: 0,
+      orders: 1,
+    }
+  );
+  return orders;
+};
+
+export const addReferralLink = async (request, response) => {
+  try{
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(authCode);
+    const referralCode = request.body.referralCode;
+    // console.log(referralCode)
+    const result = await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        referralCode: referralCode,
+      },{
+        new:true
+      }
+      );
+    return response.status(200).json("referral added successfully")
+  }catch(err){
+    console.error(err);
+    return response.status(500).json("some error occured.Please try again after some time")
+  }
+};
+
+export const addReferral = async (request, response) => {
+  try {
+    const { referralCode } = request.body;
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id, username } = jwt.decode(authCode);
+    let userInfo = "";
+    if (referralCode.indexOf("#") !== -1) {
+      const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
+      userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
+    } else {
+      userInfo = await getIdfromReferralCode(referralCode);
+      // console.log(userInfo)
+    }
+    await addReferrals(userInfo._id, id, username);
+    return response
+      .status(200)
+      .json({ message: "referral added successfully." });
+
+    // console.log("in else case");
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({ error: "some error occured" });
+  }
+};
+
+export const getEarnings = async (request, response) => {
+  const authCode = request.headers.authorization.split(" ")[1];
+  const { id } = jwt.decode(authCode);
+  const { referrals } = await getReferralsfromUserId(id);
+  // console.log(referrals)
+  if (referrals) {
+    const ids = referrals.map((val) => val.referreId);
+    const orders = await getOrders(ids);
+    const orderValues = orders
+      .reduce((arr, val) => arr.concat(val.orders), [])
+      .map((val) => val.products)
+      .flat(2)
+      .filter((val) => val.status === "delivered")
+      .map((val) => val.orderValue);
+    const earnings = Math.round(
+      orderValues.reduce((totalValue, value) => (totalValue += value), 0) *
+        (7 / 100)
+    );
+    return response.status(200).json({ earnings: earnings });
+  } else {
+    return response.status(200).json({ message: "No referrals found" });
+  }
+};
+
+export const getReferrals = async (request, response) => {
+  try {
+    const authCode = request.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(authCode);
+    const res = await User.findOne({
+      _id: mongoose.Types.ObjectId(id),
+    });
+    // console.log(res);
+    return response.status(200).json({ referrals: res.referrals });
+  } catch (error) {
+    console.log(error);
+    return response
+      .status(500)
+      .json({ error: "some error occured.Please try again after some time" });
+  }
+};
+
+export const addProducts = async (request, response) => {
+  try {
+    const products = request.body.products;
+    if (products) {
+      const authCode = request.headers.authorization.split(" ")[1];
+      const { id } = jwt.decode(authCode);
+      const orderedProducts = products.map((val) => {
+        return { ...val, status: "" };
+      });
+      // console.log(orderedProducts)
+      const result = await User.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(id),
+        },
+        {
+          $push: {
+            orders: {
+              orderId: new mongoose.Types.ObjectId(),
+              products: orderedProducts,
+            },
+          },
+        },
+        { new: true }
+      );
+      console.log(result);
+    }
+    return response.status(200).json({ message: "ok" });
+  } catch (err) {
+    console.log(err);
+    return response
+      .status(500)
+      .json({ message: "some error occured.Please try again after some time" });
+  }
+};
+
+export const logout = async (request, response) => {
+  try {
+    const authHeader = request.headers.authorization;
+    const token = authHeader.split(" ")[1];
+    if (authHeader && token != null) {
+      const { id } = jwt.decode(token);
+      const currentToken = await findCurrentToken(id);
+      const tokenDeleted = await deleteToken(id);
+      if (token === currentToken) {
+        const expirySuccessful = await expireToken(id, currentToken);
+        if (expirySuccessful && tokenDeleted)
+          return response
+            .status(200)
+            .json({ message: "Succesfully logged out!" });
+      } else {
+        const expirySuccessful = await expireToken(id, token);
+        if (expirySuccessful && tokenDeleted) {
+          return response
+            .status(200)
+            .json({ message: "Succesfully logged out!" });
+        }
+      }
+    } else {
+      return response
+        .status(401)
+        .json({ message: "You are not authenticated!" });
+    }
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({ message: "Some error occured" });
+  }
+};

@@ -15,6 +15,7 @@ import NewProduct from "./components/dashboard/newProduct/NewProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ViewPro from "./components/dashboard/viewpro/ViewPro";
 import OrderList from "./components/dashboard/orderlist/OrderList";
+import Earn from "./components/home/Earn";
 
 function App() {
   return (

@@ -6,6 +6,7 @@ import { styled, Box, Typography, Grid } from '@mui/material';
 import ActionItem from './ActionItem';
 import ProductDetail from './ProductDetail';
 import Header from '../header/Header';
+
 const Component = styled(Box)`
     margin-top: 55px;
     background: #F2F2F2;
@@ -29,8 +30,12 @@ const RightContainer = styled(Grid)`
 const DetailView = () => {
 
     const { id } = useParams();
-
+    
     const { loading, product } = useSelector(state => state.getProductDetails);
+
+    
+
+    
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -48,10 +53,11 @@ const DetailView = () => {
                     </Grid>
                     <RightContainer item lg={8} md={8} sm={8} xs={12}>
                         
-                        <ProductDetail product={product} />
+                        <ProductDetail product={product}  />
                     </RightContainer>
                 </Container>
             }   
+            
         </Component>
   )
 }
