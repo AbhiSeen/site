@@ -48,12 +48,19 @@ export default function NewProduct() {
           <input type="text" placeholder="123" />
         </div>
         <div className="addProductItem">
-          <label>Active</label>
-          <select name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
+          <label>Discount</label>
+          <input type="text" placeholder="10%" />
         </div>
+        <div className="addProductItem">
+          <label>Price</label>
+          <input type="text" placeholder="100" />
+        </div>
+        <div className="addProductItem">
+          <label>Discription </label>
+          <textarea placeholder="add discription"></textarea>
+        </div>
+        
+        
         <button className="addProductButton">Create</button>
       </form>
         </div>

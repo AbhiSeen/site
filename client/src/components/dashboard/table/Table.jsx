@@ -19,6 +19,8 @@ const List = () => {
       amount: 785,
       method: "Cash on Delivery",
       status: "Approved",
+      order_d:"18/09/2022",
+      delivery_d:"30/09/2022",
       
     },
     {
@@ -31,6 +33,8 @@ const List = () => {
       amount: 900,
       method: "Online Payment",
       status: "Pending",
+      order_d:"18/09/2022",
+      delivery_d:"30/09/2022",
       
     },
     {
@@ -43,6 +47,8 @@ const List = () => {
       amount: 35,
       method: "Cash on Delivery",
       status: "Pending",
+      order_d:"18/09/2022",
+      delivery_d:"30/09/2022",
       
     },
     {
@@ -55,6 +61,8 @@ const List = () => {
       amount: 920,
       method: "Online",
       status: "Approved",
+      order_d:"18/09/2022",
+      delivery_d:"30/09/2022",
       
     },
     {
@@ -67,6 +75,8 @@ const List = () => {
       amount: 2000,
       method: "Online",
       status: "Pending",
+      order_d:"18/09/2022",
+      delivery_d:"30/09/2022",
      
     },
   ];
@@ -79,7 +89,8 @@ const List = () => {
             <TableCell className="tableCell">Transaction ID</TableCell>
             <TableCell className="tableCell">Product</TableCell>
             <TableCell className="tableCell">Customer</TableCell>
-            <TableCell className="tableCell">Date</TableCell>
+            <TableCell className="tableCell">Oder Date</TableCell>
+            <TableCell className="tableCell">Delivery Date</TableCell>
             <TableCell className="tableCell">Amount</TableCell>
             <TableCell className="tableCell">Payment Method</TableCell>
             <TableCell className="tableCell">Status</TableCell>
@@ -97,7 +108,8 @@ const List = () => {
                 </div>
               </TableCell>
               <TableCell className="tableCell">{row.customer}</TableCell>
-              <TableCell className="tableCell">{row.date}</TableCell>
+              <TableCell className="tableCell">{row.order_d}</TableCell>
+              <TableCell className="tableCell">{row.delivery_d}</TableCell>
               <TableCell className="tableCell">{row.amount}</TableCell>
               <TableCell className="tableCell">{row.method}</TableCell>
               <TableCell className="tableCell">
