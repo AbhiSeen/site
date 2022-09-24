@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Product from '../model/product-schema.js';
 
 export const getProducts = async (request, response) => {
@@ -13,7 +14,7 @@ export const getProducts = async (request, response) => {
 
 export const getProductById = async (request, response) => {
     try {
-        console.log('Hie')
+        // console.log('Hie')
         const products = await Product.findOne({ 'id': request.params.id });
         response.json(products);
     }catch (error) {

@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import Header from "../header/Header";
 import { Box, Typography, Button, Grid, styled } from "@mui/material";
 import { useParams } from "react-router-dom";
-
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
 
 import TotalView from "./TotalView";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
+import Referral from "../Referral/Referral";
+import axios from "axios";
+
 
 // import { post } from '../../utils/paytm';
 // import { payUsingPaytm } from '../../service/api';
@@ -53,12 +55,15 @@ const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
   const { cartItems } = cartDetails;
   const { id } = useParams();
-
   const dispatch = useDispatch();
+
+  axios.defaults.headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
 
   useEffect(() => {
     if (cartItems && id !== cartItems.id) dispatch(addToCart(id));
-    console.log(cartItems);
+    // console.log(cartItems);
   }, [dispatch, cartItems, id]);
 
   const removeItemFromCart = (id) => {
@@ -73,6 +78,17 @@ const Cart = () => {
   //     }
   //     post(information);
   // }
+
+  const addProducts = async () => {
+    const products = cartItems.map((val) => {
+      const temp = { productId: val._id, name: val.title.longTitle ,orderValue:val.price.cost};
+      return temp;
+    });
+    const response = await axios.post("http://localhost:8000/addProducts", {
+      products: products,
+    });
+    // console.log(products);
+  };
 
   return (
     <>
@@ -90,8 +106,9 @@ const Cart = () => {
                 <CartItem item={item} removeItemFromCart={removeItemFromCart} />
               ))}
               <BottomWrapper>
-                {/* onClick={() => buyNow()} */}
-                <StyledButton variant="contained">Place Order</StyledButton>
+                <StyledButton variant="contained" onClick={() => addProducts()}>
+                  Place Order
+                </StyledButton>
               </BottomWrapper>
             </LeftComponent>
             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -102,6 +119,7 @@ const Cart = () => {
       ) : (
         <EmptyCart />
       )}
+      <Referral delivered={true} />
     </>
   );
 };
