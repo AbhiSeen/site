@@ -13,29 +13,19 @@ const Datatable = () => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "product",
-      headerName: "Product",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            <img className="productListImg" src={params.row.img} alt="" />
-            {params.row.name}
-          </div>
-        );
-      },
-    },
-    { field: "stock", headerName: "Stock", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
+    {field: "name", headerName: "Product Name", width: 160},
+ 
+    { field: "stock", headerName: "Stock", width: 100},
+   
     {
       field: "price",
       headerName: "Price",
       width: 160,
+    },
+    {
+      field: "discount",
+      headerName: "Discount",
+      width: 90,
     },
     {
       field: "action",
@@ -44,9 +34,7 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
             <div className="cellAction">
-            <Link to="/dashboard/products/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}

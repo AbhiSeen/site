@@ -1,7 +1,7 @@
 import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
-import Chart from "../chart/Chart";
+
 import List from "../table/Table";
 
 const Single = () => {
@@ -12,7 +12,7 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
+            
             <h1 className="title">Information</h1>
             <div className="item">
               <img
@@ -36,15 +36,9 @@ const Single = () => {
                     Elton St. 234 Garden Yd. NewYork
                   </span>
                 </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
-                </div>
+               
               </div>
             </div>
-          </div>
-          <div className="right">
-            <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
           </div>
         </div>
         <div className="bottom">
