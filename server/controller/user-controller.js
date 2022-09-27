@@ -381,7 +381,7 @@ export const logout = async (request, response) => {
     if (authHeader && token != null) {
       const { id } = jwt.decode(token);
       const currentToken = await findCurrentToken(id);
-      const tokenDeleted = await deleteToken(id);
+      const tokenDeleted = await deleteToken(id); 
       if (token === currentToken) {
         const expirySuccessful = await expireToken(id, currentToken);
         if (expirySuccessful && tokenDeleted)

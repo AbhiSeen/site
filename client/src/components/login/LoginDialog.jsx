@@ -144,7 +144,7 @@ const LoginDialog = ({ open, setOpen }) => {
         handleClose();
       }, 1000);
     } else if (login.username === "admin" && authToken) {
-      localStorage.setItem("adminToken", authToken);
+      localStorage.setItem("token", authToken);
       setOpen(false);
       navigate("/dashboard");
     } else {
