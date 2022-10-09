@@ -1,10 +1,25 @@
 import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
-
+import { useParams } from "react-router";
 import List from "../table/Table";
+import { getUserInfo } from "../../service/api";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Single = () => {
+  const {userId}=useParams();
+  const [userInfo,setUserInfo]=useState({});
+
+  const getUserfromId=async()=>{
+    const response=await getUserInfo(userId);
+    setUserInfo(response);
+  }
+  
+  useEffect(()=>{
+    getUserfromId();
+  },[])
+
   return (
     <div className="single">
       <Sidebar />
@@ -16,19 +31,19 @@ const Single = () => {
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                alt=""
+                src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=740&t=st=1664721749~exp=1664722349~hmac=c5c27d41b7e17595070d7be511728c4dd734a2a7f22ff887845fe34ecae5b479"
+                alt="profile-icon"
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{userInfo.firstname+" "+userInfo.lastname}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
+                  <span className="itemValue">{userInfo.email}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
+                  <span className="itemValue">{userInfo.phone}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Address:</span>
@@ -43,7 +58,7 @@ const Single = () => {
         </div>
         <div className="bottom">
         <h1 className="title">Last Transactions</h1>
-          <List/>
+          <List userInfo={userInfo}/>
         </div>
       </div>
     </div>

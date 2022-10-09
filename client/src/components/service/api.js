@@ -44,3 +44,26 @@ export const logout = async () => {
 };
 
 
+export const getUsersList=async()=>{
+  try{
+    const response = await axiosJWT.get(`${url}/getUsers`); 
+    if (response.status === 200) return response.data;
+  } catch (err) {
+    return false;
+  }
+}
+
+export const getUserInfo=async(id)=>{
+  try{
+    const response = await axiosJWT.get(`${url}/getUserInfo/${id}`); 
+    if (response.status === 200) return response.data;
+  } catch (err) {
+    return false;
+  }
+}
+
+
+export const getOrders=async(id)=>{
+  const response=await axiosJWT.get(`${url}/getOrders/${id}`);
+ if(response.status===200) return response.data;
+}

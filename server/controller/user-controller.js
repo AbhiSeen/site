@@ -209,7 +209,7 @@ export const verifyToken = async (request, response, next) => {
     try {
       const token = authHeader.split(" ")[1];
       if (token) {
-        const { id } = jwt.decode(token);
+        const { id,username } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
           return response.status(200).json({
@@ -222,6 +222,7 @@ export const verifyToken = async (request, response, next) => {
                 message: "Token is not valid!",
               });
             } else {
+              request.user = {id,username,token};
               next();
             }
           });
@@ -237,7 +238,7 @@ export const verifyToken = async (request, response, next) => {
     return response.status(401).json({ message: "You are not authenticated!" });
 };
 
-export const getOrders = async (userIds) => {
+const getOrders = async (userIds) => {
   const orders = await User.find(
     {
       _id: { $in: userIds },
@@ -376,26 +377,19 @@ export const addProducts = async (request, response) => {
 
 export const logout = async (request, response) => {
   try {
-    const authHeader = request.headers.authorization;
-    const token = authHeader.split(" ")[1];
-    if (authHeader && token != null) {
-      const { id } = jwt.decode(token);
+    if (request.user.id) {
+      let expirySuccessful=false;
+      const id=request.user.id;
+      const token=request.user.token;
       const currentToken = await findCurrentToken(id);
       const tokenDeleted = await deleteToken(id); 
       if (token === currentToken) {
-        const expirySuccessful = await expireToken(id, currentToken);
-        if (expirySuccessful && tokenDeleted)
-          return response
-            .status(200)
-            .json({ message: "Succesfully logged out!" });
+        expirySuccessful = await expireToken(id, currentToken);
       } else {
-        const expirySuccessful = await expireToken(id, token);
-        if (expirySuccessful && tokenDeleted) {
-          return response
-            .status(200)
-            .json({ message: "Succesfully logged out!" });
-        }
+        expirySuccessful = await expireToken(id, token);
       }
+      if (expirySuccessful && tokenDeleted)
+          return response.status(200).json({ message: "Succesfully logged out!" });
     } else {
       return response
         .status(401)

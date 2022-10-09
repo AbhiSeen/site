@@ -56,11 +56,9 @@ export default function NewProduct() {
           <input type="text" placeholder="100" />
         </div>
         <div className="addProductItem">
-          <label>Discription </label>
+          <label>Description </label>
           <textarea placeholder="add discription"></textarea>
-        </div>
-        
-        
+        </div>       
         <button className="addProductButton">Create</button>
       </form>
         </div>

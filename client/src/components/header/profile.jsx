@@ -26,6 +26,7 @@ const Profile = ({ account, setAccount }) => {
 
   const logoutUser = async () => {
     const response = await logout();
+    // console.log(response)
     if (response) {
       setAccount("");
       localStorage.clear();
