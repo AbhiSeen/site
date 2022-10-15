@@ -84,15 +84,18 @@ const List = ({ userInfo }) => {
   const setOrdersfromApi = async () => {
     // if(window.location.pathname.split("/")[3]){
       const response = await getOrders(window.location.pathname.split("/")[3]);
+      // console.log(response.orders)
       setOrders(response.orders);
     // }
   };
 
+  
   useEffect(() => {
     setOrdersfromApi();
   }, []);
 
   return (
+    // null
     <TableContainer component={Paper} className="table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -109,7 +112,7 @@ const List = ({ userInfo }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.length > 0 &&
+          {orders.length==1 &&
             orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="tableCell">
@@ -131,7 +134,7 @@ const List = ({ userInfo }) => {
                       </TableRow>
                     ))
                 }</TableCell>
-                <TableCell className="tableCell">{userInfo.firstname+" "+userInfo.lastname}</TableCell>
+                <TableCell className="tableCell">{console.log(orders.firstname)}</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
                 <TableCell className="tableCell">
@@ -153,6 +156,53 @@ const List = ({ userInfo }) => {
                 }
                  </TableCell>
               </TableRow>
+            ))}
+          {orders.length>1 &&
+            orders.map((nestedOrder) => (
+              nestedOrder.orders.map((order,idx)=>(
+                <TableRow key={idx+1}>
+                <TableCell className="tableCell">
+                  {
+                    order.products.map((product)=>(
+                      <TableRow key={idx+2}>
+                        {product.trackingId}
+                        <hr/>
+                      </TableRow> 
+                    ))
+                }</TableCell>
+                <TableCell className="tableCell">{order.orderId}</TableCell>
+                <TableCell className="tableCell">
+                  {
+                    order.products.map((product)=>( 
+                      <TableRow key={idx+3}>
+                        {product.name}
+                        <hr/>
+                      </TableRow>
+                    ))
+                }</TableCell>
+                <TableCell className="tableCell">{nestedOrder.firstname+" "+nestedOrder.lastname}</TableCell>
+                <TableCell className="tableCell">09-10-2022</TableCell>
+                <TableCell className="tableCell">09-10-2022</TableCell>
+                <TableCell className="tableCell">
+                  {
+                    order.products.map((product)=>(
+                      <TableRow key={idx+4}>
+                        {product.orderValue}
+                      </TableRow>
+                    ))
+                }</TableCell>
+                 <TableCell className="tableCell">COD</TableCell>
+                 <TableCell className="tableCell">
+                 {
+                    order.products.map((product)=>(
+                      <TableRow key={idx+5}> 
+                        {product.status}
+                      </TableRow>
+                    ))
+                }
+                 </TableCell>
+                  </TableRow>
+              ))
             ))}
         </TableBody>
       </Table>

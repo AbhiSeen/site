@@ -208,7 +208,7 @@ export const verifyToken = async (request, response, next) => {
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      if (token) {
+      if (token!==null) {
         const { id,username } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
@@ -340,7 +340,7 @@ export const getReferrals = async (request, response) => {
   }
 };
 
-export const addProducts = async (request, response) => {
+export const addProductsfromUser = async (request, response) => {
   try {
     const products = request.body.products;
     if (products) {
@@ -357,6 +357,7 @@ export const addProducts = async (request, response) => {
         {
           $push: {
             orders: {
+              //add orderDate and deliveryDate fields and trackingId
               orderId: new mongoose.Types.ObjectId(),
               products: orderedProducts,
             },

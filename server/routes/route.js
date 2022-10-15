@@ -1,7 +1,7 @@
 import express from  'express';
-import { userSignUp , userLogin,verifyToken,logout,addReferral,getReferrals, addProducts, getEarnings, addReferralLink} from '../controller/user-controller.js';
+import { userSignUp , userLogin,verifyToken,logout,addReferral,getReferrals, addProductsfromUser, getEarnings, addReferralLink} from '../controller/user-controller.js';
 import { getProducts ,getProductById } from '../controller/product-controller.js';
-import { getUserInfofromId, getUsers,getOrders } from '../controller/admin-controller.js';
+import { getUserInfofromId, getUsers,getOrders, addProducts } from '../controller/admin-controller.js';
 const router = express.Router();
 
 //login & signup
@@ -18,7 +18,8 @@ router.get('/getOrders/:id',verifyToken,getOrders);
 
 
 router.get('/products', getProducts);
-router.post('/addProducts',verifyToken,addProducts)
+router.post('/addProducts',verifyToken,addProductsfromUser);
+router.post('/addProduct',verifyToken,addProducts)
 router.get('/product/:id', getProductById);
 
 export default router;

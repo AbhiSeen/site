@@ -3,17 +3,40 @@ import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import { addProducts } from "../../service/api";
 
 
 export default function NewProduct() {
   const [file, setFile] = useState("");
+  const [productInfo,setProductInfo]=useState({
+    name:"",
+    stock:"",
+    discount:"",
+    price:"",
+    description:"",
+    image:""
+  });
+
+
+  const addNewProduct=async(event)=>{
+      event.preventDefault();
+      const response=await addProducts(productInfo);
+      console.log(productInfo)
+      
+  }
+
+  const handleChange=(type)=>(event)=>{
+    setProductInfo((product)=>({...product,[type]:event.target.value}))
+    // console.log(productInfo);
+  }
+
   return (
     <div className="new">
     <Sidebar />
     <div className="newContainer">
       <Navbar />
       <div className="top">
-        <h1>New Pro</h1>
+        <h1>New Product</h1>
       </div>
       <div className="bottom">
       <div className="left">
@@ -41,25 +64,25 @@ export default function NewProduct() {
         </div>
         <div className="addProductItem">
           <label>Name</label>
-          <input type="text" placeholder="Apple Airpods" />
+          <input type="text" placeholder="Apple Airpods" onChange={handleChange("name")} />
         </div>
         <div className="addProductItem">
           <label>Stock</label>
-          <input type="text" placeholder="123" />
+          <input type="text" placeholder="123" onChange={handleChange("stock")} />
         </div>
         <div className="addProductItem">
           <label>Discount</label>
-          <input type="text" placeholder="10%" />
+          <input type="text" placeholder="10%" onChange={handleChange("discount")} />
         </div>
         <div className="addProductItem">
           <label>Price</label>
-          <input type="text" placeholder="100" />
+          <input type="text" placeholder="100"  onChange={handleChange("price")}/>
         </div>
         <div className="addProductItem">
           <label>Description </label>
-          <textarea placeholder="add discription"></textarea>
+          <textarea placeholder="add discription" onChange={handleChange("description")}></textarea>
         </div>       
-        <button className="addProductButton">Create</button>
+        <button className="addProductButton" onClick={addNewProduct}>Create</button>
       </form>
         </div>
       </div>

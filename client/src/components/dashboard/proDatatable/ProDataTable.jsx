@@ -10,7 +10,7 @@ const Datatable = () => {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
-
+//need to set Data from backend
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {field: "name", headerName: "Product Name", width: 160},

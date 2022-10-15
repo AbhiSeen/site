@@ -65,5 +65,13 @@ export const getUserInfo=async(id)=>{
 
 export const getOrders=async(id)=>{
   const response=await axiosJWT.get(`${url}/getOrders/${id}`);
+  // console.log(response)
+ if(response.status===200) return response.data;
+}
+
+
+export const addProducts=async(product)=>{
+  const response=await axiosJWT.post(`${url}/addProduct`,product);
+  // console.log(response)
  if(response.status===200) return response.data;
 }
