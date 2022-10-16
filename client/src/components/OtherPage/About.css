@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* body {
+  font-family: 'Poppins', sans-serif !important;
+} */
+.aboutUsPage{
+    display: flex;
+    height: 100%;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    width: 100%;
+    padding-top: 2rem;
+}
+.aboutUsfeatures{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2.8rem;
+}
+.aboutUsImg {
+    width: 75vw;
+    height: 90vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+   
+    padding: 0px;
+    padding-top: 0rem;
+    margin-top: -2.3rem;
+
+}
+.aboutUstext{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    padding: 1.25rem;
+    margin-left: -8rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+.colorBlack{
+    color: #131313;
+}
+.text-gray-500 {
+    --text-opacity: 1;
+    color: #a0aec0;
+    color: rgba(160,174,192,var(--text-opacity));
+}
+.about-underline{
+    width:62px;
+    height: 2.3px;
+    background-color: rgb(203, 172, 0);
+}
+.border-indigo-600 {
+    --border-opacity: 1;
+    border-color: #5a67d8;
+    border-color: rgba(90,103,216,var(--border-opacity));
+}
+.text-gray-700 {
+    --text-opacity: 1;
+    color: #4a5568;
+    color: rgba(74,85,104,var(--text-opacity));
+}
+.sm\:text-4xl {
+    font-size: 2.25rem;
+}
+.my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.text-3xl {
+    font-size: 1.875rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.whatweDo-div .css-i4bv87-MuiSvgIcon-root {
+    margin-top: -2px;
+    margin-left: 7px;
+    color: #5a67d8 !important;
+    font-size: 4rem;
+}
+.sendBtn{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #ffd500 ;
+    margin: 5px;
+}
+.sendBtn1{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #ff2121 ;
+    margin: 5px;
+}
+.sendBtn2{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #442fff ;
+    margin: 5px;
+}
+.sendBtn3{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #39ff28 ;
+    margin: 5px;
+}
+
+.whatWeDoTitle{
+    width:100%;
+    height: 3rem;
+    text-align: center;
+    font-size: 2.1rem;
+}
+.doDiv{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.whatweDo-div{
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; 
+    padding:1.3rem;
+    margin-top: 1rem;
+    width: 35%;
+    }
+.featureTitle{
+    margin: 4px;
+    font-size: 22px;
+    color: #444d9b;
+}
+.featureCon{
+    color: #131313;
+    width: 70%;
+    text-align: center;
+}
+.whatweDo-div .css-i4bv87-MuiSvgIcon-root {
+    color: #ffffff !important;
+    font-size: 2.4rem;
+}
+
+
+
+@media screen and (min-width: 851x) {
+.aboutUsPage{
+    display: flex;
+    height: 100%;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    width: 100%;
+    padding-top: 2rem;
+}
+.aboutUsfeatures{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2.8rem;
+}
+.aboutUsImg {
+    width: 75vw;
+    height: 90vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+   
+    padding: 0px;
+    padding-top: 0rem;
+    margin-top: -2.3rem;
+
+}
+.aboutUstext{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    padding: 1.25rem;
+    margin-left: -8rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+.colorBlack{
+    color: #131313;
+}
+.text-gray-500 {
+    --text-opacity: 1;
+    color: #a0aec0;
+    color: rgba(160,174,192,var(--text-opacity));
+}
+.about-underline{
+    width:62px;
+    height: 2.3px;
+    background-color: rgb(203, 172, 0);
+}
+.border-indigo-600 {
+    --border-opacity: 1;
+    border-color: #5a67d8;
+    border-color: rgba(90,103,216,var(--border-opacity));
+}
+.text-gray-700 {
+    --text-opacity: 1;
+    color: #4a5568;
+    color: rgba(74,85,104,var(--text-opacity));
+}
+.sm\:text-4xl {
+    font-size: 2.25rem;
+}
+.my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.text-3xl {
+    font-size: 1.875rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.whatweDo-div .css-i4bv87-MuiSvgIcon-root {
+    margin-top: -2px;
+    margin-left: 7px;
+    color: #5a67d8 !important;
+    font-size: 4rem;
+}
+.sendBtn{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #ffd500 ;
+    margin: 5px;
+}
+.sendBtn1{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #ff2121 ;
+    margin: 5px;
+}
+.sendBtn2{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #442fff ;
+    margin: 5px;
+}
+.sendBtn3{
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    padding: 1rem;
+    background-color: #39ff28 ;
+    margin: 5px;
+}
+
+.whatWeDoTitle{
+    width:100%;
+    height: 3rem;
+    text-align: center;
+    font-size: 2.1rem;
+}
+.doDiv{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.whatweDo-div{
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; 
+    padding:1.3rem;
+    margin-top: 1rem;
+    width: 35%;
+    }
+.featureTitle{
+    margin: 4px;
+    font-size: 22px;
+    color: #444d9b;
+}
+.featureCon{
+    color: #131313;
+    width: 70%;
+    text-align: center;
+}
+}
+
+
+
+
+@media screen and (max-width: 850px) {
+    .aboutUsPage{
+        display: flex;
+        flex-wrap: wrap;
+        height: 100%;
+        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+        width: 100%;
+        padding-top: 2rem;
+    }
+    .aboutUsfeatures{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+        width: 100%;
+        /* padding-top: 2rem;
+        padding-bottom: 2.8rem; */
+    }
+    .aboutUsImg {
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+        padding-top: 0rem;
+        /* margin-top: -2.3rem; */
+    
+    }
+    .aboutUstext{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        padding: 1.25rem;
+        margin: 0.2rem;
+    }
+    
+    .uppercase {
+        text-transform: uppercase;
+    }
+    .colorBlack{
+        color: #131313;
+    }
+    .text-gray-500 {
+        --text-opacity: 1;
+        color: #a0aec0;
+        color: rgba(160,174,192,var(--text-opacity));
+    }
+    .about-underline{
+        width:62px;
+        height: 2.3px;
+        background-color: rgb(203, 172, 0);
+    }
+    .border-indigo-600 {
+        --border-opacity: 1;
+        border-color: #5a67d8;
+        border-color: rgba(90,103,216,var(--border-opacity));
+    }
+    .text-gray-700 {
+        --text-opacity: 1;
+        color: #4a5568;
+        color: rgba(74,85,104,var(--text-opacity));
+    }
+    .sm\:text-4xl {
+        font-size: 2.25rem;
+    }
+    .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .text-3xl {
+        font-size: 1.875rem;
+    }
+    .font-bold {
+        font-weight: 700;
+    }
+    .whatweDo-div .css-i4bv87-MuiSvgIcon-root {
+        margin-top: -2px;
+        margin-left: 7px;
+        color: #5a67d8 !important;
+        font-size: 4rem;
+    }
+    .sendBtn{
+        -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+        padding: 1rem;
+        background-color: #ffd500 ;
+        margin: 5px;
+    }
+    .sendBtn1{
+        -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+        padding: 1rem;
+        background-color: #ff2121 ;
+        margin: 5px;
+    }
+    .sendBtn2{
+        -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+        padding: 1rem;
+        background-color: #442fff ;
+        margin: 5px;
+    }
+    .sendBtn3{
+        -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+        padding: 1rem;
+        background-color: #39ff28 ;
+        margin: 5px;
+    }
+    
+    .whatWeDoTitle{
+        width:100%;
+        height: 3rem;
+        text-align: center;
+        font-size: 2.1rem;
+    }
+    .doDiv{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .whatweDo-div{
+        display: flex;
+        /* flex-wrap: wrap; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; 
+        padding:1.3rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        }
+    .featureTitle{
+        margin: 4px;
+        font-size: 22px;
+        color: #444d9b;
+    }
+    .featureCon{
+        color: #131313;
+        width: 70%;
+        text-align: center;
+    }
+    }
