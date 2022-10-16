@@ -58,31 +58,32 @@ export const getUserInfofromId = async (request, response) => {
 };
 
 export const getOrders = async (request, response) => {
-  // console.log(request.params)
-  if (request.params.id !== "undefined") {
-    console.log("inside if");
-    const orders = await User.find(
-      {
-        _id: mongoose.Types.ObjectId(request.params.id),
-      },
-      {
-        _id: 0,
-        orders: 1,
-      }
-    );
-    return response.status(200).json(...orders);
-  } else {
-    // console.log("inside else");
-    const orders = await User.find(
-      {},
-      {
-        _id: 0,
-        orders: 1,
-        firstname:1,
-        lastname:1
-      }
-    );
-    console.log(orders);
-    return response.status(200).json({orders});
+  try{
+    if (request.params.id !== "undefined") {
+      const orders = await User.find(
+        {
+          _id: mongoose.Types.ObjectId(request.params.id),
+        },
+        {
+          _id: 0,
+          orders: 1,
+        }
+      );
+      return response.status(200).json(...orders);
+    } else {
+      const orders = await User.find(
+        {},
+        {
+          _id: 0,
+          orders: 1,
+          firstname:1,
+          lastname:1
+        }
+      );
+      return response.status(200).json({orders});
+    }
+  }catch(error){
+    console.log(error);
+    return response.status(500).json({message:"Something went wrong.Please try again"})
   }
 };

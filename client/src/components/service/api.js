@@ -75,3 +75,15 @@ export const addProducts=async(product)=>{
   // console.log(response)
  if(response.status===200) return response.data;
 }
+
+export const getProducts=async()=>{
+  const response=await axiosJWT.get(`${url}/getProducts`);
+  // console.log(response)
+ if(response.status===200) return response.data;
+}
+
+export const deleteProduct=async(productId)=>{
+  const response=await axiosJWT.delete(`${url}/deleteProduct/${productId}`);
+  // console.log(response)
+ if(response.status===200) return true;
+}

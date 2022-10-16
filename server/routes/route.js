@@ -1,6 +1,6 @@
 import express from  'express';
 import { userSignUp , userLogin,verifyToken,logout,addReferral,getReferrals, addProductsfromUser, getEarnings, addReferralLink} from '../controller/user-controller.js';
-import { getProducts ,getProductById } from '../controller/product-controller.js';
+import { getProducts ,getProductById, deleteProduct } from '../controller/product-controller.js';
 import { getUserInfofromId, getUsers,getOrders, addProduct} from '../controller/admin-controller.js';
 const router = express.Router();
 
@@ -17,9 +17,10 @@ router.get('/getUserInfo/:id',verifyToken,getUserInfofromId);
 router.get('/getOrders/:id',verifyToken,getOrders);
 
 
-router.get('/products', getProducts);
+router.get('/getProducts',getProducts);
 router.post('/addProducts',verifyToken,addProductsfromUser);
 router.post('/addProduct',verifyToken,addProduct)
 router.get('/product/:id', getProductById);
+router.delete('/deleteProduct/:productId',verifyToken,deleteProduct);
 
 export default router;

@@ -149,6 +149,20 @@ const getIdfromReferralCode = async (referralCode) => {
   return res;
 };
 
+const getOrders = async (userIds) => {
+  const orders = await User.find(
+    {
+      _id: { $in: userIds },
+    },
+    {
+      _id: 0,
+      orders: 1,
+    }
+  );
+  return orders;
+};
+
+
 export const userSignUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
@@ -208,7 +222,7 @@ export const verifyToken = async (request, response, next) => {
   if (authHeader) {
     try {
       const token = authHeader.split(" ")[1];
-      if (token!==null) {
+      if (token!=="null") {
         const { id,username } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
@@ -238,18 +252,6 @@ export const verifyToken = async (request, response, next) => {
     return response.status(401).json({ message: "You are not authenticated!" });
 };
 
-const getOrders = async (userIds) => {
-  const orders = await User.find(
-    {
-      _id: { $in: userIds },
-    },
-    {
-      _id: 0,
-      orders: 1,
-    }
-  );
-  return orders;
-};
 
 export const addReferralLink = async (request, response) => {
   try{

@@ -1,16 +1,17 @@
+import mongoose from 'mongoose';
 import { client } from '../database/db.js';
 import Product from '../model/product-schema.js';
 
 
 export const getProducts = async (request, response) => {
     try {
-        client.get("products",async(err,products)=>{
+         client.get("products",async(err,products)=>{
             if(products){
-                console.log("Cache hit")
+                // console.log("Cache hit")
                 return response.status(200).json(JSON.parse(products));
             }
             else{
-                console.log("Cache Miss")
+                // console.log("Cache Miss")
                 const products = await Product.find({}); 
                 client.setex("products",1400,JSON.stringify(products))
                 return response.status(200).json(products);
@@ -44,5 +45,24 @@ export const getProductById = async (request, response) => {
         }
     }catch (error) {
         response.status(500).json({message: error.message})
+    }
+}
+
+
+export const deleteProduct = async (request, response) => {
+    try {
+        const {productId}=request.params;
+        const {acknowledged}=await Product.deleteOne({
+            _id:mongoose.Types.ObjectId(productId)
+        },{
+            new:true
+        });
+        if(acknowledged)  
+            return response.status(200).json({message:"delete successful"});
+        else
+            throw new Error("something went wrong.Please try again");
+    }catch (error) { 
+        console.log(error);
+        return response.status(500).json({message: error.message})
     }
 }
