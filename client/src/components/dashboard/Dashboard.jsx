@@ -1,6 +1,5 @@
 import React from 'react'
 import DashHome from './DashHome/DashHome'
-import '../dashboard/style/dark.scss'
 import { useContext } from "react";
 import { DarkModeContext } from "../dashboard/context/darkModeContext";
 
@@ -11,7 +10,6 @@ function Dashboard() {
     <div className='DashBoard'>
         <DashHome/>
     </div>
-  )
 }
 
 export default Dashboard

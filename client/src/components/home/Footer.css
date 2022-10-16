@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: open sans;
+  transition: ease 0.5s;
+  text-decoration: none;
+  color: white;
+  list-style-type: none;
+}
+
+body {
+  background: #3a4d7c;
+}
+.footerCon{
+    background: #1e3161;
+    width: 100%;
+    max-width: 78vw;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 1.5rem;
+    border-radius: 15px;
+    box-shadow: #2f4374 0 10px 20px 5px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.about-sec-con{
+    padding-left: 10px;
+    font-size: 14px;
+}
+.main {
+  width: 100%;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.heading {
+  margin-bottom: 15px;
+}
+.header-underline{
+    width:97px;
+    height: 3px;
+    background-color: rgb(203, 172, 0);
+    margin-top: 2px;
+}
+.col1 {
+  flex: 1;
+  min-width: 200px;
+}
+.col2 {
+  flex: 2;
+  min-width: 300px;
+}
+.col3 {
+  flex: 1;
+  min-width: 200px;
+}
+
+.navlink {
+  display: flex;
+  padding: 7px 0;
+  font-size: 14px;
+}
+.about-sec-con:hover {
+  color: #58bed5;
+}
+.footer-icons:hover{
+    color: #58bed5;
+}
+.col2 .languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+}
+.navlink {
+  display: flex;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.col2 a:hover {
+  background: #58bed5;
+}
+
+.social {
+  display: flex;
+  gap: 20px;
+}
+.col3 ion-icon {
+  font-size: 30px;
+}
+.social a:hover ion-icon {
+  color: #5ac1d8;
+}
+
+.terms {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+}
+.navlink {
+  color: #7783a0;
+}

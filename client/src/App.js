@@ -1,3 +1,4 @@
+
 import "./App.css";
 import React from "react";
 import Home from "./components/home/Home";
@@ -16,6 +17,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ViewPro from "./components/dashboard/viewpro/ViewPro";
 import OrderList from "./components/dashboard/orderlist/OrderList";
 import Earn from "./components/home/Earn";
+import About from './components/OtherPage/About';
+import ContactPage from './components/OtherPage/ContactPage';
+
 
 function App() {
   return (
@@ -34,6 +38,8 @@ function App() {
             <Route path="/dashboard/products/newpro" element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
             <Route path="/dashboard/orders" element={<ProtectedRoute><OrderList /></ProtectedRoute>} />
             <Route path="/product/:id" element={<DetailView />} />
+          {/* <Route path= '/about' element={<About />} /> */}
+          <Route path= '/contactUs' element={<ContactPage />} />
           </Routes>
         </Box>
       </BrowserRouter>

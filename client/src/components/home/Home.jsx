@@ -9,7 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Slide from './Slide';
 import MidSlide from './MidSlide'; 
 import MideSection from './MidSection';
-import { useState } from 'react';
+import Footer from './Footer';
+
+
 const Component = styled(Box)`
 
 padding:10px;
@@ -36,6 +38,7 @@ const Home = () => {
         {/* <Slide products={products} title="Suggest items" timer={false}/> */}
         {/* <Slide products={products} title="Top Deal's" timer={false}/> */}
       </Component>
+      <Footer/>
     </Fragment>
   )
 }
