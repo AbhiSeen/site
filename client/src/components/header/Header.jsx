@@ -38,6 +38,7 @@ const Header = () => {
 
   const [open, setOpen] = useState(false);
 
+
   const handleClose = () => {
     setOpen(false);
   }
@@ -73,7 +74,7 @@ const Header = () => {
         </Component>
         <Search />
         <CustomButtonWrapper>
-          <CustomButtons />
+          <CustomButtons/>
         </CustomButtonWrapper>
       </Toolbar>
     </StyledHeader>

@@ -1,9 +1,15 @@
 import React from 'react'
+import DashHome from './DashHome/DashHome'
+import { useContext } from "react";
+import { DarkModeContext } from "../dashboard/context/darkModeContext";
 
-function Dashboard({username}) {
+
+function Dashboard() {
+  const { darkMode } = useContext(DarkModeContext);
   return (
-    <div>Logged In as {username}</div>
-  )
+    <div className='DashBoard'>
+        <DashHome/>
+    </div>
 }
 
 export default Dashboard

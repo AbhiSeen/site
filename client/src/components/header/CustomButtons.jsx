@@ -5,7 +5,7 @@ import React, { useState ,useContext } from 'react';
 import LoginDialog from '../login/LoginDialog';
 import {DataContext} from '../../context/DataProvider';
 import Profile from './profile';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 
@@ -49,11 +49,12 @@ const LoginButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const CusttomButtons = () => {
+const CusttomButtons = ({setLoggedIn}) => {
   const [open, setOpen] = useState(false);
   const {account , setAccount}  = useContext(DataContext);
   const cartDetails = useSelector(state => state.cart);
   const { cartItems } = cartDetails;
+  const navigate=useNavigate();
   const openDialog = () => {
     setOpen(true);
 }
@@ -65,7 +66,7 @@ const CusttomButtons = () => {
         <LoginButton variant='contained'  onClick={() => openDialog()}>Login</LoginButton>
       }
 
-      <Typography style={{ marginTop: 3, marginLeft: 25 }}>Earn</Typography>
+      <Typography style={{ marginTop: 3, marginLeft: 25 }} onClick={()=>(navigate("/earning"))}>Earn</Typography>
       <Typography style={{ marginTop: 3 ,marginLeft: 25 }}>More</Typography>
       <Container to="/cart">
         <Badge badgeContent={cartItems?.length} color="secondary">
@@ -73,7 +74,7 @@ const CusttomButtons = () => {
                 </Badge>
          <Typography style={{ marginLeft: 10 }}>Cart</Typography>
       </Container>
-      <LoginDialog open={open} setOpen={setOpen}/>
+      <LoginDialog open={open} setOpen={setOpen} setLoggedIn={setLoggedIn}/>
     </Wrapper>
   )
 }
