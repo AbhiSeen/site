@@ -10,6 +10,7 @@ function Dashboard() {
     <div className='DashBoard'>
         <DashHome/>
     </div>
+  )
 }
 
 export default Dashboard
