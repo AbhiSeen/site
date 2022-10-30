@@ -5,8 +5,6 @@ import { getProductDetails } from '../../redux/actions/productActions';
 import { styled, Box, Typography, Grid } from '@mui/material';
 import ActionItem from './ActionItem';
 import ProductDetail from './ProductDetail';
-import Header from '../header/Header';
-
 const Component = styled(Box)`
     margin-top: 55px;
     background: #F2F2F2;
@@ -30,12 +28,8 @@ const RightContainer = styled(Grid)`
 const DetailView = () => {
 
     const { id } = useParams();
-    
+
     const { loading, product } = useSelector(state => state.getProductDetails);
-
-    
-
-    
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -45,7 +39,6 @@ const DetailView = () => {
   return (
     <Component>
             <Box></Box>
-            <Header/>
             { product && Object.keys(product).length &&
                 <Container container> 
                     <Grid item lg={4} md={4} sm={8} xs={12}>
@@ -53,11 +46,10 @@ const DetailView = () => {
                     </Grid>
                     <RightContainer item lg={8} md={8} sm={8} xs={12}>
                         
-                        <ProductDetail product={product}  />
+                        <ProductDetail product={product} />
                     </RightContainer>
                 </Container>
             }   
-            
         </Component>
   )
 }
