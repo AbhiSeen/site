@@ -19,85 +19,86 @@ import ForumRoundedIcon from '@mui/icons-material/ForumRounded';
 
 const Footer = () => {
   return (
-    <div className='footerCon'>
-            <div className="main">
-                <div className="col1">
-                <h3 className="heading">
-                    About the store
+    <div className="footer-body ">
+        <div className='footerCon'>
+                <div className="main">
+                    <div className="col1">
+                    <h3 className="heading">
+                        About the store
+                        <div className='header-underline'></div>
+                    </h3>
+                    
+                    <ul className='about-list'>
+                        <li >
+                        <NavLink exact to="/" className='navlink '>
+                        <RoofingRoundedIcon className='footer-icons'/><p className='about-sec-con'>Home</p>
+                        </NavLink>
+                        </li>
+                        <li>
+                        <NavLink exact to="/About" className='navlink'> 
+                        <LiveHelpRoundedIcon className='footer-icons'/><p className='about-sec-con'> About us</p> 
+                        </NavLink>
+                        </li>
+                        <li>
+                        <NavLink exact to="/FAQ" className='navlink'> 
+                        <ForumRoundedIcon className='footer-icons'/><p className='about-sec-con'> FAQ</p> 
+                        </NavLink>
+                        </li>
+                        <li>
+                        <NavLink exact to="/ReturnPolicy" className='navlink'> 
+                        <PublishedWithChangesRoundedIcon className='footer-icons'/><p className='about-sec-con'>Return policy</p> 
+                        </NavLink>
+                        </li>
+                        <li>
+                        <NavLink exact to="/ContactUs" className='navlink'> 
+                        <PermPhoneMsgRoundedIcon className='footer-icons'/> <p className='about-sec-con'>Contact us </p>
+                        </NavLink>
+                        </li>
+                    </ul>
+                    </div>
+
+                    <div className="col2">
+                    <h3 className="heading">
+                    Make Money with Us
                     <div className='header-underline'></div>
-                </h3>
+                    </h3>
+                    <div className="languages">
+                        <NavLink exact to="/ReferandEarn" className='navlink about-sec-money'> 
+                        <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con2'>Refer and Earn</p>
+                        </NavLink>
+                    </div>
+                    </div>
+
+                    <div className="col3">
+                    <h3 className="heading">
+                        Get in touch
+                        <div className='header-underline'></div>
+                    </h3>
+                    <div className="social">
                 
-                <ul>
-                    <li>
-                    <NavLink exact="true" to="/Home" className='navlink'>
-                    <RoofingRoundedIcon className='footer-icons'/><p className='about-sec-con'>Home</p>
-                    </NavLink>
-                    </li>
-                    <li>
-                    <NavLink exact="true" to="/About" className='navlink'> 
-                    <LiveHelpRoundedIcon className='footer-icons'/><p className='about-sec-con'> About us</p> 
-                    </NavLink>
-                    </li>
-                    <li>
-                    <NavLink exact="true" to="/FAQ" className='navlink'> 
-                    <ForumRoundedIcon className='footer-icons'/><p className='about-sec-con'> FAQ</p> 
-                    </NavLink>
-                    </li>
-                    <li>
-                    <NavLink exact="true" to="/ReturnPolicy" className='navlink'> 
-                    <PublishedWithChangesRoundedIcon className='footer-icons'/><p className='about-sec-con'>Return policy</p> 
-                    </NavLink>
-                    </li>
-                    <li>
-                    <NavLink exact="true" to="/ContactUs" className='navlink'> 
-                    <PermPhoneMsgRoundedIcon className='footer-icons'/> <p className='about-sec-con'>Contact us </p>
-                    </NavLink>
-                    </li>
-                </ul>
+                        <a href="https://www.facebook.com/" target='blank'>
+                        <FacebookIcon className='footer-icons'/>
+                        </a>
+                        <a href="https://www.instagram.com/" target='blank'>
+                        <InstagramIcon className='footer-icons'/>
+                        </a>
+                        <a href="https://twitter.com/i/flow/login" target='blank'>
+                        <TwitterIcon className='footer-icons'/>
+                        </a>
+                    </div>
+                    </div>
                 </div>
 
-                <div className="col2">
-                <h3 className="heading">
-                Make Money with Us
-                <div className='header-underline'></div>
-                </h3>
-                <div className="languages">
-                    <NavLink exact="true" to="/ReferandEarn" className='navlink about-sec-money'> 
-                    <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con'>Refer and Earn</p>
-                    </NavLink>
-                </div>
-                </div>
-
-                <div className="col3">
-                <h3 className="heading">
-                    Get in touch
-                    <div className='header-underline'></div>
-                </h3>
-                <div className="social">
-               
-                    <a href="https://www.facebook.com/" target='blank'>
-                    <FacebookIcon className='footer-icons'/>
-                    </a>
-                    <a href="https://www.instagram.com/" target='blank'>
-                    <InstagramIcon className='footer-icons'/>
-                    </a>
-                    <a href="https://twitter.com/i/flow/login" target='blank'>
-                    <TwitterIcon className='footer-icons'/>
-                    </a>
-                </div>
-                </div>
-            </div>
-
-            <p className="terms">
-                <a href="#">Terms of purchase</a>
-                <a href="#">Security and privacy</a>
-                <a href="#">Help Center</a>
-            </p>
-            <p className="terms">
-            © 2007-2022 Flipkart.com
-            </p>
+                <p className="terms">
+                    <a href="#">Terms of purchase</a>
+                    <a href="#">Security and privacy</a>
+                    <a href="#">Help Center</a>
+                </p>
+                <p className="terms">
+                © 2007-2022 AMFashion.com
+                </p>
+        </div>
     </div>
-
   )
 }
 
