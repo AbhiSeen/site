@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import CustomButtons from './CustomButtons';
 import Search from './Search';
 import { Menu } from '@mui/icons-material';
+import AmfashionLogoImg from "../images/AmfashionLogoImg.png"
 
 const StyledHeader = styled(AppBar)`
-    background: #2874f0;
-    height: 55px;
+    background: #ffcd4f;
+    height: 70px;
 `;
 const Component = styled(Link)`
-    margin-left: 12%;
+    margin-left: 2%;
     line-height: 0;
     color: #FFFFFF;
     text-decoration: none;
@@ -32,12 +33,10 @@ const CustomButtonWrapper = styled(Box)(({ theme }) => ({
 
 
 const Header = () => {
-  const logoURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png';
-  // const subURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/plus_aef861.png';
+  const logoURL = AmfashionLogoImg.png;
 
 
   const [open, setOpen] = useState(false);
-
 
   const handleClose = () => {
     setOpen(false);
@@ -59,7 +58,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <Toolbar style={{ minHeight: 55 }}>
+      <Toolbar style={{ minHeight: 70 }}>
         <MenuButton
           color="inherit"
           onClick={handleOpen}
@@ -70,11 +69,13 @@ const Header = () => {
           {list()}
         </Drawer>
         <Component to='/'>
-          <img src={logoURL} alt="none" style={{ width: 75 }} />
+          <img src={AmfashionLogoImg} alt="none" style={{ height: '60px',
+          width:' 190px',
+          margin: '5px',}} />
         </Component>
         <Search />
         <CustomButtonWrapper>
-          <CustomButtons/>
+          <CustomButtons />
         </CustomButtonWrapper>
       </Toolbar>
     </StyledHeader>
