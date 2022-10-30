@@ -2,11 +2,13 @@ import React from 'react';
 import "./ContactPage.css";
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { NavLink } from "react-router-dom";
+import Footer from '../home/Footer';
 
 
 
 const ContactPage = () => {
   return (
+        <>
     <div className='contactUsPage'>	
         <svg className='contactUsImg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
             <g id="Image">
@@ -327,7 +329,7 @@ const ContactPage = () => {
                             </div>
                             <button className="btn" >
                             <span className='btnCon'>Send a Message</span>
-                            <TelegramIcon className='sendBtn' style={{  color:"#5a67d8" }}/>
+                            <TelegramIcon  style={{  color:"#5a67d8" }}/>
                             </button>
                         </div>
                 </div>
@@ -350,7 +352,10 @@ const ContactPage = () => {
 
             </div>
         </div>
+        
     </div>
+    <Footer/>
+    </>
   )
 }
 

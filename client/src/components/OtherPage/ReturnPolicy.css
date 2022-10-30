@@ -1,0 +1,532 @@
+.ReturnPolicy{
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    width: 100%;
+    padding-top: 0.5rem;
+    color: black;
+    align-items:center ;
+    overflow-y: hidden;
+    /* justify-content: center; */
+    padding-bottom: 4rem;
+    overflow-x: hidden;
+}
+.returnPolicyPage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+}
+.ReturnPolicyImg{
+    width: 90%;
+    height: 80%;
+}
+
+.faqTitle{
+    color: #5a67d8;
+    margin: 1rem 1rem 0rem 1rem;
+}
+.return-underline{
+    width: 155px;
+    height: 3.3px;
+    background-color: rgb(203, 172, 0);
+    margin: 0.2rem 1rem 1rem 1rem;
+    padding: 1.3px;
+}
+
+.form-container {
+    background-image: url("https://staging-web-americangiant.demandware.net/on/demandware.servlet/webdav/Sites/Libraries/AG-US/default/test-folder/RETURNLY_DESKTOP_hero.jpg");
+    background-position: 35% 80%;
+}
+.start-return-btn {
+    font-family: Knockout-71-A,Impact,Charcoal,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    padding: .85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: background-color .25s ease-out,color .25s ease-out;
+    font-size: 1.5rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #e31d1a;
+    color: #fefefe;
+    /* .start-return-form { */
+        display: block;
+        position: relative;
+        padding: 0;
+        margin: 50px auto 20px;
+        max-width: 700px;
+        min-height: 50px;
+    /* } */
+}
+
+
+.rounded{
+    border:2px solid #202020;
+    color: #202020;
+    position: relative;
+}
+.rounded svg {
+    font-size: 40px;
+    margin: 0.5rem;
+}
+.rounded svg path{
+   color: rgb(203 172 0);
+}
+.line{
+    width: 40vw;
+    position: absolute;
+    top: 96px;
+    left: 14%;
+    background-color: #444d9b;
+    height: 1.7px;
+}
+
+
+.rounded .arrow{
+    color:#202020;
+}
+
+.returns-questions {
+    background-color: #f2f2f2;
+    padding: 2rem;
+    /* margin: 10px; */
+    color: black;
+}
+
+.rc-title {
+    /* font-family: "Conv_ProximaNova-Regular", "Roboto", Helvetica, Arial, sans-serif; */
+    font-size: 30px;
+    font-weight: 300;
+    color: #201aa3;
+    text-align: center;
+    margin-block-start: 2rem;
+    margin-block-end: 0;
+}
+.ansColor{
+    color:#2b2b2b;
+    padding: 0.5rem;
+    font-size: 13.5px;
+}
+.faqQuestions{
+    font-family: Benton-Sans, "Helvetica Neue", Hsans-serifoboto, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.5rem;
+    text-transform:uppercase;
+    color:#201aa3;
+}
+.arrowHead svg {
+    font-size: 1.3rem;
+    margin-top: 1.3rem;
+    margin-right: 2.3rem;
+    margin-left: -4.7rem;
+    position: absolute;
+
+}
+.arrowHead svg path{
+    color: #201aa3 ;
+}
+.mobileSwipe svg{
+    font-size: 1.3rem;
+    margin-top: 2.2rem;
+    margin-left: -1.7rem;
+    position: absolute;
+}
+.mobileSwipe svg path{
+    color: #202020 ;
+}
+.giftSwipe svg{
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-left: -2.5rem;
+    position: absolute;
+}
+.giftSwipe svg path{
+        color: #201aa3 ;
+}
+a .rc-link {
+    font-family:Benton-Sans;
+    color:#FFF;
+    font-size:15px;
+    font-weight:300;
+    letter-spacing: .5px;
+}
+.f-half{
+    width: 50%;
+}
+ .content {
+    display: flex;
+    position: relative;
+    margin: 0px 20px;
+    width: 60vw;
+    text-align: center;
+}
+.returns-questions .content {
+    text-align: left;
+}
+
+.how-works .three-steps {
+    width: 33.3333333%;
+}
+
+.how-works .hw-step {
+    display: block;
+    float: left;
+    /* margin: 0; */
+    padding: 4rem 6rem;
+    /* color: black; */
+}
+
+.rounded {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 2px solid #201aa3;
+    background-color: #ffffff;
+    color: #201aa3;
+}
+.stepsCon{
+    color: #202020;
+    margin-left: -3rem;
+    padding: 0.5rem;
+}
+
+.newContent{
+    padding: 0;
+}
+
+@media screen and (max-width: 1031px) {
+   
+    .ReturnPolicyImg{
+        width: 92%;
+        height: 80%;
+    }
+    
+    
+    .ReturnPolicy {
+        padding-bottom: 2rem;
+        height: auto;
+    }
+    .form-container {
+        background-image: url("https://staging-web-americangiant.demandware.net/on/demandware.servlet/webdav/Sites/Libraries/AG-US/default/test-folder/RETURNLY_DESKTOP_hero.jpg");
+        background-position: 35% 80%;
+    }
+    .start-return-btn {
+        font-family: Knockout-71-A,Impact,Charcoal,sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        vertical-align: middle;
+        margin: 0 0 1rem 0;
+        padding: .85em 1em;
+        -webkit-appearance: none;
+        border: 1px solid transparent;
+        border-radius: 0;
+        transition: background-color .25s ease-out,color .25s ease-out;
+        font-size: 1.5rem;
+        line-height: 1;
+        text-align: center;
+        cursor: pointer;
+        background-color: #e31d1a;
+        color: #fefefe;
+        /* .start-return-form { */
+            display: block;
+            position: relative;
+            padding: 0;
+            margin: 50px auto 20px;
+            max-width: 700px;
+            min-height: 50px;
+        /* } */
+    }
+    
+    
+    .rounded{
+        border:2px solid #202020;
+        color: #202020;
+        position: relative;
+    }
+    .rounded svg {
+        font-size: 40px;
+        margin: 0.5rem;
+    }
+
+    .line{
+        width: 70vw;
+        position: absolute;
+        top: 49px;
+        left: 18%;
+        background-color: #444d9b;
+        height: 1.7px;
+    }
+    
+    .newContent{
+        padding: 1rem 1rem 1rem 5rem !important;
+    }
+
+    
+    .returns-questions {
+        background-color: #f2f2f2;
+        padding: 2rem;
+        /* margin: 10px; */
+        color: black;
+    }
+    
+    .rc-title {
+        /* font-family: "Conv_ProximaNova-Regular", "Roboto", Helvetica, Arial, sans-serif; */
+        font-size: 26px;
+        font-weight: 300;
+        color: #201aa3;
+        text-align: center;
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+    .ansColor{
+        color:#2b2b2b;
+        padding: 0.5rem;
+        font-size: 13.5px;
+    }
+    .faqQuestions{
+        font-family: Benton-Sans, "Helvetica Neue", Hsans-serifoboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: left;
+        padding: 0.5rem;
+        text-transform:uppercase;
+        color:#201aa3;
+    }
+    .arrowHead svg {
+        font-size: 1.3rem;
+        margin-top: 1.3rem;
+        margin-right: 2.3rem;
+        margin-left: -4.7rem;
+        position: absolute;
+    
+    }
+
+    .mobileSwipe svg{
+        font-size: 1.3rem;
+        margin-top: 2.2rem;
+        margin-left: -1.7rem;
+        position: absolute;
+    }
+
+    .giftSwipe svg{
+        font-size: 1.3rem;
+        margin-top: 1rem;
+        margin-left: -2.5rem;
+        position: absolute;
+    }
+
+    a .rc-link {
+        font-family:Benton-Sans;
+        color:#FFF;
+        font-size:15px;
+        font-weight:300;
+        letter-spacing: .5px;
+    }
+    .f-half{
+        width: 50%;
+    }
+     .content {
+        display: flex;
+        position: relative;
+        margin: 0px 20px;
+        width: 100vw;
+        text-align: center;
+        padding: 1rem 1rem 1rem 2rem;
+    }
+    .returns-questions .content {
+        text-align: left;
+    }
+    
+    .how-works .three-steps {
+        width: 33.3333333%;
+    }
+    
+    .how-works .hw-step {
+        display: block;
+        float: left;
+        /* margin: 0; */
+        padding: 0;
+        /* color: black; */
+    }
+    
+    .rounded {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        border: 2px solid #201aa3;
+        background-color: #ffffff;
+        color: #201aa3;
+        margin-left: 5px
+    }
+    .stepsCon {
+        color: #202020;
+        margin-left: 0;
+        padding: 0;
+        font-size: 13.5px;
+        width: 75%;
+    }
+    
+    
+
+}
+@media screen and (min-width: 900px) and (max-width: 1030px) {
+    .ReturnPolicy {
+        height: auto;
+    }
+    .line {
+        width: 64vw;
+        position: absolute;
+        top: 49px;
+        left: 18%;
+        background-color: #444d9b;
+        height: 1.7px;
+    }
+    .newContent {
+        padding: 1rem 1rem 1rem 10rem !important;
+    }
+}
+@media screen and (max-width: 360px) {
+   
+    .ReturnPolicy {
+        height: auto;
+        padding-bottom: 2em;
+    }
+    .start-return-btn {
+        font-family: Knockout-71-A,Impact,Charcoal,sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        vertical-align: middle;
+        margin: 0 0 1rem 0;
+        padding: .85em 1em;
+        -webkit-appearance: none;
+        border: 1px solid transparent;
+        border-radius: 0;
+        transition: background-color .25s ease-out,color .25s ease-out;
+        font-size: 1.5rem;
+        line-height: 1;
+        text-align: center;
+        cursor: pointer;
+        background-color: #e31d1a;
+        color: #fefefe;
+        /* .start-return-form { */
+            display: block;
+            position: relative;
+            padding: 0;
+            margin: 50px auto 20px;
+            max-width: 700px;
+            min-height: 50px;
+        /* } */
+    }
+    
+    .line {
+        width: 70vw;
+        position: absolute;
+        top: 49px;
+        left: 22%;
+        background-color: #444d9b;
+        height: 1.7px;
+    }
+    .newContent {
+        padding: 1rem 4rem !important;
+    }
+    .rounded .arrow{
+        color:#202020;
+    }
+    
+    .returns-questions {
+        background-color: #f2f2f2;
+        padding: 2rem;
+        /* margin: 10px; */
+        color: black;
+    }
+    
+    .rc-title {
+        /* font-family: "Conv_ProximaNova-Regular", "Roboto", Helvetica, Arial, sans-serif; */
+        font-size: 26px;
+        font-weight: 300;
+        color: #201aa3;
+        text-align: center;
+        margin-block-start: 0em;
+        margin-block-end: 0; 
+    }
+    .ansColor{
+        color:#2b2b2b;
+        padding: 0.5rem;
+        font-size: 13.5px;
+    }
+
+    .mobileSwipe svg{
+        font-size: 1.3rem;
+        margin-top: 2.2rem;
+        margin-left: -1.7rem;
+        position: absolute;
+    }
+    .giftSwipe svg{
+        font-size: 1.3rem;
+        margin-top: 1rem;
+        margin-left: -2.5rem;
+        position: absolute;
+    }
+    a .rc-link {
+        font-family:Benton-Sans;
+        color:#FFF;
+        font-size:15px;
+        font-weight:300;
+        letter-spacing: .5px;
+    }
+    .f-half{
+        width: 100%;
+    }
+     .content {
+        display: flex;
+        position: relative;
+        margin: 0px 20px;
+        width: 100vw;
+        text-align: center;
+        padding: 1rem 1rem 1rem 2rem;
+    }
+    .returns-questions .content {
+        text-align: left;
+    }
+    
+    .how-works .three-steps {
+        width: 33.3333333%;
+    }
+    
+    .how-works .hw-step {
+        display: block;
+        float: left;
+        /* margin: 0; */
+        padding: 0;
+        /* color: black; */
+    }
+    
+    .rounded {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        border: 2px solid #201aa3;
+        background-color: #ffffff;
+        color: #201aa3;
+        margin-left: 5px
+    }
+    
+    
+
+}
