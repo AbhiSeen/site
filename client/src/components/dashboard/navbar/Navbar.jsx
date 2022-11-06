@@ -18,8 +18,7 @@ const Navbar = () => {
           <input type="text" placeholder="Search..." />
           <SearchOutlinedIcon />
         </div>
-        <div className="items">
-          
+        <div className="items">          
           <div className="item">
             <LanguageOutlinedIcon className="icon" />
             English
