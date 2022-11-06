@@ -16,10 +16,14 @@ import NewProduct from "./components/dashboard/newProduct/NewProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ViewPro from "./components/dashboard/viewpro/ViewPro";
 import OrderList from "./components/dashboard/orderlist/OrderList";
-import Earn from "./components/home/Earn";
+// import Earn from "./components/home/Earn";
 import About from './components/OtherPage/About';
 import ContactPage from './components/OtherPage/ContactPage';
-
+import FAQPage from './components/OtherPage/FAQPage';
+import ReturnPolicy from './components/OtherPage/ReturnPolicy';
+import CategoryDetail from './components/details/CategoryDetail';
+import ReferNdEarn from "./components/OtherPage/ReferandEarn";
+import Wallet from "./components/home/Wallet";
 
 function App() {
   return (
@@ -38,7 +42,12 @@ function App() {
             <Route path="/dashboard/products/newpro" element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
             <Route path="/dashboard/orders" element={<ProtectedRoute><OrderList /></ProtectedRoute>} />
             <Route path="/product/:id" element={<DetailView />} />
-          {/* <Route path= '/about' element={<About />} /> */}
+            <Route path= '/About' element={<About />} />
+            <Route path= '/ContactUs' element={<ContactPage />} />
+            <Route path= '/FAQ' element={<FAQPage />} />
+            <Route path= '/ReturnPolicy' element={<ReturnPolicy />} />
+            <Route path="/CategoryDetail" element={<CategoryDetail />} />
+          <Route path= '/Wallet' element={<Wallet />} />
           <Route path= '/contactUs' element={<ContactPage />} />
           </Routes>
         </Box>

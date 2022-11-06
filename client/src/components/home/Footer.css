@@ -71,6 +71,8 @@ ul{
   font-size: 1.2em;
   margin-block-start: 0;
   margin-block-end: 0;
+  color: white;
+  text-align:left;
 }
 .header-underline{
     width:97px;

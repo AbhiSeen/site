@@ -8,6 +8,9 @@ import Profile from './profile';
 import {Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { NavLink } from "react-router-dom";
+import Wallet from '../home/Wallet';
 
 
 const Container = styled(Link)(({ theme }) => ({
@@ -35,7 +38,12 @@ const Wrapper = styled(Box)(({ theme }) => ({
     display: 'block'
   }
 }));
+const TypographyBtn = styled(Typography)(({ theme }) => ({
+  margin: '0 3% 0 auto',
+  display: 'flex',
+  justifyContent:'space-between',
 
+}));
 const LoginButton = styled(Button)(({ theme }) => ({
   color: '#2874f0',
   background: '#FFFFFF',
@@ -66,7 +74,11 @@ const CusttomButtons = () => {
         <LoginButton variant='contained'  onClick={() => openDialog()}>Login</LoginButton>
       }
 
-      <Typography style={{ marginTop: 3, marginLeft: 25 }}>Earn</Typography>
+      <TypographyBtn style={{ marginTop: 3, marginLeft: 15 }}>
+        <NavLink exact to="/Wallet" className='navlink about-sec-money'> 
+          <AccountBalanceWalletIcon style={{marginRight:'4px'}}/>Wallet
+        </NavLink>
+      </TypographyBtn>
       <Typography style={{ marginTop: 3 ,marginLeft: 25 }}>More</Typography>
       <Container to="/cart">
         <Badge badgeContent={cartItems?.length} color="secondary">
