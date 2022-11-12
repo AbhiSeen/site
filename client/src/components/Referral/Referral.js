@@ -54,7 +54,7 @@ function Referral({ delivered }) {
                   input.current.value && input.current.value.toUpperCase()
                 );
                 // setReferrals(referrals);
-                console.log(response)
+                // console.log(response)
               }}
             > 
               Submit
