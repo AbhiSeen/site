@@ -5,6 +5,7 @@ import "./Wallet.css";
 
 import WalletImg from "../images/WalletImg.png"
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import Header from '../header/Header';
 
 
 const Wallet = () => {
@@ -23,6 +24,7 @@ const Wallet = () => {
   },[]);
 
   return (
+    <><Header />
     <div className="ReferAndEarn">
       <h1 className="ReferHeading">Add Money to your Wallet.</h1>
       <h3 className="ReferSubHeading">
@@ -36,6 +38,7 @@ const Wallet = () => {
         </a>
       </button>
     </div>
+    </>
   );
 };
 

@@ -11,7 +11,8 @@ import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
 
 const LeftContainer = styled(Box)(({ theme }) => ({
     minWidth: '40%',
-    padding: '40px 0 0 80px',
+    // height:'100%',
+    padding: '5rem 0 0 25px',
     [theme.breakpoints.down('lg')]: {
         padding: '20px 40px'
     }
@@ -60,8 +61,8 @@ const ActionItem = ({ product }) => {
     return (
         <LeftContainer>
             <Box style={{ padding: '15px 20px',
-               border: '1px solid #f0f0f0',
-               boxShadow: '0px 0px 10px 0px rgba(176, 176, 176, 0.75)',
+            //    border: '1px solid #f0f0f0',
+            //    boxShadow: '0px 0px 10px 0px rgba(176, 176, 176, 0.75)',
               // backgroundColor:'yellow',
               marginBottom: '0.5rem',
               cursor:'pointer',

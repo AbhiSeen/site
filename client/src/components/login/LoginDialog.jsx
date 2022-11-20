@@ -23,7 +23,10 @@ const Image = styled(Box)`
     width: 50%;
     height: 84%;
     padding: 45px 35px;
-    background: #ffbd83;
+    // background: #ffbd83;
+    // background-color: linear-gradient( 180.3deg,  rgba(214,224,255,1) 37.2%, rgba(254,168,168,1) 137.3% );
+    background: rgb(206,225,255);
+    background: linear-gradient(90deg, rgba(206,225,255,1) 0%, rgba(255,168,180,1) 100%);
     /* margin-top: 13px; */
     z-index: 11;
     & > p, & > h5 {
