@@ -6,6 +6,7 @@ import Search from './Search';
 import { Menu } from '@mui/icons-material';
 import AmfashionLogoImg from "../images/AmfashionLogoImg.png"
 
+
 const StyledHeader = styled(AppBar)`
     // background: #99abff;
     // background-image: linear-gradient( 180.3deg,  rgba(214,224,255,1) 37.2%, rgba(254,168,168,1) 137.3% );
