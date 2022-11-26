@@ -53,7 +53,7 @@ const ProductDetail = ({ product }) => {
                         <TableCell>
                             <span style={{ color: '#2874f0' }}>SuperComNet</span>
                             <Typography>GST invoice available</Typography>
-                            <Typography>View more offers starting from ₹{product.price.cost}</Typography>
+                            <Typography>View more offers starting from ₹{Math.round(product.mrp-(product.mrp*(product.discount/100)))}</Typography>
                         </TableCell>
                     </ColumnText>
                     <TableRow>

@@ -30,27 +30,27 @@ const Footer = () => {
                     
                     <ul className='about-list'>
                         <li >
-                        <NavLink exact to="/" className='navlink '>
+                        <NavLink exact="true" to="/" className='navlink '>
                         <RoofingRoundedIcon className='footer-icons'/><p className='about-sec-con'>Home</p>
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink exact to="/About" className='navlink'> 
+                        <NavLink exact="true" to="/About" className='navlink'> 
                         <LiveHelpRoundedIcon className='footer-icons'/><p className='about-sec-con'> About us</p> 
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink exact to="/FAQ" className='navlink'> 
+                        <NavLink exact="true" to="/FAQ" className='navlink'> 
                         <ForumRoundedIcon className='footer-icons'/><p className='about-sec-con'> FAQ</p> 
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink exact to="/ReturnPolicy" className='navlink'> 
+                        <NavLink exact="true" to="/ReturnPolicy" className='navlink'> 
                         <PublishedWithChangesRoundedIcon className='footer-icons'/><p className='about-sec-con'>Return policy</p> 
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink exact to="/ContactUs" className='navlink'> 
+                        <NavLink exact="true" to="/ContactUs" className='navlink'> 
                         <PermPhoneMsgRoundedIcon className='footer-icons'/> <p className='about-sec-con'>Contact us </p>
                         </NavLink>
                         </li>
@@ -63,7 +63,7 @@ const Footer = () => {
                     <div className='header-underline'></div>
                     </h3>
                     <div className="languages">
-                        <NavLink exact to="/ReferandEarn" className='navlink about-sec-money'> 
+                        <NavLink exact="true" to="/ReferandEarn" className='navlink about-sec-money'> 
                         <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con2'>Refer and Earn</p>
                         </NavLink>
                     </div>

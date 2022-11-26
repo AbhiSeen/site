@@ -134,7 +134,7 @@ const List = ({ userInfo }) => {
                       </TableRow>
                     ))
                 }</TableCell>
-                <TableCell className="tableCell">{console.log(orders.firstname)}</TableCell>
+                <TableCell className="tableCell">{orders.fullName}</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
                 <TableCell className="tableCell">

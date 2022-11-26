@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Box, styled } from '@mui/material';
-import { ShoppingCart as Cart, FlashOn as Flash } from '@mui/icons-material';
+import { ShoppingCart as Cart, FlashOn as Flash, Share } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 // import { payUsingPaytm } from '../../service/api';
 // import { post } from '../../utils/paytm';
@@ -58,21 +58,58 @@ const ActionItem = ({ product }) => {
 
     // onClick={() => buyNow()}
   
-    return (
-        <LeftContainer>
-            <Box style={{ padding: '15px 20px',
-            //    border: '1px solid #f0f0f0',
-            //    boxShadow: '0px 0px 10px 0px rgba(176, 176, 176, 0.75)',
-              // backgroundColor:'yellow',
-              marginBottom: '0.5rem',
-              cursor:'pointer',
-                width: '90%'}}> <Image src={product.detailUrl} alt="none" /><br />
-                </Box>
-           
-            <StyledButton   onClick={() => addItemToCart()}   style={{marginRight: 10, background: '#ff9f00'}} variant="contained"><LocalMallRoundedIcon style={{marginRight: 10,}}/>Add to Cart</StyledButton>
-            <StyledButton     style={{background: '#fb641b'}} variant="contained"><Flash /> Buy Now</StyledButton>
-        </LeftContainer>
-    )
-}
+
+  return (
+    <LeftContainer>
+      <Box
+        style={{
+          padding: "15px 20px",
+          border: "1px solid #f0f0f0",
+          width: "90%",
+        }}
+      >
+        <Image src={""} alt="none" />
+        <br />
+      </Box>
+
+      <StyledButton
+        onClick={() => addItemToCart()}
+        style={{ marginRight: 10, background: "#ff9f00" }}
+        variant="contained"
+      >
+        <Cart />
+        Add to Cart
+      </StyledButton>
+      <StyledButton
+        style={{ background: "#fb641b" }}
+        variant="contained"
+        // onClick={() => addReferral()}
+      >
+        <Flash /> Buy Now
+      </StyledButton>
+      <StyledButton
+        style={{ background: "#ff9f00", marginTop: "1rem" }}
+        variant="contained"
+        // onClick={() => setLink(generateLink(userName.length, userName))}
+      >
+        <Share/>
+      </StyledButton>
+      <div>
+        <p>Here is your link</p>
+        <p
+          onClick={() => {
+            // navigator.clipboard.writeText(link).then(() => {
+            //   // Alert the user that the action took place.
+            //   // Nobody likes hidden stuff being done under the hood!
+            //   alert("Copied to clipboard");
+            // });
+          }}
+        >
+          {/* {link} */}
+        </p>
+      </div>
+    </LeftContainer>
+  );
+};
 
 export default ActionItem;

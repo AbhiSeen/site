@@ -11,7 +11,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      username: user.username,
+      email: user.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXP_TIME }
@@ -166,15 +166,15 @@ const getOrders = async (userIds) => {
 export const userSignUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
-      username: request.body.username,
+      email: request.body.email,
     });
     if (existingUser) {
-      return response.status(200).json({ message: "User already exists" });
+      return response.status(200).json({ message: "already exists" });
     }
     const newUser = request.body;
     const password = await bcrypt.hash(request.body.password, 10);
-    const encryptedUser = { ...newUser, password };
-    const user = new User(encryptedUser);
+    const modifiedUser = { ...newUser,fullName:newUser.name,password };
+    const user = new User(modifiedUser);
     await user.save();
     return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
@@ -186,7 +186,7 @@ export const userSignUp = async (request, response) => {
 export const userLogin = async (request, response) => {
   try {
     const user = await User.findOne({
-      username: request.body.username,
+      email: request.body.email,
     });
     // console.log(user)
     if (user) {

@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import { Typography, Menu, MenuItem, Box, styled } from '@mui/material';
 import { PowerSettingsNew } from '@mui/icons-material';
+import {logout} from "../service/api";
+import { useNavigate } from 'react-router-dom';
 
 const Component = styled(Menu)`
     margin-top: 5px;
@@ -15,6 +17,7 @@ const Logout = styled(Typography)`
 
 const Profile = ({ account, setAccount }) => {
     const [open, setOpen] = useState(false);
+    const navigate=useNavigate();
     
     const handleClick = (event) => {
         setOpen(event.currentTarget);
@@ -24,8 +27,13 @@ const Profile = ({ account, setAccount }) => {
         setOpen(false);
     };
 
-    const logoutUser = () => {
-        setAccount('');
+    const logoutUser = async() => {
+         const response=await logout(localStorage.getItem("token"));
+        if (response) {
+            localStorage.clear();
+            setAccount('');
+            navigate("/")
+        }
     }
     
     return (

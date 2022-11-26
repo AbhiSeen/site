@@ -1,6 +1,6 @@
 import React from 'react'
 import "./About.css";
-import AboutUspageHd from "../images/AboutUspageHd.png";
+// import AboutUspageHd from "../images/AboutUspageHd.png";
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
@@ -13,7 +13,7 @@ const About = () => {
   return (
     <>
       <div className='aboutUsPage'>
-        <img  className='aboutUsImg' src={AboutUspageHd}/>        
+        {/* <img  className='aboutUsImg' src={AboutUspageHd}/>         */}
         <div className="aboutUstext">
             <span className="text-gray-500 border-b-2 border-indigo-600 ">About Us</span>
             <div className='about-underline'></div>

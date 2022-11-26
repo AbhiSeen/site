@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import Banner from './Banner';
 import { Box ,styled} from '@mui/material';
 import { getProducts } from '../../redux/actions/productActions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Slide from './Slide';
 import MidSlide from './MidSlide'; 
 import MideSection from './MidSection';
@@ -18,17 +18,16 @@ background:#F2F2F2;
 
 const Home = () => {
   const { products } = useSelector(state => state.getProducts)
-  console.log(products,"products")
-  const dispatch = useDispatch();
-
+  // console.log(products.)
   useEffect(() => {
-    dispatch(getProducts())
-  }, [dispatch])
+   getProducts()
+  }, [products])
+
   return (
     <Fragment>
       <Header/>
       <NavBar />
-      <Component>
+      <Component> 
         <Banner />
         <MidSlide products={products}  title="Deal Of the day" timer={true}/>
         <MideSection/>

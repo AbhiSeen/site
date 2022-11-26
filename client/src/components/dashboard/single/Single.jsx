@@ -36,7 +36,7 @@ const Single = () => {
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">{userInfo.firstname+" "+userInfo.lastname}</h1>
+                <h1 className="itemTitle">{userInfo.fullName}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
                   <span className="itemValue">{userInfo.email}</span>

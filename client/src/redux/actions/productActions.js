@@ -3,7 +3,7 @@ import * as actionType from "../constants/productConstants";
 
 export const getProducts = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:8000/getProducts`);
+    const {data}  = await axios.get(`http://localhost:8000/getProducts`);
     dispatch({ type: actionType.GET_PRODUCTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: actionType.GET_PRODUCTS_FAIL, payload: error.response });

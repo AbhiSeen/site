@@ -6,15 +6,16 @@ import Product from '../model/product-schema.js';
 export const getProducts = async (request, response) => {
     try {
          client.get("products",async(err,products)=>{
-            if(products){
+            if(products && JSON.parse(products).length>0){
                 // console.log("Cache hit")
                 return response.status(200).json(JSON.parse(products));
             }
             else{
-                // console.log("Cache Miss")
                 const products = await Product.find({}); 
-                client.setex("products",1400,JSON.stringify(products))
-                return response.status(200).json(products);
+                // products.forEach((val)=> console.log(val.image.data.toString('base64')))
+                if(products.length>0)
+                    client.setex("products",1400,JSON.stringify(products))
+                return response.status(200).json(products); 
             }
         })     
     }catch (error) { 
@@ -29,12 +30,12 @@ export const getProductById = async (request, response) => {
         const id=request.params.id;
         if(id){
             client.get(`${id}`,async(err,product)=>{
-                if(product){
-                    console.log("Cache hit")
+                if(JSON.parse(product)){
+                    // console.log("Cache hit")
                     return response.status(200).json(JSON.parse(product));
                 }
                 else{
-                    console.log("Cache Miss")
+                    // console.log("Cache Miss")
                     const products = await Product.findOne({ 'id': id });
                     client.setex(`${id}`,1400,JSON.stringify(products))
                     return response.status(200).json(products);

@@ -26,13 +26,15 @@ const Datatable = () => {
 
   //need to set Data from backend--Done
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 220 , renderCell: (params) => {
+      return <div className="rowitem">{params.row._id}</div>;
+    },},
     {
       field: "name",
       headerName: "Product Name",
-      width: 200,
+      width: 150,
       renderCell: (params) => {
-        return <div className="rowitem">{params.row.title.shortTitle}</div>;
+        return <div className="rowitem">{params.row.name}</div>;
       },
     },
 
@@ -41,30 +43,30 @@ const Datatable = () => {
       headerName: "Stock",
       width: 100,
       renderCell: (params) => {
-        return <div className="rowitem">{params.row.quantity}</div>;
+        return <div className="rowitem">{params.row.stock}</div>;
       },
     },
 
     {
       field: "price",
       headerName: "Price",
-      width: 160,
+      width: 100,
       renderCell: (params) => {
-        return <div className="rowitem">{params.row.price.cost}</div>;
+        return <div className="rowitem">Rs. {Math.round(params.row.mrp-(params.row.mrp*(params.row.discount/100)))}</div>;
       },
     },
     {
       field: "discount",
       headerName: "Discount",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
-        return <div className="rowitem">{params.row.discount}</div>;
+        return <div className="rowitem">{params.row.discount}%</div>;
       },
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 80,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -93,6 +95,7 @@ const Datatable = () => {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
+        getRowId={(row)=>row._id}
         checkboxSelection
       />
     </div>

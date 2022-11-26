@@ -2,7 +2,7 @@ import axios from "axios";
 
 const url = "http://localhost:8000";
 
-const axiosJWT=axios;
+const axiosJWT = axios;
 
 axiosJWT.defaults.headers = {
   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -28,14 +28,17 @@ export const authenticateSignup = async (data) => {
 export const verifyToken = async () => {
   try {
     const response = await axiosJWT.post(`${url}/verify`, "");
-    if (response.status===200) return true;
+    if (response.status === 200) return true;
   } catch (err) {
     return false;
   }
-}; 
+};
 
-export const logout = async () => {
+export const logout = async (token) => {
   try {
+    axiosJWT.defaults.headers = {
+      Authorization: `Bearer ${token}`,
+    };
     const response = await axiosJWT.post(`${url}/logout`, "");
     if (response.status === 200) return true;
   } catch (err) {
@@ -43,47 +46,48 @@ export const logout = async () => {
   }
 };
 
-
-export const getUsersList=async()=>{
-  try{
-    const response = await axiosJWT.get(`${url}/getUsers`); 
+export const getUsersList = async () => {
+  try {
+    const response = await axiosJWT.get(`${url}/getUsers`);
     if (response.status === 200) return response.data;
   } catch (err) {
     return false;
   }
-}
+};
 
-export const getUserInfo=async(id)=>{
-  try{
-    const response = await axiosJWT.get(`${url}/getUserInfo/${id}`); 
+export const getUserInfo = async (id) => {
+  try {
+    const response = await axiosJWT.get(`${url}/getUserInfo/${id}`);
     if (response.status === 200) return response.data;
   } catch (err) {
     return false;
   }
-}
+};
 
-
-export const getOrders=async(id)=>{
-  const response=await axiosJWT.get(`${url}/getOrders/${id}`);
+export const getOrders = async (id) => {
+  const response = await axiosJWT.get(`${url}/getOrders/${id}`);
   // console.log(response)
- if(response.status===200) return response.data;
-}
+  if (response.status === 200) return response.data;
+};
 
-
-export const addProducts=async(product)=>{
-  const response=await axiosJWT.post(`${url}/addProduct`,product);
+export const addProducts = async (product) => {
+  const response = await axiosJWT.post(`${url}/addProduct`, product, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   // console.log(response)
- if(response.status===200) return response.data;
-}
+  if (response.status === 200) return response.data;
+};
 
-export const getProducts=async()=>{
-  const response=await axiosJWT.get(`${url}/getProducts`);
+export const getProducts = async () => {
+  const response = await axiosJWT.get(`${url}/getProducts`);
   // console.log(response)
- if(response.status===200) return response.data;
-}
+  if (response.status === 200) return response.data;
+};
 
-export const deleteProduct=async(productId)=>{
-  const response=await axiosJWT.delete(`${url}/deleteProduct/${productId}`);
+export const deleteProduct = async (productIds) => {
+  const response = await axiosJWT.post(`${url}/deleteProduct/`, { productIds });
   // console.log(response)
- if(response.status===200) return true;
-}
+  if (response.status === 200) return true;
+};

@@ -1,32 +1,110 @@
 import Product from "../model/product-schema.js";
 import User from "../model/user-schema.js";
 import mongoose from "mongoose";
+import {GridFsStorage} from "multer-gridfs-storage";
+import multer from 'multer';
+
+export const middleware=(req, res, next)=> {
+  var imageName, mimeType;
+
+  // var uploadStorage = multer.diskStorage({
+  //     destination: function (req, file, cb) {
+  //         cb(null, 'uploads');
+  //     },
+  //     filename: function (req, file, cb) {
+  //         imageName = file.originalname;
+  //         //imageName += "_randomstring"
+  //         cb(null, imageName);
+  //     }
+  // });
+
+  const storage = new GridFsStorage({
+    url: "mongodb+srv://abhi:QMovVAA2N2q3QdOE@cluster0.whvld.mongodb.net/test",
+    file: (req, file) => {
+      // console.log(file);
+      imageName = file.originalname;
+      mimeType = file.mimetype;
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = file.originalname;
+          const fileInfo = {
+            filename: filename,
+            bucketName: "products",
+          };
+          resolve(fileInfo);
+        });
+      });
+    },
+  });
+
+  var uploader = multer({ storage });
+
+  var uploadFile = uploader.single("image");
+
+  uploadFile(req, res, function (err) {
+    req.imageName = imageName;
+    req.uploadError = err;
+    req.contentType = mimeType;
+    next();
+  });
+}
+
+
+// export const upload=async(request,response)=>{
+//   try{
+//     if (!request.file) {
+//       return response.json({
+//         success: false,
+//         message: "You must provide at least 1 file"
+//       });
+//     } else {
+      
+      
+//       // saving the object into the database
+//       request.image=imageUploadObject;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json("Server Error");
+//   }
+// }
 
 export const addProduct = async (request, response) => {
   try {
-    const { image, name, stock, discount, price, description } =
-      request.body;
+    const productInfo=JSON.parse(request.body.productInfo);
+    // console.log(request.body.productInfo.image);
     if (request.body) {
       // console.log(orderedProducts)
-      const result = await Product.insertMany(
-        [
-          {
-            id:new mongoose.Types.ObjectId(),
-            //need to get image path
-            image,
-            name,
-            stock,
-            discount,
-            price,
-            description,
-          },
-        ],
-        { new: true }
-      );
-      console.log(result);
+      const newProduct=new Product({
+        ...productInfo,
+        image:{
+          data:request.imageName,
+          contentType:request.contentType
+        } 
+      }) 
+      newProduct.save();
+      // const result = await Product.insertMany(
+      //   [
+      //     {
+      //       id:new mongoose.Types.ObjectId(),
+      //       //need to get image path
+      //       image:imageUploadObject,
+      //       name,
+      //       stock,
+      //       discount,
+      //       mrp,
+      //       description,
+      //     },
+      //   ],
+      //   { new: true }
+      // );
+      // console.log(result);
+      return response.status(200).json({ message: "ok" });
     }
-    return response.status(200).json({ message: "ok" });
-  } catch (err) {
+   } catch (err) {
     console.log(err);
     return response
       .status(500)
@@ -36,7 +114,7 @@ export const addProduct = async (request, response) => {
 
 export const getUsers = async (request, response) => {
   try {
-    const users = await User.find({}, { username: 1, email: 1 });
+    const users = await User.find({}, { fullName: 1, email: 1 });
     // console.log(users);
     return response.status(200).json(users);
   } catch (error) {
@@ -48,7 +126,7 @@ export const getUserInfofromId = async (request, response) => {
   try {
     const userInfo = await User.findOne(
       { _id: mongoose.Types.ObjectId(request.params.id) },
-      { username: 1, email: 1, phone: 1, firstname: 1, lastname: 1 }
+      { username: 1, email: 1, phone: 1, fullName:1 }
     );
     // console.log(users);
     return response.status(200).json(userInfo);
@@ -87,3 +165,5 @@ export const getOrders = async (request, response) => {
     return response.status(500).json({message:"Something went wrong.Please try again"})
   }
 };
+
+
