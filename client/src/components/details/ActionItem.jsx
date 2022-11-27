@@ -50,6 +50,7 @@ const ActionItem = ({ product }) => {
     //     }
     //     // post(information);
     // }
+    // console.log(product.productImage)
 
     const addItemToCart = () => {
         dispatch(addToCart(id, quantity));
@@ -63,12 +64,11 @@ const ActionItem = ({ product }) => {
     <LeftContainer>
       <Box
         style={{
-          padding: "15px 20px",
           border: "1px solid #f0f0f0",
           width: "90%",
         }}
       >
-        <Image src={""} alt="none" />
+        <Image src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="250px" style={{padding:"0px"}} alt="none" />
         <br />
       </Box>
 

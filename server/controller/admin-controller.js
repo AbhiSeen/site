@@ -3,6 +3,7 @@ import User from "../model/user-schema.js";
 import mongoose from "mongoose";
 import {GridFsStorage} from "multer-gridfs-storage";
 import multer from 'multer';
+import crypto from "crypto";
 
 export const middleware=(req, res, next)=> {
   var imageName, mimeType;
@@ -19,7 +20,7 @@ export const middleware=(req, res, next)=> {
   // });
 
   const storage = new GridFsStorage({
-    url: "mongodb+srv://abhi:QMovVAA2N2q3QdOE@cluster0.whvld.mongodb.net/test",
+    url: "mongodb+srv://abhi:QMovVAA2N2q3QdOE@cluster0.whvld.mongodb.net/?retryWrites=true&w=majority",
     file: (req, file) => {
       // console.log(file);
       imageName = file.originalname;
@@ -32,9 +33,10 @@ export const middleware=(req, res, next)=> {
           const filename = file.originalname;
           const fileInfo = {
             filename: filename,
-            bucketName: "products",
+            bucketName: "uploads",
           };
           resolve(fileInfo);
+          console.log(fileInfo)
         });
       });
     },
@@ -77,7 +79,6 @@ export const addProduct = async (request, response) => {
     const productInfo=JSON.parse(request.body.productInfo);
     // console.log(request.body.productInfo.image);
     if (request.body) {
-      // console.log(orderedProducts)
       const newProduct=new Product({
         ...productInfo,
         image:{
@@ -86,23 +87,7 @@ export const addProduct = async (request, response) => {
         } 
       }) 
       newProduct.save();
-      // const result = await Product.insertMany(
-      //   [
-      //     {
-      //       id:new mongoose.Types.ObjectId(),
-      //       //need to get image path
-      //       image:imageUploadObject,
-      //       name,
-      //       stock,
-      //       discount,
-      //       mrp,
-      //       description,
-      //     },
-      //   ],
-      //   { new: true }
-      // );
-      // console.log(result);
-      return response.status(200).json({ message: "ok" });
+      return response.status(200).json({ message: "product added" });
     }
    } catch (err) {
     console.log(err);

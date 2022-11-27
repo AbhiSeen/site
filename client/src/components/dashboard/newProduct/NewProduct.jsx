@@ -7,7 +7,15 @@ import { addProducts } from "../../service/api";
 import { useRef } from "react";
 
 export default function NewProduct() {
-  const image=useRef();
+  const image=useRef("https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg");
+  const defaultProductInfo={
+    name: "",
+    stock: "",
+    discount: "",
+    mrp: "",
+    description: "",
+    image: "",
+  }
   const [productInfo, setProductInfo] = useState({
     name: "",
     stock: "",
@@ -22,6 +30,7 @@ export default function NewProduct() {
     formData.append("productInfo", JSON.stringify(productInfo));
     formData.append("image",image.current)
     const response = addProducts(formData);
+    setProductInfo(defaultProductInfo);
     // console.log(image.current);
   }; 
 
@@ -42,11 +51,11 @@ export default function NewProduct() {
           <div className="left">
             <img
               src={
-                productInfo.image
-                  ? URL.createObjectURL(productInfo.image)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+               productInfo.image 
+                  ?  URL.createObjectURL(productInfo.image)
+                  : image.current
               }
-              alt=""
+              alt="product-image"
             />
           </div>
           <div className="right">
@@ -65,7 +74,6 @@ export default function NewProduct() {
                       ...product,
                       image: e.target.files[0],
                     }));
-                   
                   }
                   }
                   style={{ display: "none" }}
@@ -77,6 +85,7 @@ export default function NewProduct() {
                   type="text"
                   placeholder="Apple Airpods"
                   onChange={handleChange("name")}
+                  value={productInfo.name}
                 />
               </div>
               <div className="addProductItem">
@@ -85,6 +94,7 @@ export default function NewProduct() {
                   type="text"
                   placeholder="123"
                   onChange={handleChange("stock")}
+                  value={productInfo.stock}
                 />
               </div>
               <div className="addProductItem">
@@ -93,6 +103,7 @@ export default function NewProduct() {
                   type="text"
                   placeholder="10%"
                   onChange={handleChange("discount")}
+                  value={productInfo.discount}
                 />
               </div>
               <div className="addProductItem">
@@ -101,6 +112,7 @@ export default function NewProduct() {
                   type="text"
                   placeholder="100"
                   onChange={handleChange("mrp")}
+                  value={productInfo.mrp}
                 />
               </div>
               <div className="addProductItem">
@@ -108,6 +120,7 @@ export default function NewProduct() {
                 <textarea
                   placeholder="add discription"
                   onChange={handleChange("description")}
+                  value={productInfo.description}
                 ></textarea>
               </div>
               <button

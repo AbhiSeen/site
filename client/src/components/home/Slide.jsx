@@ -100,11 +100,11 @@ const Slide = ({ products ,title ,timer }) => {
                 itemClass="carousel-item-padding-40-px"
             >
                 {
-                    products.length>0 &&
+                    products && products.length>0 &&
                      products.map(product => (
                      <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id}>
                         <Box textAlign="center" style={{ padding: '25px 15px' }}>
-                            <Image src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wccftech.com%2Fwp-content%2Fuploads%2F2020%2F06%2Fairpods-pro-deal.png&f=1&nofb=1&ipt=a93254741ff587929c6f239bb88b7a9882c847a25578129a41b7c2fae715fe93&ipo=images" alt='product' />
+                            <Image src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} alt='product' />
                             <Text style={{ fontWeight: 600, color: '#212121' }}>{product.name}</Text>
                             <Text style={{ color: 'green' }}>{product.discount}% off</Text>
                             {/* <Text style={{ color: '#212121', opacity: '.6' }}>{product.tagline}</Text> */}

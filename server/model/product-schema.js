@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
   image: {
-    data: Buffer,
+    data: String,
     contentType: String,
   },
   name: { type: String, required: true },

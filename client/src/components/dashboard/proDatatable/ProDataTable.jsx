@@ -95,6 +95,7 @@ const Datatable = () => {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
+        rowsPerPageOptions={[8]}
         getRowId={(row)=>row._id}
         checkboxSelection
       />
