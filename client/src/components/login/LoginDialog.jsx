@@ -14,6 +14,7 @@ import { DataContext } from "../../context/DataProvider";
 import loginImg from "../images/loginImg.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CloseRounded } from "@mui/icons-material";
 
 const Component = styled(DialogContent)`
   height: 70vh;
@@ -203,7 +204,7 @@ const LoginDialog = ({ open, setOpen }) => {
     >
       <div className="closeBox">
         <button className="cancelBtn" onClick={handleClose}>
-          <Icon onClose={handleClose} className="closeIcon" />
+          <CloseRounded onClose={handleClose} className="closeIcon" />
         </button>
       </div>
       <Component className="loginCard">

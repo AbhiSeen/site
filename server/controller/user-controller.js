@@ -355,7 +355,7 @@ export const addProductsfromUser = async (request, response) => {
       const result = await User.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(id),
-        },
+        }, 
         {
           $push: {
             orders: {
