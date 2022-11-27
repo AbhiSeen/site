@@ -6,8 +6,7 @@ function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (token) {
     const user = jwt_decode(token);
-    // console.log(user)
-    if(user.username === "admin"){
+    if(user.email.includes("admin")){
       let current_time = Date.now().valueOf() / 1000;
       if (current_time > user.exp) {
         return <Navigate to="/" replace />;

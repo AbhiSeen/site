@@ -21,14 +21,14 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const navigate=useNavigate()
   const logoutAdmin = async () => {
-    const response = await logout();
+    const response = await logout(localStorage.getItem("token"));
     if (response) {
       localStorage.clear();
       navigate("/")
     }
   };
 
-  return (
+  return (  
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
