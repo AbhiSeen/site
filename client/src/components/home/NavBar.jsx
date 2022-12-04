@@ -42,8 +42,8 @@ const NavBar = () => {
     
   return (
     <Component>{
-        navData.map(data => (
-            <Container>
+        navData.map((data,idx) => (
+            <Container key={idx}>
                 <Button onClick={CategoryDetail}>
                  <img src={data.url} alt="NavBar" style={{  width: 64 }} />
                  <Text>{data.text}</Text>

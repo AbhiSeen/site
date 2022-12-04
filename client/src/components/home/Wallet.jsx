@@ -1,10 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react';
 import "./Wallet.css";
-
-
 import WalletImg from "../images/WalletImg.png"
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Header from '../header/Header';
 
 
@@ -30,8 +27,8 @@ const Wallet = () => {
       <h3 className="ReferSubHeading">
         The more friends you refer or share, the more money you make.
       </h3>
-      <img src={WalletImg}m className='walletImg'/>
-      <div className='earning'>You Have Earned <span className='money'> {earnings} </span> &#x20b9; </div>
+      <img src={WalletImg} className='walletImg'/>
+      <div className='earning'>You Have Earned &#x20b9; <span className='money'> {earnings} </span>  </div>
       <button  className="LearnMoreBtn">
         <a className="mcnButton moreBtn" title="Learn more" href="https://www.postable.com/login" target="_blank">
           Withdraw Now

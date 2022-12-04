@@ -11,10 +11,12 @@ const Datatable = () => {
 
   const getUsers = async () => {
     const response = await getUsersList();
+    if(response){
     const users = response.map((row) => {
       return { id: row._id, ...row };
     });
     setData(users);
+  }
   };
 
   useEffect(() => {

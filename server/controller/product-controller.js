@@ -43,7 +43,7 @@ export const getProducts = async (request, response) => {
 
 export const getProductById = async (request, response) => {
   try {
-    // console.log('Hie')
+    // console.log('Hie') 
     const id = request.params.id;
     let productImage="";
     if (id) {

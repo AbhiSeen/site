@@ -75,7 +75,7 @@ const CusttomButtons = () => {
       }
 
       <TypographyBtn style={{ marginTop: 3, marginLeft: 15 }}>
-        <NavLink exact to="/Wallet" className='navlink about-sec-money'> 
+        <NavLink exact="true" to="/Wallet" className='navlink about-sec-money'> 
           <AccountBalanceWalletIcon style={{marginRight:'4px'}}/>Wallet
         </NavLink>
       </TypographyBtn>

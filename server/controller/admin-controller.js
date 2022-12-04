@@ -8,17 +8,6 @@ import crypto from "crypto";
 export const middleware=(req, res, next)=> {
   var imageName, mimeType;
 
-  // var uploadStorage = multer.diskStorage({
-  //     destination: function (req, file, cb) {
-  //         cb(null, 'uploads');
-  //     },
-  //     filename: function (req, file, cb) {
-  //         imageName = file.originalname;
-  //         //imageName += "_randomstring"
-  //         cb(null, imageName);
-  //     }
-  // });
-
   const storage = new GridFsStorage({
     url: "mongodb+srv://abhi:QMovVAA2N2q3QdOE@cluster0.whvld.mongodb.net/?retryWrites=true&w=majority",
     file: (req, file) => {
@@ -54,25 +43,6 @@ export const middleware=(req, res, next)=> {
   });
 }
 
-
-// export const upload=async(request,response)=>{
-//   try{
-//     if (!request.file) {
-//       return response.json({
-//         success: false,
-//         message: "You must provide at least 1 file"
-//       });
-//     } else {
-      
-      
-//       // saving the object into the database
-//       request.image=imageUploadObject;
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json("Server Error");
-//   }
-// }
 
 export const addProduct = async (request, response) => {
   try {
@@ -123,24 +93,25 @@ export const getUserInfofromId = async (request, response) => {
 export const getOrders = async (request, response) => {
   try{
     if (request.params.id !== "undefined") {
-      const orders = await User.find(
+      const result = await User.findOne(
         {
           _id: mongoose.Types.ObjectId(request.params.id),
         },
         {
           _id: 0,
           orders: 1,
+          fullName:1 
         }
       );
-      return response.status(200).json(...orders);
+      // console.log(result)
+      return response.status(200).json(result);
     } else {
       const orders = await User.find(
         {},
         {
           _id: 0,
           orders: 1,
-          firstname:1,
-          lastname:1
+          fullName:1  
         }
       );
       return response.status(200).json({orders});
