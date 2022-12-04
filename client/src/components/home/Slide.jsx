@@ -100,13 +100,13 @@ const Slide = ({ products ,title ,timer }) => {
                 itemClass="carousel-item-padding-40-px"
             >
                 {
-                    products && products.length>0 &&
+                    products && products?.length>0 &&
                      products.map(product => (
-                     <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id}>
+                     <Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product._id}>
                         <Box textAlign="center" style={{ padding: '25px 15px' }}>
-                            <Image src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} alt='product' />
+                            <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
                             <Text style={{ fontWeight: 600, color: '#212121' }}>{product.name}</Text>
-                            <Text style={{ color: 'green' }}>{product.discount}% off</Text>
+                            <Text style={{ color: 'green' }}>{product?.discount}% off</Text>
                             {/* <Text style={{ color: '#212121', opacity: '.6' }}>{product.tagline}</Text> */}
                         </Box>
                     </Link>
