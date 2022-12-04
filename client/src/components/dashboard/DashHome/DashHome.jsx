@@ -4,8 +4,8 @@ import Sidebar from '../sidebar/Sidebar'
 import Navbar from '../navbar/Navbar'
 import Widget from '../widget/Widget'
 import Featured from '../featured/Featured'
-import Chart from '../chart/Chart'
-import { List } from '@mui/material'
+
+import List from "../table/Table";
 import '../style/dark.scss'
 
 
@@ -23,11 +23,11 @@ const DashHome = () => {
         </div>
         <div className="charts">
           <Featured />
-          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
+          {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
         </div>
         <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
-          <List />
+        <h1 className="title">Last Transactions</h1>
+          <List/>
         </div>
       </div>
 
