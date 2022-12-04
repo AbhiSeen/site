@@ -109,6 +109,8 @@ const List = ({ userInfo }) => {
             <TableCell className="tableCell">Amount</TableCell>
             <TableCell className="tableCell">Payment Method</TableCell>
             <TableCell className="tableCell">Status</TableCell>
+            <TableCell className="tableCell">Referral Method</TableCell>
+            <TableCell className="tableCell">Referrals</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

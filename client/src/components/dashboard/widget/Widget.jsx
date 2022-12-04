@@ -6,6 +6,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import {  useLayoutEffect, useState } from "react";
 import { getOrders ,getUsersList} from "../../service/api";
+import { Link } from "react-router-dom";
 
 const Widget = ({ type }) => {
   let data;
@@ -43,7 +44,8 @@ const Widget = ({ type }) => {
       data = {
         title: "USERS",
         isMoney: false,
-        link: "See all users",
+        // link: "See all users",
+        link: (<Link to="/dashboard/users">See all users</Link>),
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -60,7 +62,8 @@ const Widget = ({ type }) => {
       data = {
         title: "ORDERS",
         isMoney: false,
-        link: "View all orders",
+        // link: "View all orders",
+        link: (<Link to="/dashboard/orders">View all orders</Link>),
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"

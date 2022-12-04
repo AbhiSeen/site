@@ -30,8 +30,6 @@ const DashHome = () => {
           <List/>
         </div>
       </div>
-
-
     </div>
   )
 }
