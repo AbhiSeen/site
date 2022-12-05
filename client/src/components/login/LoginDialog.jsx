@@ -11,22 +11,27 @@ import {
 } from "@mui/material";
 import { authenticateLogin, authenticateSignup } from "../service/api.js";
 import { DataContext } from "../../context/DataProvider";
-import loginImg from "../images/loginImg.png";
+import loginImg from "../images/LoginImg3.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CloseRounded } from "@mui/icons-material";
+import "./Login.css";
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+
 
 const Component = styled(DialogContent)`
-  height: 70vh;
-  width: 90vh;
+  height: 88vh;
+  width: 105vh;
   padding: 0;
   padding-top: 0;
 `;
 const Image = styled(Box)`
-  background: #ffcd4f;
+background: rgb(151,191,255);
+background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(57,35,212,1) 100%);
+//   background: #ffcd4f;
   // background-image:url('../images/loginImg.png');
-  width: 25%;
-  height: 80%;
+  width: 45%;
+  height: 83%;
   margin-top: 13px;
   padding: 45px 35px;
   & > p,
@@ -85,7 +90,7 @@ const Error = styled(Typography)`
   font-weight: 500;
 `;
 const loginStyle = {
-  width: "135%",
+  width: "115%",
   height: "55%",
   marginLeft: "-2rem",
   marginTop: "5rem",
@@ -137,6 +142,7 @@ const LoginDialog = ({ open, setOpen }) => {
   const { setAccount } = useContext(DataContext);
   const [disabled, setDisabled] = useState({});
   const navigate = useNavigate();
+  const [useraccount, setUserAccount]= useState({});
 
   const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -189,8 +195,18 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   const signupUser = async () => {
+    console.log(signup);
     setDisabled({ ...disabled, signUp: true });
     let response = await authenticateSignup(signup);
+    console.log({response});
+    setUserAccount(response?.data?.message);
+    if(response?.data?.message == "successfully signed up")
+    {
+        setOpen(false);
+    toggleAccount(accountInitialValues.login);
+    setError(false);
+    }
+    console.log(useraccount,'useraccount');
     if (!response) return;
     setDisabled({ ...disabled, signUp: false });
   };
@@ -204,7 +220,7 @@ const LoginDialog = ({ open, setOpen }) => {
     >
       <div className="closeBox">
         <button className="cancelBtn" onClick={handleClose}>
-          <CloseRounded onClose={handleClose} className="closeIcon" />
+          <CloseRounded onClick={handleClose} className="closeIcon" />
         </button>
       </div>
       <Component className="loginCard">
@@ -226,7 +242,6 @@ const LoginDialog = ({ open, setOpen }) => {
                 name="email"
                 label="Enter Your Email"
               />
-              {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='email' label="Enter Your Email" /> */}
               {error && <Error>Please enter valid Email</Error>}
               <ValidationTextField
                 variant="outlined"
@@ -234,25 +249,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Your Password"
-                // id="outlined-adornment-password"
-                // type={values.showPassword ? 'text' : 'password'}
-                // value={values.password}
-                // onChange={handleChange('password')}
-                // endAdornment={
-                //   <InputAdornment position="end">
-                //     <IconButton
-                //       aria-label="toggle password visibility"
-                //       onClick={handleClickShowPassword}
-                //       onMouseDown={handleMouseDownPassword}
-                //       edge="end"
-                //     >
-                //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                //     </IconButton>
-                //   </InputAdornment>
-                // }
               />
-
-              {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label="Enter Your Password" /> */}
               <Text>
                 By continuing, you agree to AMFashion's Terms of Use and Privacy
                 Policy.
@@ -264,7 +261,6 @@ const LoginDialog = ({ open, setOpen }) => {
               >
                 Login
               </button>
-              {/* <LoginButton onClick={() => loginUser()} >Login</LoginButton> */}
               <Typography style={{ textAlign: "center" }}>OR</Typography>
               <button class="button-81" role="button">
                 Request OTP
@@ -311,7 +307,14 @@ const LoginDialog = ({ open, setOpen }) => {
               >
                 Explore Now
               </button>
-
+            {
+            useraccount == 'already exists' ? 
+               ( 
+                <div className="WarningMsg">
+                    <WarningRoundedIcon/>
+                    <p className="warningData">Account {useraccount} !</p>
+                </div>)
+            : null}
               <CreateAccount onClick={() => toggleLogin()}>
                 Already have a account ?{" "}
                 <span className="toggleBtn">Login</span>
@@ -325,46 +328,3 @@ const LoginDialog = ({ open, setOpen }) => {
 };
 
 export default LoginDialog;
-// </Dialog>
-
-//         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>
-
-//     <div className="loginContainer">
-//   <div className="loginDetails">
-//     <h1 className="loginHeader">Welcome to the family</h1>
-//     <h1 className="loginMsg">
-//       Login to explore the fashion
-//       {/* <FontAwesomeIcon icon={artstation} /> */}
-//     </h1>
-//     <div className="inputBox">
-//       <label className="userLabel">E-mail</label>
-//       <input
-//         type="email"
-//         placeholder="Enter your Email"
-//         className="userInput"
-//         name="email"
-//         value={user.email}
-//         onChange={handleChange}
-//       />
-//       <label className="userLabel">Password</label>
-//       <input
-//         type="password"
-//         placeholder="Enter your Password"
-//         className="userInput"
-//         name="password"
-//         value={user.password}
-//         onChange={handleChange}
-//       />
-//       <button className="loginBtn" onClick={handleSubmit}>Login</button>
-//     </div>
-//     <div className="lineBox">
-//     <div className="forgotBox"></div> Or
-//       <div className="forgotBox"></div>
-//     </div>
-//     <p className="forgot">
-//       Forgot Password ? <Link to="/" className="forgotSignup">Sign Up</Link>
-//     </p>
-//   </div>
-//   <LoginBg />
-// </div>
-//     </Dialog>
