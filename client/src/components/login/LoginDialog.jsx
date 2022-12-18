@@ -143,6 +143,7 @@ const LoginDialog = ({ open, setOpen }) => {
   const [disabled, setDisabled] = useState({});
   const navigate = useNavigate();
   const [useraccount, setUserAccount]= useState({});
+  const [loginError, setLoginError]= useState({});
 
   const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -178,6 +179,10 @@ const LoginDialog = ({ open, setOpen }) => {
     setDisabled({ ...disabled, login: true });
     const response = await authenticateLogin(login);
     const { authToken, fullName } = response.data;
+    console.log(response)
+    if(response?.data?.message == "Invalid username/password" || response?.data?.message == "user not found"){
+        setLoginError("Invalid Credentials");
+    }
     if (response.status === 200 && !fullName.includes("admin") && authToken) {
       localStorage.setItem("token", authToken);
       setTimeout(() => {
@@ -195,10 +200,10 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   const signupUser = async () => {
-    console.log(signup);
+    // console.log(signup);
     setDisabled({ ...disabled, signUp: true });
     let response = await authenticateSignup(signup);
-    console.log({response});
+    // console.log({response});
     setUserAccount(response?.data?.message);
     if(response?.data?.message == "successfully signed up")
     {
@@ -206,7 +211,7 @@ const LoginDialog = ({ open, setOpen }) => {
     toggleAccount(accountInitialValues.login);
     setError(false);
     }
-    console.log(useraccount,'useraccount');
+    // console.log(useraccount,'useraccount');
     if (!response) return;
     setDisabled({ ...disabled, signUp: false });
   };
@@ -254,6 +259,15 @@ const LoginDialog = ({ open, setOpen }) => {
                 By continuing, you agree to AMFashion's Terms of Use and Privacy
                 Policy.
               </Text>
+              {
+            loginError== 'Invalid Credentials' ? 
+            ( 
+            <div className="WarningMsg">
+                <WarningRoundedIcon/>
+                <p className="warningData">{loginError} !</p>
+            </div>
+            )
+            : null}
               <button
                 className="button-24"
                 role="button"
