@@ -8,8 +8,8 @@ export const authenticateLogin = async (data) => {
   try {
     return await axios.post(`${url}/login`, data);
   } catch (error) {
-    console.log("error while calling login API: ", error);
-    return error.response;
+    // console.log("error while calling login API: ");
+    return ;
   }
 };
 
@@ -17,7 +17,7 @@ export const authenticateSignup = async (data) => {
   try {
     return await axios.post(`${url}/signup`, data);
   } catch (error) {
-    console.log("error while calling Signup API: ", error);
+    return;
   }
 };
 
@@ -100,11 +100,11 @@ export const getProducts = async () => {
   if (response.status === 200) return response.data;
 };
 
-export const deleteProduct = async (productIds) => {
+export const deleteProduct = async (productId) => {
   axiosJWT.defaults.headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
-  const response = await axiosJWT.post(`${url}/deleteProduct/`, { productIds });
+  const response = await axiosJWT.delete(`${url}/deleteProduct/${productId}`);
   // console.log(response)
   if (response.status === 200) return true;
 };

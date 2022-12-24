@@ -11,6 +11,7 @@ const Datatable = () => {
   const [deleted,setDeleted]=useState(false);
 
   const handleDelete = async(id) => {
+    // console.log(id)
     const response=await deleteProduct(id);
     setDeleted((oldState)=>oldState=response);
   };

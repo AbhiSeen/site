@@ -43,19 +43,19 @@ const CartItem = ({ item, removeItemFromCart }) => {
     return (
         <Component>
             <LeftComponent>
-                <img src={item.url} alt="product" style={{ height: 110, width: 110 }} />
+                <img src={item.productImage? `data:${item.image.contentType};base64,${item.productImage}`:''} alt="product" style={{ height: 110, width: 110 }} />
                 <GroupButton />
             </LeftComponent>
             <Box style={{ margin: 20 }}>
-                <Typography>{addEllipsis(item.title.longTitle)}</Typography>
+                <Typography>{addEllipsis(item.name)}</Typography>
                 <SmallText>Seller:RetailNet
                 </SmallText>
                 <Typography style={{margin: '20px 0'}}>
-                    <Cost component="span" >₹{item.price.cost}</Cost>&nbsp;&nbsp;&nbsp;
-                    <MRP component="span" ><strike>₹{item.price.mrp}</strike></MRP>&nbsp;&nbsp;&nbsp;
-                    <Discount component="span">{item.price.discount} off</Discount>
+                    <Cost component="span" >₹{Math.round(item.mrp-(item.mrp*(item.discount/100)))}</Cost>&nbsp;&nbsp;&nbsp;
+                    <MRP component="span" ><strike>₹{item.mrp}</strike></MRP>&nbsp;&nbsp;&nbsp;
+                    <Discount component="span">{item.discount} %off</Discount>
                 </Typography>
-                <Remove onClick={() => removeItemFromCart(item.id)}>Remove</Remove>
+                <Remove onClick={() => removeItemFromCart(item._id)}>Remove</Remove>
             </Box>
         </Component>
     )

@@ -4,39 +4,12 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-import {  useLayoutEffect, useState } from "react";
-import { getOrders ,getUsersList} from "../../service/api";
 
-const Widget = ({ type }) => {
+
+const Widget = ({ type ,value}) => {
   let data;
-
-  const [number,setNumber] = useState({
-    numberofUsers:0,
-    numberofOrders:0,
-    earnings:0,
-  });
+  
   const diff = 20;
-
-
-  const getNumbers=async()=>{
-    setOrdersfromApi();
-    getUsers();
-  }
-
-  const setOrdersfromApi = async () => {
-      const {orders:ordersArray} = await getOrders(window.location.pathname.split("/")[3]);
-      const numberofOrders=ordersArray.reduce((prevVal,current)=>prevVal+=current.orders.length,0);
-      setNumber({...number,numberofOrders})
-  };
-
-  const getUsers=async()=>{
-    const response=await getUsersList();
-    setNumber({...number,numberofUsers:response.length});
-  }
-
-  useLayoutEffect(()=>{
-    getNumbers();
-  },[])
 
   switch (type) {
     case "user":
@@ -53,7 +26,7 @@ const Widget = ({ type }) => {
             }}
           />
         ),
-        amount:number.numberofUsers
+        amount:value
       };
       break;
     case "order":
@@ -70,7 +43,7 @@ const Widget = ({ type }) => {
             }}
           />
         ),
-        amount:number.numberofOrders
+        amount:value
       };
       break;
     case "earning":
@@ -84,7 +57,7 @@ const Widget = ({ type }) => {
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
         ),
-        amount:number.earnings
+        amount:value
       };
       break;
     case "balance":
