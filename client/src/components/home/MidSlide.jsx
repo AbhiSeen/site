@@ -7,7 +7,7 @@ const Component = styled(Box)`
 `
 
 const LeftComponent = styled(Box)(({ theme}) => ({
-    width: '83%',
+    width: '100%',
     [theme.breakpoints.down('md')]: {
         width: '100%'
     }
@@ -25,7 +25,7 @@ const RightComponent = styled(Box)(({ theme}) => ({
     }
 }));
 
-const MidSlide = ({ products, title,timer }) => {
+const MidSlide = ({ products, title }) => {
     const adURL = 'https://rukminim1.flixcart.com/flap/464/708/image/633789f7def60050.jpg?q=70';
 
     return (
@@ -33,13 +33,12 @@ const MidSlide = ({ products, title,timer }) => {
             <LeftComponent>
                 <Slide 
                     products={products} 
-                    title={title}
-                    timer={timer} 
+                    title={title} 
                 />
             </LeftComponent>
-            <RightComponent>
+            {/* <RightComponent>
                 <img src={adURL}  alt="none" style={{width: 217}}/>
-            </RightComponent>
+            </RightComponent> */}
         </Component>
     )
 }

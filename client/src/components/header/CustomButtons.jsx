@@ -11,6 +11,8 @@ import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { NavLink } from "react-router-dom";
 import Wallet from '../home/Wallet';
+import './Search.css';
+
 
 
 const Container = styled(Link)(({ theme }) => ({
@@ -45,16 +47,17 @@ const TypographyBtn = styled(Typography)(({ theme }) => ({
 
 }));
 const LoginButton = styled(Button)(({ theme }) => ({
-  color: '#2874f0',
-  background: '#FFFFFF',
+  color: '#fff',
+  background: '#3923d4',
   fontWeight: 600,
   borderRadius: 2,
   padding: '5px 40px',
   height: 32,
   boxShadow: 'none',
   [theme.breakpoints.down('sm')]: {
-    background: '#2874f0',
-    color: '#FFFFFF'
+    background: '#3923d4',
+    color: '#FFFFFF',
+    boxShadow: 'none',
   }
 }));
 
@@ -71,7 +74,8 @@ const CusttomButtons = () => {
     <Wrapper>
       {
         account ? <Profile account={account} setAccount={setAccount} /> :
-        <LoginButton variant='contained'  onClick={() => openDialog()}>Login</LoginButton>
+        <button className="loginBtn"  onClick={() => openDialog()}>Login</button>
+        // <LoginButton variant='contained' >Login</LoginButton>
       }
 
       <TypographyBtn style={{ marginTop: 3, marginLeft: 15 }}>
@@ -79,7 +83,7 @@ const CusttomButtons = () => {
           <AccountBalanceWalletIcon style={{marginRight:'4px'}}/>Wallet
         </NavLink>
       </TypographyBtn>
-      <Typography style={{ marginTop: 3 ,marginLeft: 25 }}>More</Typography>
+      {/* <Typography style={{ marginTop: 3 ,marginLeft: 25 }}>More</Typography> */}
       <Container to="/cart">
         <Badge badgeContent={cartItems?.length} color="secondary">
                     <LocalMallRoundedIcon />

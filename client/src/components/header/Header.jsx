@@ -20,6 +20,7 @@ const StyledHeader = styled(AppBar)`
 // background: linear-gradient(90deg, rgba(193,217,255,1) 0%, rgba(150,154,250,1) 56%, rgba(57,35,212,1) 100%);
 background: rgb(151,191,255);
 background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(181,200,254,1) 18%, rgba(150,154,250,1) 41%, rgba(57,35,212,1) 100%);
+box-shadow:none;
 `;
 const Component = styled(Link)`
     margin-left: 2%;

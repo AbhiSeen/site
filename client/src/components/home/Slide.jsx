@@ -4,6 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import { Button, Divider, Box, Typography, styled } from '@mui/material';
+import "./Wallet.css";
 
 const responsive = {
     desktop: {
@@ -22,13 +23,13 @@ const responsive = {
 
 
 const Component = styled(Box)`
-    margin-top: 10px;
+    margin-top: 20px;
     background: #FFFFFF;
 `;
 
 const Deal = styled(Box)`
     display: flex;    
-    padding: 15px 20px;
+    padding: 15px 0px;
 `
 
 const RenderTimer = styled(Box)(({ theme }) => ({
@@ -45,16 +46,18 @@ const Timer = styled(Box)`
 `;
 
 const DealText = styled(Typography)`
+    text-align:center;
     font-size: 22px;
     font-weight: 600;
     line-height: 32px;
-    margin-right: 25px;
+    width: 85%;
+    padding-left: 106px;
 `
 const ViewAllButton = styled(Button)`
-    margin-left: auto;
+    // margin-left: auto;
     background-color: #2874f0;
     border-radius: 2px;
-    font-size: 13px;
+    font-size: 12px;
 `;
 
 const Image = styled('img')({
@@ -67,7 +70,7 @@ const Text = styled(Typography)`
     font-size: 14px;
     margin-top: 5px
 `
-const Slide = ({ products ,title ,timer }) => {
+const Slide = ({ products ,title }) => {
     console.log(products);
     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
     const renderer = ({ hours, minutes, seconds }) => {
@@ -77,12 +80,12 @@ const Slide = ({ products ,title ,timer }) => {
         <Component>
             <Deal>
                 <DealText>{title}</DealText>
-                {
+                {/* {
                     timer && <Timer>
                                 <img src={timerURL} style={{ width: 24 }} alt='time clock' />
                                 <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
                         </Timer>
-                }
+                } */}
                 <ViewAllButton variant="contained" color="primary">View All</ViewAllButton>
             </Deal>
             <Divider />
@@ -102,15 +105,26 @@ const Slide = ({ products ,title ,timer }) => {
             >
                 {
                     products && products?.length>0 &&
-                     products.map(product => (
-                     <Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product?._id}>
-                        <Box textAlign="center" style={{ padding: '25px 15px' }}>
-                            <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
-                            <Text style={{ fontWeight: 600, color: '#212121' }}>{product?.name}</Text>
-                            <Text style={{ color: 'green' }}>{product?.discount}% off</Text>
-                            {/* <Text style={{ color: '#212121', opacity: '.6' }}>{product.tagline}</Text> */}
-                        </Box>
-                    </Link>
+                    products.map(product => (
+                        <Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product?._id}  div className="product-card">
+                            <div class="product-tumb">
+                                <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
+                            </div>
+                            <div class="product-details">
+                                <span class="product-catagory">Women,bag</span>
+                                <h4><a href="">{product?.name}</a></h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                                <div class="product-bottom-details">
+                                    <div class="product-price">
+                                        {/* <small>$96.00</small> */}
+                                        {product?.discount}% off</div>
+                                    <div class="product-links">
+                                        <a href=""><i class="fa fa-heart"></i></a>
+                                        <a href=""><i class="fa fa-shopping-cart"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
                     ))
                 }
 
@@ -120,3 +134,16 @@ const Slide = ({ products ,title ,timer }) => {
 }
 
 export default Slide
+
+{/*
+
+
+    <!-- 		<div class="badge">Hot</div> -->
+<Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product?._id}  className="listItemBox">
+<Box textAlign="center" style={{ padding: '50px' }}>
+    <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
+    <Text style={{ fontWeight: 600, color: '#212121' }}>{product?.name}</Text>
+    <Text style={{ color: 'green' }}>{product?.discount}% off</Text>
+    <Text style={{ color: '#212121', opacity: '.6' }}>{product.tagline}</Text>
+</Box>
+</Link> */}

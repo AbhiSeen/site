@@ -1,0 +1,27 @@
+.loginBtn {
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    font-weight: 700;
+    margin: 0 10px;
+    width: 100px;
+    padding: 10px 0;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+    transition: 0.4s;
+    color: rgb(104, 85, 224);
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(104, 85, 224, 1);
+    font-size: 15px !important;
+  }
+  
+
+  .loginBtn:hover {
+    /* color: white; */
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+    /* background: rgb(151,191,255);
+    background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(181,200,254,1) 18%, rgba(150,154,250,1) 41%, rgba(57,35,212,1) 100%); */
+
+    /* background-color: rgb(104, 85, 224); */
+    /* background-color: rgb(151,191,255); */
+  }
+  
