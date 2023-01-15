@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { authenticateLogin, authenticateSignup } from "../service/api.js";
 import { DataContext } from "../../context/DataProvider";
-import loginImg from "../images/LoginImg3.png";
+import loginImg from "../images/loginForm.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CloseRounded } from "@mui/icons-material";
@@ -20,18 +20,18 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 
 const Component = styled(DialogContent)`
-  height: 88vh;
-  width: 105vh;
+  height: 92vh;
+  width: 150vh;
   padding: 0;
   padding-top: 0;
 `;
 const Image = styled(Box)`
-background: rgb(151,191,255);
-background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(57,35,212,1) 100%);
+// background: rgb(151,191,255);
+// background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(57,35,212,1) 100%);
 //   background: #ffcd4f;
   // background-image:url('../images/loginImg.png');
-  width: 45%;
-  height: 83%;
+  width: 55%;
+  height: 100%;
   margin-top: 13px;
   padding: 45px 35px;
   & > p,
@@ -41,7 +41,13 @@ background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(57,35,212,1) 100
   }
 `;
 const Wrapper = styled(Box)`
-  padding: 25px 35px;
+border-radius: 10px;
+border-bottom: 10px solid #8686b7;
+border-top: 10px solid #8686b7;
+height: 77vh;
+margin: 50px 40px;
+padding: 25px 35px;
+background-color:white;
   display: flex;
   flex: 1;
   overflow: auto;
@@ -90,10 +96,12 @@ const Error = styled(Typography)`
   font-weight: 500;
 `;
 const loginStyle = {
-  width: "115%",
-  height: "55%",
-  marginLeft: "-2rem",
+  width: "48%",
+  height: "52%",
+//   marginLeft: "-2rem",
   marginTop: "5rem",
+    position: 'absolute',
+
 };
 const loginInitialValues = {
   email: "",
@@ -224,23 +232,24 @@ const LoginDialog = ({ open, setOpen }) => {
       onClose={handleClose}
       PaperProps={{ sx: { maxWidth: "unset" } }}
     >
-      <div className="closeBox">
+      {/* <div className="closeBox">
         <button className="cancelBtn" onClick={handleClose}>
           <CloseRounded onClick={handleClose} className="closeIcon" />
         </button>
-      </div>
+      </div> */}
       <Component className="loginCard">
-        <Box style={{ display: "flex", height: "100%" }}>
+        <Box style={{ display: "flex"  }}>
           <Image>
             {/* <LoginBg /> */}
-            <Typography variant="h5">{account.heading}</Typography>
-            <Typography style={{ marginTop: 20 }}>
+            <Typography variant="h5" style={{color:'#444d9b'}}>{account.heading}</Typography>
+            <Typography style={{ marginTop: 20 ,color:'#444d9b'}}>
               {account.subHeading}
             </Typography>
             <img src={loginImg} style={loginStyle} />
-          </Image>
+           </Image>
           {account.view === "login" ? (
             <Wrapper>
+                <div className="amFashion">AMFashion</div>
               <ValidationTextField
                 variant="outlined"
                 id="validation-outlined-input"
@@ -306,6 +315,7 @@ const LoginDialog = ({ open, setOpen }) => {
             </Wrapper>
           ) : (
             <Wrapper>
+                 <div className="amFashion">AMFashion</div>
               <ValidationTextField
                 variant="outlined"
                 id="validation-outlined-input"
@@ -355,6 +365,7 @@ const LoginDialog = ({ open, setOpen }) => {
               </CreateAccount>
             </Wrapper>
           )}
+         
         </Box>
       </Component>
     </Dialog>
