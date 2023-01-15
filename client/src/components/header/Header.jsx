@@ -8,21 +8,25 @@ import AmfashionLogoImg from "../images/AmfashionLogoImg.png"
 
 
 const StyledHeader = styled(AppBar)`
+    height: 70px;
     // background: #99abff;
     // background-image: linear-gradient( 180.3deg,  rgba(214,224,255,1) 37.2%, rgba(254,168,168,1) 137.3% );
     // background-image: linear-gradient( 110.6deg,  rgba(179,157,219,1) 7%, rgba(150,159,222,1) 47.7%, rgba(24,255,255,1) 100.6% );
     // background-image: radial-gradient( circle farthest-corner at 7.2% 13.6%,  rgba(37,249,245,1) 0%, rgba(8,70,218,1) 90% );
-    height: 70px;
-    //     background: rgb(206,225,255);
+    // background: rgb(206,225,255);
     // background: linear-gradient(90deg, rgba(206,225,255,1) 0%, rgba(255,168,180,1) 100%);
-        // background-image: linear-gradient( 109.6deg,  rgba(45,116,213,1) 11.2%, rgba(121,137,212,1) 91.2% );
-    //     background: rgb(193,217,255);
+    // background-image: linear-gradient( 109.6deg,  rgba(45,116,213,1) 11.2%, rgba(121,137,212,1) 91.2% );
+    // background: rgb(193,217,255);
     // background: linear-gradient(90deg, rgba(193,217,255,1) 0%, rgba(150,154,250,1) 56%, rgba(57,35,212,1) 100%);
-    background: rgb(151,191,255);
-    background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(181,200,254,1) 18%, rgba(150,154,250,1) 41%, rgba(57,35,212,1) 100%);
-    backdrop-filter: blur(0px) saturate(200%);
-    -webkit-backdrop-filter: blur(0px) saturate(200%);
+    // background: rgb(151,191,255);
+    // background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(181,200,254,1) 18%, rgba(150,154,250,1) 41%, rgba(57,35,212,1) 100%);
+    // backdrop-filter: blur(0px) saturate(200%);
+    // -webkit-backdrop-filter: blur(0px) saturate(200%);
     box-shadow:none;
+
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgb(255 255 255 / 75%);
 `;
 const Component = styled(Link)`
     margin-left: 2%;
@@ -34,7 +38,8 @@ const Component = styled(Link)`
 const MenuButton = styled(IconButton)(({ theme }) => ({
   display: 'none',
   [theme.breakpoints.down('md')]: {
-    display: 'block'
+    display: 'block',
+    color: '#7451f8',
   }
 }));
 
