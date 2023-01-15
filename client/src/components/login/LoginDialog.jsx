@@ -19,11 +19,25 @@ import "./Login.css";
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 
+const DialogBox = styled(Dialog)`
+ @media screen and (max-width: 800) {
+
+        margin:0 !important;
+  }
+`;
 const Component = styled(DialogContent)`
   height: 92vh;
   width: 150vh;
   padding: 0;
   padding-top: 0;
+    @media screen and (max-width :999px){
+    height: 100%;
+    width:100%;
+    margin: 22px 0 0 0px;
+    padding: 26px 10px;
+
+
+    }
 `;
 const Image = styled(Box)`
 // background: rgb(151,191,255);
@@ -31,13 +45,16 @@ const Image = styled(Box)`
 //   background: #ffcd4f;
   // background-image:url('../images/loginImg.png');
   width: 55%;
-  height: 100%;
+  height: 96%;
   margin-top: 13px;
   padding: 45px 35px;
   & > p,
   & > h5 {
     color: #ffffff;
     font-weight: 600;
+  }
+  @media screen and (max-width: 999px) {
+    display:none;
   }
 `;
 const Wrapper = styled(Box)`
@@ -48,14 +65,21 @@ height: 77vh;
 margin: 50px 40px;
 padding: 25px 35px;
 background-color:white;
-  display: flex;
-  flex: 1;
-  overflow: auto;
-  flex-direction: column;
-  & > div,
-  & > button,
-  & > p {
-    margin-top: 20px;
+display: flex;
+flex: 1;
+overflow: auto;
+flex-direction: column;
+& > div,
+& > button,
+& > p {
+margin-top: 20px;
+}
+  @media screen and (max-width :999px){
+    height: 100%;
+    margin: 22px 0 0 0px;
+    padding: 26px 10px;
+    
+
   }
 `;
 const LoginButton = styled(Button)`
@@ -226,10 +250,11 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   return (
-    <Dialog
+    <DialogBox
       open={open}
-      style={{ mergin: 0 }}
+      style={{ margin: '0px' }}
       onClose={handleClose}
+      className="dailogBox"
       PaperProps={{ sx: { maxWidth: "unset" } }}
     >
       {/* <div className="closeBox">
@@ -237,10 +262,8 @@ const LoginDialog = ({ open, setOpen }) => {
           <CloseRounded onClick={handleClose} className="closeIcon" />
         </button>
       </div> */}
-      <Component className="loginCard">
-        <Box style={{ display: "flex"  }}>
-          <Image>
-            {/* <LoginBg /> */}
+      <Component className="loginCard"> 
+          <Image> 
             <Typography variant="h5" style={{color:'#444d9b'}}>{account.heading}</Typography>
             <Typography style={{ marginTop: 20 ,color:'#444d9b'}}>
               {account.subHeading}
@@ -364,11 +387,9 @@ const LoginDialog = ({ open, setOpen }) => {
                 <span className="toggleBtn">Login</span>
               </CreateAccount>
             </Wrapper>
-          )}
-         
-        </Box>
+          )} 
       </Component>
-    </Dialog>
+    </DialogBox>
   );
 };
 

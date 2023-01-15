@@ -14,6 +14,7 @@
     width:67vw;
     height: 88vh;
     margin-top: -20px;
+    display: flex;
 /* background: rgb(149, 133, 255);
     background: linear-gradient(128deg, rgba(149, 133, 255, 1) 24%, rgba(246, 246, 246, 1) 24%); */
 
