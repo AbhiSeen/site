@@ -132,3 +132,18 @@ background: rgb(255, 239, 243);
     margin-top: 5px;
     padding-left: 5px;
   }
+
+
+.requestOtp{
+    background-color: #e0eef9;
+    padding: 10px;
+    border-radius: 4px;
+    color: #8a5fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.requestOtp:hover {
+    background-color: #8a5fff;
+    color: #e0eef9;  
+}

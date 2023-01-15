@@ -20,7 +20,12 @@ const Container = styled(Link)(({ theme }) => ({
   textDecoration:'none',
   color:'inherit',
   [theme.breakpoints.down('md')]: {
-    display: 'block'
+    display: 'flex',
+    flexDirection:'row',
+    fontSize:'16px',
+    padding: '0.7rem',
+    borderTop: '0.7px solid grey',
+    width:'100%',
   }
 }));
 
@@ -37,13 +42,26 @@ const Wrapper = styled(Box)(({ theme }) => ({
     }
   },
   [theme.breakpoints.down('sm')]: {
-    display: 'block'
+    display: 'flex',
+    flexDirection: 'column', 
+    height: '90vh',
+    padding: '1rem',
   }
 }));
 const TypographyBtn = styled(Typography)(({ theme }) => ({
   margin: '0 3% 0 auto',
   display: 'flex',
   justifyContent:'space-between',
+  marginTop: 3, marginLeft: 15 ,
+    [theme.breakpoints.down('md')]: {
+    padding: '0.7rem',
+    display: 'flex',
+    flexDirection:'row',
+    fontSize:'16px',
+    borderTop: '0.7px solid grey',
+    margin: '0',
+    width:'100%',
+    }
 
 }));
 const LoginButton = styled(Button)(({ theme }) => ({
@@ -78,17 +96,16 @@ const CusttomButtons = () => {
         // <LoginButton variant='contained' >Login</LoginButton>
       }
 
-      <TypographyBtn style={{ marginTop: 3, marginLeft: 15 }}>
-        <NavLink exact="true" to="/Wallet" className='navlink about-sec-money'> 
-          <AccountBalanceWalletIcon style={{marginRight:'4px'}}/>Wallet
+      <TypographyBtn style={{ color:'#6855e0'}}>
+        <NavLink exact="true" to="/Wallet" className='navlink about-sec-money fontColorStyle' style={{color:'#6855e0',fontWeight:600}}> 
+          <AccountBalanceWalletIcon style={{marginRight:'4px'}} className='fontColorStyle'/>Wallet
         </NavLink>
-      </TypographyBtn>
-      {/* <Typography style={{ marginTop: 3 ,marginLeft: 25 }}>More</Typography> */}
+      </TypographyBtn> 
       <Container to="/cart">
         <Badge badgeContent={cartItems?.length} color="secondary">
-                    <LocalMallRoundedIcon />
-                </Badge>
-         <Typography style={{ marginLeft: 10 }}>Cart</Typography>
+            <LocalMallRoundedIcon  className='fontColorStyle' style={{color:'#6855e0'}}/>
+        </Badge>
+        <Typography style={{ marginLeft: 4 ,color:'#6855e0',fontWeight:600 ,marginTop:4}} className='fontColorStyle'>Cart</Typography>
       </Container>
       <LoginDialog open={open} setOpen={setOpen}/>
     </Wrapper>

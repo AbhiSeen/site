@@ -328,7 +328,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 Login
               </button>
               <Typography style={{ textAlign: "center" }}>OR</Typography>
-              <button class="button-81" role="button">
+              <button className="requestOtp" role="button">
                 Request OTP
               </button>
               <CreateAccount onClick={() => toggleSignup()}>
