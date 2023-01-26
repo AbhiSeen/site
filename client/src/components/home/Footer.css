@@ -13,7 +13,7 @@
 */
 .footer-body {
   background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
-  padding: 0.5rem;
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: open sans;
@@ -32,10 +32,10 @@ ul{
  padding-inline-start: 0px;
 }
 .footerCon{
-    background: #282722;
+    background: rgb(57 54 78);
     /* border-radius: 15px; */
     box-shadow: #2f4374 0 10px 20px 5px;
-    padding: 5px 30px;
+    padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;

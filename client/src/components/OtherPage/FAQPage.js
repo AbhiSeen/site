@@ -1,22 +1,23 @@
 // import React from 'react'
-import './FAQPage.css'
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import Footer from '../home/Footer';
-
+import "./FAQPage.css";
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import Footer from "../home/Footer";
+import Header from "../header/Header";
 
 const FAQPage = () => {
   return (
     <>
-      <div className='faqPage'>
-        <h2 className='faqTitle'>FAQs</h2>
-        <div className='faq-underline'></div>
-        <div className='accordian'>
+      <Header />
+      <div className="faqPage">
+        <h2 className="faqTitle">FAQs</h2>
+        <div className="faq-underline"></div>
+        <div className="accordian">
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -27,8 +28,9 @@ const FAQPage = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography className="typography1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+                eget.
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -42,16 +44,17 @@ const FAQPage = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography className="typography1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+                eget.
               </Typography>
             </AccordionDetails>
           </Accordion>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default FAQPage
+export default FAQPage;

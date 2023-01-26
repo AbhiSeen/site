@@ -3,9 +3,10 @@
 .contactUsPage{
     display: flex;
     height: 100%;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
-    padding-top: 2rem;
+    padding-top: 6rem;
     padding-bottom: 2.8rem;
 }
 .contactUsImg {

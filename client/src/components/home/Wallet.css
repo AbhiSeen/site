@@ -1,6 +1,7 @@
 
 .ReferAndEarn{
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     display: flex;
     flex-direction: column;
     height: 95vh;
