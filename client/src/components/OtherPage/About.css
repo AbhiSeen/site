@@ -6,9 +6,10 @@
 .aboutUsPage{
     display: flex;
     height: 100%;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
-    padding-top: 2rem;
+    padding-top: 2.5rem;
 }
 .aboutUsfeatures{
     display: flex;
@@ -16,7 +17,8 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
     padding-top: 2rem;
     padding-bottom: 2.8rem;
@@ -36,10 +38,11 @@
 .aboutUstext{
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
-    width: 50%;
-    padding: 1.25rem;
-    margin-left: -8rem;
+    width: 100%;
+    padding: 2rem;
+    /* margin-left: -8rem; */
 }
 
 .uppercase {
@@ -54,7 +57,7 @@
     color: rgba(160,174,192,var(--text-opacity));
 }
 .about-underline{
-    width:62px;
+    width:17%;
     height: 2.3px;
     background-color: rgb(203, 172, 0);
 }
@@ -84,34 +87,34 @@
 .whatweDo-div .css-i4bv87-MuiSvgIcon-root {
     margin-top: -2px;
     margin-left: 7px;
-    color: #5a67d8 !important;
+    color: white !important;
     font-size: 4rem;
 }
 .sendBtn{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #ffd500 ;
     margin: 5px;
 }
 .sendBtn1{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #ff2121 ;
     margin: 5px;
 }
 .sendBtn2{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #442fff ;
     margin: 5px;
 }
 .sendBtn3{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #39ff28 ;
     margin: 5px;
 }
@@ -134,7 +137,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; 
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;  */
     padding:1.3rem;
     margin-top: 1rem;
     width: 35%;
@@ -160,9 +164,10 @@
 .aboutUsPage{
     display: flex;
     height: 100%;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
-    padding-top: 2rem;
+    padding-top: 2.5rem;
 }
 .aboutUsfeatures{
     display: flex;
@@ -170,7 +175,8 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
     padding-top: 2rem;
     padding-bottom: 2.8rem;
@@ -190,10 +196,11 @@
 .aboutUstext{
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
     padding: 1.25rem;
-    margin-left: -8rem;
+    /* margin-left: -8rem; */
 }
 
 .uppercase {
@@ -238,34 +245,34 @@
 .whatweDo-div .css-i4bv87-MuiSvgIcon-root {
     margin-top: -2px;
     margin-left: 7px;
-    color: #5a67d8 !important;
+    color: white !important;
     font-size: 4rem;
 }
 .sendBtn{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #ffd500 ;
     margin: 5px;
 }
 .sendBtn1{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #ff2121 ;
     margin: 5px;
 }
 .sendBtn2{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #442fff ;
     margin: 5px;
 }
 .sendBtn3{
     -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #39ff28 ;
     margin: 5px;
 }
@@ -313,9 +320,10 @@
         display: flex;
         flex-wrap: wrap;
         height: 100%;
-        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+        background-color: rgb(238, 238, 238);
+        /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
         width: 100%;
-        padding-top: 2rem;
+        padding-top: 3.7rem;
     }
     .aboutUsfeatures{
         display: flex;
@@ -323,7 +331,8 @@
         align-items: center;
         justify-content: center;
         height: 100%;
-        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+        background-color: rgb(238, 238, 238);
+        /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
         width: 100%;
         /* padding-top: 2rem;
         padding-bottom: 2.8rem; */
@@ -390,34 +399,34 @@
     .whatweDo-div .css-i4bv87-MuiSvgIcon-root {
         margin-top: -2px;
         margin-left: 7px;
-        color: #5a67d8 !important;
+        color: white !important;
         font-size: 4rem;
     }
     .sendBtn{
         -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-        padding: 1rem;
+        padding: 0.8rem;
         background-color: #ffd500 ;
         margin: 5px;
     }
     .sendBtn1{
         -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-        padding: 1rem;
+        padding: 0.8rem;
         background-color: #ff2121 ;
         margin: 5px;
     }
     .sendBtn2{
         -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-        padding: 1rem;
+        padding: 0.8rem;
         background-color: #442fff ;
         margin: 5px;
     }
     .sendBtn3{
         -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-        padding: 1rem;
+        padding: 0.8rem;
         background-color: #39ff28 ;
         margin: 5px;
     }
@@ -440,7 +449,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; 
+        background-color: rgb(238, 238, 238);
+        /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;  */
         padding:1.3rem;
         margin-top: 1rem;
         padding: 1rem;

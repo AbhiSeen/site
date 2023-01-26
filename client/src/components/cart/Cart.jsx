@@ -16,40 +16,20 @@ import axios from "axios";
 // import { payUsingPaytm } from '../../service/api';
 
 const Component = styled(Grid)(({ theme }) => ({
-  padding: "30px 135px",
-  display: "flex",
+    display: 'flex',
+    backgroundColor: 'rgb(238, 238, 238)',
+    padding: '5rem 5rem 0 5rem',
   [theme.breakpoints.down("md")]: {
     padding: "15px 0",
   },
 }));
 
-const LeftComponent = styled(Grid)(({ theme }) => ({
-  paddingRight: 15,
-  [theme.breakpoints.down("sm")]: {
-    marginBottom: 15,
-  },
-}));
+
 
 const HeaderComponent = styled(Box)`
-  padding: 15px 24px;
+  padding: 1rem;
 `;
 
-const BottomWrapper = styled(Box)`
-  padding: 16px 22px;
-  background: #fff;
-  box-shadow: 0 -2px 10px 0 rgb(0 0 0 / 10%);
-  border-top: 1px solid #f0f0f0;
-`;
-
-const StyledButton = styled(Button)`
-  display: flex;
-  margin-left: auto;
-  background: #fb641b;
-  color: #fff;
-  border-radius: 2px;
-  width: 250px;
-  height: 51px;
-`;
 
 const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
@@ -79,18 +59,6 @@ const Cart = () => {
   //     post(information);
   // }
 
-  const addProducts = async () => {
-    if(localStorage.getItem("token")){
-    const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp-(val.mrp*(val.discount/100)))};
-      return temp;
-    });
-    const response = await axios.post("http://localhost:8000/addProducts", {
-      products: products,
-    });
-    // console.log(products);
-  }
-  };
 
   return (
     <>
@@ -98,21 +66,19 @@ const Cart = () => {
       {cartItems.length ? (
         <>
           <Component container>
-            <LeftComponent item lg={9} md={9} sm={12} xs={12}>
+            <div className="shadow bg-white rounded-md p-2 m-4 w-8/12">
               <HeaderComponent>
-                <Typography style={{ fontWeight: 600, fontSize: 18 }}>
-                  My Cart ({cartItems?.length})
+                <Typography style={{ fontWeight: 500, fontSize: 16 }}>
+                  My Cart
                 </Typography>
+                {console.log({cartItems})}
               </HeaderComponent>
               {cartItems.map((item) => (
+
                 <CartItem item={item} removeItemFromCart={removeItemFromCart} />
               ))}
-              <BottomWrapper>
-                <StyledButton variant="contained" onClick={() => addProducts()}>
-                  Place Order
-                </StyledButton>
-              </BottomWrapper>
-            </LeftComponent>
+              
+            </div>
             <Grid item lg={3} md={3} sm={12} xs={12}>
               <TotalView cartItems={cartItems} />
             </Grid>

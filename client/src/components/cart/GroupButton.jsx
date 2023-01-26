@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 import { ButtonGroup, Button, styled } from "@mui/material";
+import './groupbutton.css';
 
 const Component = styled(ButtonGroup)`
-    margin-top: 30px;
 `;
 
 const StyledButton = styled(Button)`
-    border-radius: 50%;
+
 `;
 
 const GroupButton = () => {
@@ -22,11 +22,11 @@ const GroupButton = () => {
     };
 
     return (
-        <Component>
-            <StyledButton onClick={() => handleDecrement()} disabled={counter == 0}>-</StyledButton>
-            <Button disabled>{counter}</Button>
-            <StyledButton onClick={() => handleIncrement()}>+</StyledButton>
-        </Component>
+    <div class="quantity">
+        <button href="#" class="quantity__minus"  onClick={() => handleDecrement()} disabled={counter == 0}><span>-</span></button>
+        <div name="quantity" type="text" class="quantity__input"  disabled>{counter}</div>
+        <button href="#" class="quantity__plus" onClick={() => handleIncrement()}><span>+</span></button>
+    </div>
     );
 }
 

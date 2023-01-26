@@ -2,7 +2,8 @@
     display: flex;
     height: auto;
     flex-direction: column;
-    background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed;
+    background-color: rgb(238, 238, 238);
+    /* background: linear-gradient(to bottom, #ededed, #b7c8ff) no-repeat fixed; */
     width: 100%;
     padding-top: 0.5rem;
     color: black;
@@ -16,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+margin-top: 4rem;
     flex-direction: column;
 }
 .ReturnPolicyImg{
@@ -176,6 +177,12 @@ a .rc-link {
     text-align: left;
 }
 
+.how-works{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .how-works .three-steps {
     width: 33.3333333%;
 }
@@ -204,6 +211,9 @@ a .rc-link {
 
 .newContent{
     padding: 0;
+}
+.howitworksImg{
+width: 80%;
 }
 
 @media screen and (max-width: 1031px) {

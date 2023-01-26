@@ -71,9 +71,9 @@ const ProductDetail = ({ product }) => {
     return (
         <div className='p-5 px-10 w-full'>
             <h1 className='text-3xl text-violet-800 capitalize text-left'>{product.name}</h1>
-            <p className='text-indigo-900 text-sm border-b-indigo-500 capitalize'>{product.description}</p>
             <div className='text-xl text-indigo-800 font-medium font-normal'><s>${product.mrp}</s> ${price}</div>
             <div className='text-base text-red-500 font-medium  '>You Save {product.discount} %</div>
+            <p className='text-indigo-900 text-sm border-b-indigo-500 capitalize'>{product.description}</p>
             <hr className='my-1'/>
             <div className='flex row my-4'>
                 <button className="button-24"

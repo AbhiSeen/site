@@ -3,12 +3,14 @@ import "./ContactPage.css";
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { NavLink } from "react-router-dom";
 import Footer from '../home/Footer';
+import Header from '../header/Header';
 
 
 
 const ContactPage = () => {
   return (
         <>
+        <Header/>
     <div className='contactUsPage'>	
         <svg className='contactUsImg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
             <g id="Image">
