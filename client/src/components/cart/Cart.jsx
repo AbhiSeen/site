@@ -17,13 +17,25 @@ import axios from "axios";
 
 const Component = styled(Grid)(({ theme }) => ({
     display: 'flex',
-    backgroundColor: 'rgb(238, 238, 238)',
-    padding: '5rem 5rem 0 5rem',
+    flexDirection:'row',
+    // backgroundColor: 'rgb(238, 238, 238)',
+    // height:'100%',
+    // padding: '5rem 5rem 0 5rem',
   [theme.breakpoints.down("md")]: {
     padding: "15px 0",
   },
 }));
 
+const CartComp= styled(Box)`
+    background-color: rgb(238, 238, 238);
+    display:flex;
+    flex-wrap: wrap;
+    padding: 6rem 8rem;
+    justify-content: center;
+    @media screen and (max-width: 850px) {
+         padding: 5rem 0;
+    }
+`;
 
 
 const HeaderComponent = styled(Box)`
@@ -64,9 +76,9 @@ const Cart = () => {
     <>
       <Header />
       {cartItems.length ? (
-        <>
-          <Component container>
-            <div className="shadow bg-white rounded-md p-2 m-4 w-8/12">
+        <CartComp className="h-screen">
+          {/* <Component container> */}
+            <div className="shadow bg-white rounded-md p-2 m-4 w-full lg:w-8/12 xl:w-8/12 h-min ">
               <HeaderComponent>
                 <Typography style={{ fontWeight: 500, fontSize: 16 }}>
                   My Cart
@@ -79,11 +91,11 @@ const Cart = () => {
               ))}
               
             </div>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
+          {/* </Component> */}
+            <div>
               <TotalView cartItems={cartItems} />
-            </Grid>
-          </Component>
-        </>
+            </div>
+        </CartComp>
       ) : (
         <EmptyCart />
       )}

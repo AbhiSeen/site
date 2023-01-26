@@ -37,6 +37,7 @@ const TotalAmount = styled(Typography)`
 const Discount = styled(Typography)`
     font-size: 16px; 
     color: green;
+    margin:10px
 `
 
 
@@ -50,11 +51,12 @@ const BottomWrapper = styled(Box)`
 const StyledButton = styled(Button)`
   display: flex;
   margin-left: auto;
-  background: #fb641b;
+  margin:0.5rem;
+  background: rgb(104, 85, 224);
   color: #fff;
   border-radius: 2px;
   width: 250px;
-  height: 51px;
+//   height: 51px;
 `;
 // component: {
 //     // width: '30%'
@@ -62,6 +64,7 @@ const StyledButton = styled(Button)`
 
 
 const TotalView = ({ cartItems }) => {
+    console.log({cartItems},'cart');
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0)
 
@@ -99,26 +102,26 @@ const TotalView = ({ cartItems }) => {
             <Header>
                 <Heading>PRICE DETAILS</Heading>
             </Header>
-            <Container>
+            <div className='shadow bg-white rounded-md p-4 mx-2'>
                 <Typography>Price ({cartItems?.length} item)
                     <Price component="span">₹{price}</Price>
                 </Typography>
-                <Typography>Discount
+                <div className='text-gray-600 text-sm my-2'>Discount
                     <Price component="span">-₹{discount}</Price>
-                </Typography>
-                <Typography>Delivery Charges
+                </div>
+                <div className='text-gray-600 text-sm my-2'>Delivery Charges
                     <Price component="span">₹40</Price>
-                </Typography>
+                </div>
                 <TotalAmount>Total Amount
                     <Price>₹{price - discount + 40}</Price>
                 </TotalAmount>
                 <Discount>You will save ₹{discount - 40} on this order</Discount>
-            </Container>
-            <BottomWrapper>
                 <StyledButton variant="contained" onClick={() => addProducts()}>
                   Place Order
                 </StyledButton>
-            </BottomWrapper>
+            </div>
+            {/* <BottomWrapper>
+            </BottomWrapper> */}
         </Box>
     )
 }
