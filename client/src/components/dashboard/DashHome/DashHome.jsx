@@ -5,7 +5,6 @@ import Navbar from '../navbar/Navbar'
 import Widget from '../widget/Widget'
 import Featured from '../featured/Featured'
 import Chart from '../chart/Chart'
-import { List } from '@mui/material'
 import '../style/dark.scss';
 import {  useEffect, useState } from "react";
 import { getOrders ,getUsersList} from "../../service/api";

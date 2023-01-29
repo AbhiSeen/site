@@ -212,17 +212,17 @@ const LoginDialog = ({ open, setOpen }) => {
     const response = await authenticateLogin(login);
     const { authToken, fullName } = response.data;
     console.log(response)
-    if(response?.data?.message == "Invalid username/password" || response?.data?.message == "user not found"){
+    if(response?.data?.message === "Invalid username/password" || response?.data?.message === "user not found"){
         setLoginError("Invalid Credentials");
     }
-    if (response.status === 200 && !fullName.includes("admin") && authToken) {
+    if (response.status === 200 && authToken) {
       localStorage.setItem("token", authToken);
-      if (response.status === 200 && !fullName.includes("admin")) {
+      if (!fullName.includes("admin")) {
         setTimeout(() => {
           setAccount(fullName.split(" ")[0]);
           handleClose();
         }, 1000);
-      } else if (fullName.includes("admin")) {
+      }else{
         setOpen(false);
         navigate("/dashboard");
       }
@@ -282,6 +282,7 @@ const LoginDialog = ({ open, setOpen }) => {
               />
               {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='email' label="Enter Your Email" /> */}
               <ValidationTextField
+                type="password"
                 variant="outlined"
                 id="validation-outlined-input"
                 onChange={(e) => onValueChange(e)}

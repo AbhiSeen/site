@@ -57,7 +57,7 @@ export const getProductById = async (request, response) => {
           if (product && product.image.data){
              const file=await UploadFiles.findOne({filename:product.image.data});
              if (!file || file.length === 0) {
-                    return res.status(404).json({
+                    return response.status(404).json({
                       err: "No file exists",
                     });
               }
