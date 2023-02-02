@@ -16,6 +16,7 @@ const List = ({ userInfo }) => {
       id: 1143155,
       transaction_ID: "232323747438",
       product: "Acer Nitro 5",
+      type:"Laptop",
       img: "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
@@ -29,6 +30,7 @@ const List = ({ userInfo }) => {
       id: 2235235,
       transaction_ID: "685858986589",
       product: "Playstation 5",
+      type:"Game",
       img: "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Michael Doe",
       date: "1 March",
@@ -42,6 +44,7 @@ const List = ({ userInfo }) => {
       id: 2342353,
       transaction_ID: "545167223974",
       product: "Redragon S101",
+      type:"Series",
       img: "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
@@ -55,6 +58,7 @@ const List = ({ userInfo }) => {
       id: 2357741,
       transaction_ID: "779456157969",
       product: "Razer Blade 15",
+      type:"Blade",
       img: "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Jane Smith",
       date: "1 March",
@@ -68,6 +72,7 @@ const List = ({ userInfo }) => {
       id: 2342355,
       transaction_ID: "752356596589",
       product: "ASUS ROG Strix",
+      type:"Phone",
       img: "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Harold Carol",
       date: "1 March",
@@ -103,6 +108,7 @@ const List = ({ userInfo }) => {
             <TableCell className="tableCell">Tracking ID</TableCell>
             <TableCell className="tableCell">Transaction ID</TableCell>
             <TableCell className="tableCell">Product</TableCell>
+            <TableCell className="tableCell">Type</TableCell>
             <TableCell className="tableCell">Customer</TableCell>
             <TableCell className="tableCell">Order Date</TableCell>
             <TableCell className="tableCell">Delivery Date</TableCell>
@@ -136,6 +142,7 @@ const List = ({ userInfo }) => {
                       </TableRow>
                     ))
                 }</TableCell>
+                <TableCell className="tableCell">{orders.type}</TableCell>
                 <TableCell className="tableCell">{orders.fullName}</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
                 <TableCell className="tableCell">09-10-2022</TableCell>
