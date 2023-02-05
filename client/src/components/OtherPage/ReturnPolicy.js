@@ -88,7 +88,10 @@ const ReturnPolicy = () => {
             </section>
           </div>
           <div className="powered-by" style={{ margin: "1rem" }}>
-            Powered by <a href="https://returnly.com/">AMFashion</a>
+            Powered by{" "}
+            <a href="#" style={{ color: "rgb(104, 85, 224)" }}>
+              AM Group of Companies
+            </a>
           </div>
         </div>
       </div>

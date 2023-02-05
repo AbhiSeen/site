@@ -37,7 +37,7 @@ const ActionItem = ({ product }) => {
   
 
   return (    
-    <div className='shadow-md bg-slate-100 rounded-md p-6 w-96  box-border flex justify-center flex-col items-center'>    
+    <div className='shadow-md bg-slate-50 rounded-md p-6 w-96  box-border flex justify-center flex-col items-center'>    
    
     <CarouselProvider 
         naturalSlideWidth={600}
