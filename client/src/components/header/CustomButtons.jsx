@@ -95,7 +95,7 @@ const CusttomButtons = () => {
 
     <Wrapper>
       {
-        account ? <Profile account={Userresponse} Userresponse={Userresponse} setAccount={setAccount} /> :
+        Userresponse ? <Profile account={Userresponse} Userresponse={Userresponse} setAccount={setAccount} /> :
         <button className="loginBtn"  onClick={() => openDialog()}>Login</button>
         // <LoginButton variant='contained' >Login</LoginButton>
       }
