@@ -287,7 +287,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <ValidationTextField
                 type="password"
                 variant="outlined"
-                id="validation-outlined-input"
+                id="validation-outlined-input-password"
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Your Password"

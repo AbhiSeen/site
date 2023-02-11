@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import CustomButtons from './CustomButtons';
 import Search from './Search';
 import { Menu } from '@mui/icons-material';
+
 import AmfashionLogoImg from "../images/AmfashionLogoImg.png"
+// import AmfashionLogoImg from "../images/NewLogo.jpeg"
 
 
 const StyledHeader = styled(AppBar)`

@@ -25,13 +25,20 @@ const Profile = ({ account, setAccount }) => {
 
     const handleClose = () => {
         setOpen(false);
+        //
     };
 
     const logoutUser = async() => {
+       
          const response=await logout(localStorage.getItem("token"));
+         console.log({response})
         if (response) {
             localStorage.clear();
-            setAccount('');
+            localStorage.removeItem("accountUser");
+            let newdata = localStorage.getItem("accountUser");
+            // setStore()
+            setAccount(newdata);
+            console.log({newdata})
             navigate("/")
         }
     }
@@ -44,7 +51,7 @@ const Profile = ({ account, setAccount }) => {
                 open={Boolean(open)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => { handleClose(); logoutUser();}}>
+                <MenuItem onClick={() => {  handleClose(); logoutUser();}}>
                     <PowerSettingsNew fontSize='small' color='primary'/> 
                     <Logout>Logout</Logout>
                 </MenuItem>

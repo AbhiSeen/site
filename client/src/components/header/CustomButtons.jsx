@@ -82,20 +82,21 @@ const LoginButton = styled(Button)(({ theme }) => ({
 const CusttomButtons = () => {
   const [open, setOpen] = useState(false);
   const {account , setAccount}  = useContext(DataContext);
+  const [storedata,setStore]=useState('');
    const Userresponse= (localStorage.getItem("accountUser"));
    
    console.log({Userresponse})
   const cartDetails = useSelector(state => state.cart);
   const { cartItems } = cartDetails;
-
+// setStore(Userresponse)
   const openDialog = () => {
-    setOpen(true);
+      setOpen(true);
 }
   return (
 
     <Wrapper>
       {
-        Userresponse ? <Profile account={Userresponse} Userresponse={Userresponse} setAccount={setAccount} /> :
+        Userresponse ? <Profile account={Userresponse} setAccount={setAccount} /> :
         <button className="loginBtn"  onClick={() => openDialog()}>Login</button>
         // <LoginButton variant='contained' >Login</LoginButton>
       }
