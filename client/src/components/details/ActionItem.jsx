@@ -63,8 +63,7 @@ const ActionItem = ({ product }) => {
         <span className="sr-only"></span>
         </Dot>
         </div>
-      </CarouselProvider>
-      {/* </Box> */}
+      </CarouselProvider> 
       </div>
   );
 };
