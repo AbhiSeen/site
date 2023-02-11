@@ -80,14 +80,16 @@ const Cart = () => {
   // }
 
   const addProducts = async () => {
+    if(localStorage.getItem("token")){
     const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.title.longTitle ,orderValue:val.price.cost};
+      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp-(val.mrp*(val.discount/100)))};
       return temp;
     });
     const response = await axios.post("http://localhost:8000/addProducts", {
       products: products,
     });
     // console.log(products);
+  }
   };
 
   return (

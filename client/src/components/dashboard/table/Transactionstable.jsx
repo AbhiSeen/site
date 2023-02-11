@@ -7,16 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { getOrders } from "../../service/api";
 
-const List = ({ userInfo }) => {
+const Transactionstable = () => {
   const rows = [
     {
       id: 1143155,
       transaction_ID: "232323747438",
       product: "Acer Nitro 5",
-      type:"Laptop",
       img: "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
@@ -30,7 +28,6 @@ const List = ({ userInfo }) => {
       id: 2235235,
       transaction_ID: "685858986589",
       product: "Playstation 5",
-      type:"Game",
       img: "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Michael Doe",
       date: "1 March",
@@ -44,7 +41,6 @@ const List = ({ userInfo }) => {
       id: 2342353,
       transaction_ID: "545167223974",
       product: "Redragon S101",
-      type:"Series",
       img: "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
@@ -58,7 +54,6 @@ const List = ({ userInfo }) => {
       id: 2357741,
       transaction_ID: "779456157969",
       product: "Razer Blade 15",
-      type:"Blade",
       img: "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Jane Smith",
       date: "1 March",
@@ -72,7 +67,6 @@ const List = ({ userInfo }) => {
       id: 2342355,
       transaction_ID: "752356596589",
       product: "ASUS ROG Strix",
-      type:"Phone",
       img: "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Harold Carol",
       date: "1 March",
@@ -108,94 +102,37 @@ const List = ({ userInfo }) => {
             <TableCell className="tableCell">Tracking ID</TableCell>
             <TableCell className="tableCell">Transaction ID</TableCell>
             <TableCell className="tableCell">Product</TableCell>
-            <TableCell className="tableCell">Type</TableCell>
             <TableCell className="tableCell">Customer</TableCell>
             <TableCell className="tableCell">Order Date</TableCell>
             <TableCell className="tableCell">Delivery Date</TableCell>
             <TableCell className="tableCell">Amount</TableCell>
             <TableCell className="tableCell">Payment Method</TableCell>
             <TableCell className="tableCell">Status</TableCell>
-            <TableCell className="tableCell">Referral Method</TableCell>
-            <TableCell className="tableCell">Referrals</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.length==1 &&
-            orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="tableCell">
-                  {
-                    order.products.map((product)=>(
-                      <TableRow>
-                        {product.trackingId}
-                        <hr/>
-                      </TableRow> 
-                    ))
-                }</TableCell>
-                <TableCell className="tableCell">{order.orderId}</TableCell>
-                <TableCell className="tableCell">
-                  {
-                    order.products.map((product)=>( 
-                      <TableRow>
-                        {product.name}
-                        <hr/>
-                      </TableRow>
-                    ))
-                }</TableCell>
-                <TableCell className="tableCell">{orders.type}</TableCell>
-                <TableCell className="tableCell">{orders.fullName}</TableCell>
-                <TableCell className="tableCell">09-10-2022</TableCell>
-                <TableCell className="tableCell">09-10-2022</TableCell>
-                <TableCell className="tableCell">
-                  {
-                    order.products.map((product)=>(
-                      <TableRow>
-                        {product.orderValue}
-                      </TableRow>
-                    ))
-                }</TableCell>
-                 <TableCell className="tableCell">COD</TableCell>
-                 <TableCell className="tableCell">
-                 {
-                    order.products.map((product)=>(
-                      <TableRow>
-                        {product.status}
-                      </TableRow>
-                    ))
-                }
-                 </TableCell>
-              </TableRow>
-            ))}
-          {orders.length>1 &&
+          {orders && orders.length>1 &&
             orders.map((nestedOrder) => (
               nestedOrder.orders.map((order,idx)=>(
-                <TableRow key={idx+1}>
+                <TableRow key={idx}>
+                <TableCell className="tableCell">{order.trackingId}</TableCell>
+                <TableCell className="tableCell">{order.orderId}</TableCell>
                 <TableCell className="tableCell">
                   {
                     order.products.map((product)=>(
                       <TableRow key={idx+2}>
-                        {product.trackingId}
+                        {product.name}
                         <hr/>
                       </TableRow> 
                     ))
-                }</TableCell>
-                <TableCell className="tableCell">{order.orderId}</TableCell>
-                <TableCell className="tableCell">
-                  {
-                    order.products.map((product)=>( 
-                      <TableRow key={idx+3}>
-                        {product.name}
-                        <hr/>
-                      </TableRow>
-                    ))
-                }</TableCell>
-                <TableCell className="tableCell">{nestedOrder.firstname+" "+nestedOrder.lastname}</TableCell>
-                <TableCell className="tableCell">09-10-2022</TableCell>
-                <TableCell className="tableCell">09-10-2022</TableCell>
+                }</TableCell>     
+                <TableCell className="tableCell">{nestedOrder.fullName}</TableCell>
+                <TableCell className="tableCell">{nestedOrder.orders[idx].orderDate.split("T")[0]}</TableCell>
+                <TableCell className="tableCell">{nestedOrder.orders[idx].deliveryDate?nestedOrder.orders[idx].deliveryDate.split("T")[0]: "Not applicable"}</TableCell>
                 <TableCell className="tableCell">
                   {
                     order.products.map((product)=>(
-                      <TableRow key={idx+4}>
+                      <TableRow key={product.productId}>
                         {product.orderValue}
                       </TableRow>
                     ))
@@ -204,8 +141,8 @@ const List = ({ userInfo }) => {
                  <TableCell className="tableCell">
                  {
                     order.products.map((product)=>(
-                      <TableRow key={idx+5}> 
-                        {product.status}
+                      <TableRow key={product.productId}> 
+                        {product.status || "Not delivered"}
                       </TableRow>
                     ))
                 }
@@ -219,4 +156,4 @@ const List = ({ userInfo }) => {
   );
 };
 
-export default List;
+export default Transactionstable;

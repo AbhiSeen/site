@@ -172,20 +172,21 @@ const LoginDialog = ({ open, setOpen }) => {
     setDisabled({ ...disabled, login: true });
     const response = await authenticateLogin(login);
     const { authToken, fullName } = response.data;
-    if (response.status === 200 && !fullName.includes("admin") && authToken) {
+    if(authToken && fullName){
       localStorage.setItem("token", authToken);
-      setTimeout(() => {
-        setAccount(fullName.split(" ")[0]);
-        handleClose();
-      }, 1000);
-    } else if (fullName.includes("admin") && authToken) {
-      localStorage.setItem("token", authToken);
-      setOpen(false);
-      navigate("/dashboard");
+      if (response.status === 200 && !fullName.includes("admin")) {
+        setTimeout(() => {
+          setAccount(fullName.split(" ")[0]);
+          handleClose();
+        }, 1000);
+      } else if (fullName.includes("admin")) {
+        setOpen(false);
+        navigate("/dashboard");
+      }
     } else {
-      setDisabled({ ...disabled, login: false });
       setError(true);
     }
+    setDisabled({ ...disabled, login: false });
   };
 
   const signupUser = async () => {
@@ -227,7 +228,6 @@ const LoginDialog = ({ open, setOpen }) => {
                 label="Enter Your Email"
               />
               {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='email' label="Enter Your Email" /> */}
-              {error && <Error>Please enter valid Email</Error>}
               <ValidationTextField
                 variant="outlined"
                 id="validation-outlined-input"
@@ -239,20 +239,21 @@ const LoginDialog = ({ open, setOpen }) => {
                 // value={values.password}
                 // onChange={handleChange('password')}
                 // endAdornment={
-                //   <InputAdornment position="end">
-                //     <IconButton
-                //       aria-label="toggle password visibility"
-                //       onClick={handleClickShowPassword}
-                //       onMouseDown={handleMouseDownPassword}
-                //       edge="end"
-                //     >
-                //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                //     </IconButton>
-                //   </InputAdornment>
-                // }
-              />
+                  //   <InputAdornment position="end">
+                  //     <IconButton
+                  //       aria-label="toggle password visibility"
+                  //       onClick={handleClickShowPassword}
+                  //       onMouseDown={handleMouseDownPassword}
+                  //       edge="end"
+                  //     >
+                  //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  //     </IconButton>
+                  //   </InputAdornment>
+                  // }
+                  />
 
               {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label="Enter Your Password" /> */}
+              {error && <Error>Please enter valid email/password</Error>}
               <Text>
                 By continuing, you agree to AMFashion's Terms of Use and Privacy
                 Policy.
@@ -261,7 +262,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 className="button-24"
                 role="button"
                 onClick={() => loginUser()}
-              >
+                >
                 Login
               </button>
               {/* <LoginButton onClick={() => loginUser()} >Login</LoginButton> */}

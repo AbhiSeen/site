@@ -2,7 +2,7 @@ import React from 'react'
 import "./OrderList.scss";
 import Sidebar from "../sidebar/Sidebar"
 import Navbar from "../navbar/Navbar"
-import List from "../table/Table";
+import Transactionstable from "../table/Transactionstable";
 
 function OrderList() {
   return (
@@ -12,7 +12,7 @@ function OrderList() {
         <Navbar />
         <div className="listContainer">
         <h1 className="title">List of Orders</h1>
-          <List/>
+        <Transactionstable />
         </div>
       </div>
     </div>

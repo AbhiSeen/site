@@ -206,10 +206,10 @@ export const userLogin = async (request, response) => {
       } else {
         return response
           .status(200)
-          .json({ message: "Invalid username/password" });
+          .json({ message: "No valid user found" });
       }
     } else {
-      return response.status(401).json({ message: "user not found" });
+      return response.status(401).json({ message: "Invalid username/password" });
     }
   } catch (error) {
     console.log("Error is: ", error);
@@ -349,7 +349,7 @@ export const addProductsfromUser = async (request, response) => {
       const authCode = request.headers.authorization.split(" ")[1];
       const { id } = jwt.decode(authCode);
       const orderedProducts = products.map((val) => {
-        return { ...val, status: "" };
+        return { ...val, status: "" ,productId:mongoose.Types.ObjectId(val.productId)};
       });
       // console.log(orderedProducts)
       const result = await User.findOneAndUpdate(
@@ -361,13 +361,16 @@ export const addProductsfromUser = async (request, response) => {
             orders: {
               //add orderDate and deliveryDate fields and trackingId
               orderId: new mongoose.Types.ObjectId(),
+              orderDate:new Date(),
+              deliveryDate:"",
+              trackingId:new mongoose.Types.ObjectId(),
               products: orderedProducts,
             },
           },
         },
         { new: true }
       );
-      console.log(result);
+      // console.log(result);
     }
     return response.status(200).json({ message: "ok" });
   } catch (err) {

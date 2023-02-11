@@ -2,10 +2,10 @@ import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import { useParams } from "react-router";
-import List from "../table/Table";
 import { getUserInfo } from "../../service/api";
 import { useEffect } from "react";
 import { useState } from "react";
+import UserTransactionsList from "../table/UserTransactionsList";
 
 const Single = () => {
   const {userId}=useParams();
@@ -58,7 +58,7 @@ const Single = () => {
         </div>
         <div className="bottom">
         <h1 className="title">Last Transactions</h1>
-          <List userInfo={userInfo}/>
+          <UserTransactionsList/>
         </div>
       </div>
     </div>
