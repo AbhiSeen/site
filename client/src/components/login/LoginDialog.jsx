@@ -212,7 +212,7 @@ const LoginDialog = ({ open, setOpen }) => {
     const response = await authenticateLogin(login);
     const { authToken, fullName } = response.data;
     console.log(response)
-    if(response?.data?.message === "Invalid username/password" || response?.data?.message === "user not found"){
+    if(response?.data?.message.includes("Invalid username/password")){
         setLoginError("Invalid Credentials");
     }
     if (response.status === 200 && authToken) {

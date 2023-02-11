@@ -1,11 +1,12 @@
 import Product from "../model/product-schema.js";
 import User from "../model/user-schema.js";
 import mongoose from "mongoose";
-import {GridFsStorage} from "multer-gridfs-storage";
-import multer from 'multer';
+import { GridFsStorage } from "multer-gridfs-storage";
+import multer from "multer";
 import crypto from "crypto";
+import {INTERNAL_SERVER_ERROR} from "../Constants/response.js";
 
-export const middleware=(req, res, next)=> {
+export const middleware = (req, res, next) => {
   var imageName, mimeType;
 
   const storage = new GridFsStorage({
@@ -25,7 +26,7 @@ export const middleware=(req, res, next)=> {
             bucketName: "uploads",
           };
           resolve(fileInfo);
-          console.log(fileInfo)
+          console.log(fileInfo);
         });
       });
     },
@@ -41,29 +42,28 @@ export const middleware=(req, res, next)=> {
     req.contentType = mimeType;
     next();
   });
-}
-
+};
 
 export const addProduct = async (request, response) => {
   try {
-    const productInfo=JSON.parse(request.body.productInfo);
+    const productInfo = JSON.parse(request.body.productInfo);
     // console.log(request.body.productInfo.image);
     if (request.body) {
-      const newProduct=new Product({
+      const newProduct = new Product({
         ...productInfo,
-        image:{
-          data:request.imageName,
-          contentType:request.contentType
-        } 
-      }) 
+        image: {
+          data: request.imageName,
+          contentType: request.contentType,
+        },
+      });
       newProduct.save();
       return response.status(200).json({ message: "product added" });
     }
-   } catch (err) {
+  } catch (err) {
     console.log(err);
     return response
       .status(500)
-      .json({ message: "some error occured.Please try again after some time" });
+      .json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -74,52 +74,55 @@ export const getUsers = async (request, response) => {
     return response.status(200).json(users);
   } catch (error) {
     console.log(error);
+    return response
+      .status(500)
+      .json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
-export const getUserInfofromId = async (request, response) => {
+export const getUserInfo = async (request, response) => {
   try {
     const userInfo = await User.findOne(
       { _id: mongoose.Types.ObjectId(request.params.id) },
-      { username: 1, email: 1, phone: 1, fullName:1 }
+      { username: 1, email: 1, phone: 1, fullName: 1 }
     );
     // console.log(users);
     return response.status(200).json(userInfo);
   } catch (error) {
     console.log(error);
+    return response
+      .status(500)
+      .json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const getOrders = async (request, response) => {
-  try{
-    if (request.params.id !== "undefined") {
+  try {
+    if (request.query["id"]) {
       const result = await User.findOne(
         {
-          _id: mongoose.Types.ObjectId(request.params.id),
+          _id: mongoose.Types.ObjectId(request.query["id"]),
         },
         {
           _id: 0,
           orders: 1,
-          fullName:1 
+          fullName: 1,
         }
       );
       // console.log(result)
       return response.status(200).json(result);
-    } else {
-      const orders = await User.find(
-        {},
-        {
-          _id: 0,
-          orders: 1,
-          fullName:1  
-        }
-      );
-      return response.status(200).json({orders});
     }
-  }catch(error){
+    const orders = await User.find(
+      {},
+      {
+        _id: 0,
+        orders: 1,
+        fullName: 1,
+      }
+    );
+    return response.status(200).json(orders);
+  } catch (error) {
     console.log(error);
-    return response.status(500).json({message:"Something went wrong.Please try again"})
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
-
-

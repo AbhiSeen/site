@@ -89,7 +89,9 @@ const Slide = ({ products ,title }) => {
                 <ViewAllButton variant="contained" color="primary">View All</ViewAllButton>
             </Deal>
             <Divider />
-            <Carousel
+            {
+                products && products.length>0 &&
+                <Carousel
                 swipeable={false}
                 draggable={false}
                 responsive={responsive}
@@ -103,32 +105,31 @@ const Slide = ({ products ,title }) => {
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
-                {
-                    products && products?.length>0 &&
-                    products.map(product => (
-                        <Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product?._id}  div className="product-card">
-                            <div class="product-tumb">
-                                <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
+                
+                    {products.map(product => (
+                        <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card">
+                            <div className="product-tumb">
+                                <Image src={product.productImage && `data:${product.image.contentType};base64,${product.productImage}`} alt='product' />
                             </div>
-                            <div class="product-details">
-                                <span class="product-catagory">Women,bag</span>
-                                <h4><a href="">{product?.name}</a></h4>
+                            <div className="product-details">
+                                <span className="product-catagory">Women,bag</span>
+                                <h4><a href="">{product.name}</a></h4>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-                                <div class="product-bottom-details">
-                                    <div class="product-price">
+                                <div className="product-bottom-details">
+                                    <div className="product-price">
                                         {/* <small>$96.00</small> */}
-                                        {product?.discount}% off</div>
-                                    <div class="product-links">
-                                        <a href=""><i class="fa fa-heart"></i></a>
-                                        <a href=""><i class="fa fa-shopping-cart"></i></a>
+                                        {product.discount}% off</div>
+                                    <div className="product-links">
+                                        <a href=""><i className="fa fa-heart"></i></a>
+                                        <a href=""><i className="fa fa-shopping-cart"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </Link>
-                    ))
-                }
+                    ))}
 
             </Carousel>
+        }
         </Component>
     )
 }

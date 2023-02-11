@@ -73,7 +73,12 @@ export const getOrders = async (id) => {
   axiosJWT.defaults.headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
-  const response = await axiosJWT.get(`${url}/getOrders/${id}`);
+  let response="";
+  if(id){
+    response = await axiosJWT.get(`${url}/getOrders?id=${id}`);
+  }else{
+    response = await axiosJWT.get(`${url}/getOrders`);
+  }
   // console.log(response)
   if (response.status === 200) return response.data;
 };

@@ -12,7 +12,7 @@ export const getProducts = () => async (dispatch) => {
 
 export const getProductDetails = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:8000/product/${id}`);
+    const { data } = await axios.get(`http://localhost:8000/getProducts?id=${id}`);
     dispatch({ type: actionType.GET_PRODUCT_DETAILS_REQUEST });
     // console.log(data);
 
