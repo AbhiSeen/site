@@ -103,41 +103,10 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Add New Product
-        <div className="search">
-         <input  type="text" name='name'   className="form-control"  placeholder='Search...' /> 
-         <SearchOutlinedIcon /> 
-        </div>
         <Link to="/dashboard/products/newpro" className="link">
           Add New
         </Link>
       </div>
-      {/* <div>
-      <table className="table">
-              <thead>
-                <tr>
-                  <th>Sr. No </th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  data.map( (columns, index)=>(
-                  <tr key={index}>
-                  <td>{columns._id} </td>
-                  <td>{columns.name}</td>
-                  <td>{columns.type}</td>
-                  <td>{columns.stock}</td>
-                  <td>{columns.price}</td>
-                  </tr>
-                   )) }  
-                    
-              </tbody> 
-            </table>
-      </div>  */}
-      
       <DataGrid
         rows={data}
         disableSelectionOnClick
