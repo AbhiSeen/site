@@ -95,7 +95,7 @@ const Footer = () => {
                     <a href="#">Help Center</a>
                 </p>
                 <p className="terms">
-                © 2007-2022 AMFashion.com
+                amfashio.com
                 </p>
         </div>
     </div>

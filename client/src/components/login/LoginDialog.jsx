@@ -216,9 +216,12 @@ const LoginDialog = ({ open, setOpen }) => {
         setLoginError("Invalid Credentials");
     }
     if (response.status === 200 && authToken) {
+        console.log({fullName})
       localStorage.setItem("token", authToken);
       if (!fullName.includes("admin")) {
         setTimeout(() => {
+
+   localStorage.setItem("accountUser", fullName.split(" ")[0]);
           setAccount(fullName.split(" ")[0]);
           handleClose();
         }, 1000);
@@ -284,7 +287,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <ValidationTextField
                 type="password"
                 variant="outlined"
-                id="validation-outlined-input"
+                id="validation-outlined-input-password"
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Your Password"

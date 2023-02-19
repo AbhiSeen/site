@@ -24,7 +24,7 @@ const responsive = {
 
 const Component = styled(Box)`
     margin-top: 20px;
-    background: #FFFFFF;
+    background: #f6f6f6;
 `;
 
 const Deal = styled(Box)`
@@ -52,17 +52,24 @@ const DealText = styled(Typography)`
     line-height: 32px;
     width: 85%;
     padding-left: 106px;
+    @media screen and (max-width: 850px) {
+        text-align:left;
+        padding-left: 10px;
+    }
 `
 const ViewAllButton = styled(Button)`
     // margin-left: auto;
-    background-color: #2874f0;
+    background-color: #8a5fff;
     border-radius: 2px;
     font-size: 12px;
+    @media screen and (max-width: 850px) {
+        width:100px
+    }
 `;
 
 const Image = styled('img')({
     width: 'auto',
-    height: 150
+    height: 200
 })
 
 
@@ -76,6 +83,7 @@ const Slide = ({ products ,title }) => {
     const renderer = ({ hours, minutes, seconds }) => {
         return <RenderTimer variant="span">{hours} : {minutes} : {seconds}  Left</RenderTimer>;
     };
+
     return (
         <Component>
             <Deal>
@@ -101,31 +109,27 @@ const Slide = ({ products ,title }) => {
                 autoPlaySpeed={10000}
                 keyBoardControl={true}
                 showDots={false}
+                style={{backgroundColor:'red'}}
                 containerClass="carousel-container"
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
                 
                     {products.map(product => (
-                        <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card">
-                            <div className="product-tumb">
-                                <Image src={product.productImage && `data:${product.image.contentType};base64,${product.productImage}`} alt='product' />
-                            </div>
-                            <div className="product-details">
-                                <span className="product-catagory">Women,bag</span>
-                                <h4><a href="">{product.name}</a></h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-                                <div className="product-bottom-details">
-                                    <div className="product-price">
-                                        {/* <small>$96.00</small> */}
-                                        {product.discount}% off</div>
-                                    <div className="product-links">
-                                        <a href=""><i className="fa fa-heart"></i></a>
-                                        <a href=""><i className="fa fa-shopping-cart"></i></a>
-                                    </div>
+                        <div className='shadow m-2   bg-white rounded-sm '>
+                        <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card ">
+                            <Image className='px-2' src={product.productImage && `data:${product.image.contentType};base64,${product.productImage}`} alt='product' />
+                            <div className="product-details bg-gray-100">
+                                <div className='productTitle  text-black capitalize'>{product.name}</div>
+                                <div className='text-left w-full font-light px-2 pb-2'>{product.description}</div>
+                                <div className="product-bottom-details px-2 py-1">
+                                    {/* <div style={{color:'#00265d' ,width:'100%', textDecoration: 'line-through'}}>${product.mrp}</div> */}
+                                    <div  className=" w-full text-left text-yellow-500">$ {(product.mrp-((product.mrp*product.discount)/100))}</div>
+                                    <div className="product-price w-full text-right">{product.discount}% off</div>
                                 </div>
                             </div>
                         </Link>
+                        </div>
                     ))}
 
             </Carousel>
@@ -135,16 +139,3 @@ const Slide = ({ products ,title }) => {
 }
 
 export default Slide
-
-{/*
-
-
-    <!-- 		<div class="badge">Hot</div> -->
-<Link to={`product/${product?._id}`} style={{textDecoration: 'none'}} key={product?._id}  className="listItemBox">
-<Box textAlign="center" style={{ padding: '50px' }}>
-    <Image src={product?.productImage? `data:${product?.image?.contentType};base64,${product?.productImage}`:''} alt='product' />
-    <Text style={{ fontWeight: 600, color: '#212121' }}>{product?.name}</Text>
-    <Text style={{ color: 'green' }}>{product?.discount}% off</Text>
-    <Text style={{ color: '#212121', opacity: '.6' }}>{product.tagline}</Text>
-</Box>
-</Link> */}

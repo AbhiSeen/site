@@ -15,17 +15,6 @@ import axios from "axios";
 // import { post } from '../../utils/paytm';
 // import { payUsingPaytm } from '../../service/api';
 
-const Component = styled(Grid)(({ theme }) => ({
-    display: 'flex',
-    flexDirection:'row',
-    // backgroundColor: 'rgb(238, 238, 238)',
-    // height:'100%',
-    // padding: '5rem 5rem 0 5rem',
-  [theme.breakpoints.down("md")]: {
-    padding: "15px 0",
-  },
-}));
-
 const CartComp= styled(Box)`
     background-color: rgb(238, 238, 238);
     display:flex;
@@ -36,8 +25,6 @@ const CartComp= styled(Box)`
          padding: 5rem 0;
     }
 `;
-
-
 const HeaderComponent = styled(Box)`
   padding: 1rem;
 `;
@@ -45,6 +32,7 @@ const HeaderComponent = styled(Box)`
 
 const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
+  console.log({cartDetails})
   const { cartItems } = cartDetails;
   const { id } = useParams();
   const dispatch = useDispatch();
