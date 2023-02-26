@@ -78,7 +78,6 @@ const Text = styled(Typography)`
     margin-top: 5px
 `
 const Slide = ({ products ,title }) => {
-    console.log(products);
     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
     const renderer = ({ hours, minutes, seconds }) => {
         return <RenderTimer variant="span">{hours} : {minutes} : {seconds}  Left</RenderTimer>;
@@ -116,7 +115,7 @@ const Slide = ({ products ,title }) => {
             >
                 
                     {products.map(product => (
-                        <div className='shadow m-2   bg-white rounded-sm '>
+                        <div className='shadow m-2   bg-white rounded-sm ' key={product._id}>
                         <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card ">
                             <Image className='px-2' src={product.productImage && `data:${product.image.contentType};base64,${product.productImage}`} alt='product' />
                             <div className="product-details bg-gray-100">

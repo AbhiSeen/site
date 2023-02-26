@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Header from "../header/Header";
-import { Box, Typography, Button, Grid, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
@@ -10,6 +10,7 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
 import Referral from "../Referral/Referral";
 import axios from "axios";
+import _ from "underscore";
 
 
 // import { post } from '../../utils/paytm';
@@ -32,7 +33,6 @@ const HeaderComponent = styled(Box)`
 
 const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
-  console.log({cartDetails})
   const { cartItems } = cartDetails;
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -42,9 +42,13 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    if (cartItems && id !== cartItems.id) dispatch(addToCart(id));
-    // console.log(cartItems);
-  }, [dispatch, cartItems, id]);
+    if (cartItems && id) dispatch(addToCart(id));
+  }, []);
+
+
+  setTimeout(()=>{
+    localStorage.setItem("cartItem",JSON.stringify(cartItems));
+  },1500)
 
   const removeItemFromCart = (id) => {
     dispatch(removeFromCart(id));
@@ -71,17 +75,14 @@ const Cart = () => {
                 <Typography style={{ fontWeight: 500, fontSize: 16 }}>
                   My Cart
                 </Typography>
-                {console.log({cartItems})}
               </HeaderComponent>
               {cartItems.map((item) => (
-
-                <CartItem item={item} removeItemFromCart={removeItemFromCart} />
-              ))}
-              
+                <CartItem key={item._id} item={item} removeItemFromCart={removeItemFromCart}/>
+              ))} 
             </div>
           {/* </Component> */}
             <div>
-              <TotalView cartItems={cartItems} />
+              <TotalView cartItems={cartItems}/>
             </div>
         </CartComp>
       ) : (

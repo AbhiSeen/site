@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { ButtonGroup, Button, styled } from "@mui/material";
 import './groupbutton.css';
+import { decreaseQuantity, increaseQuantity, incrementQuantity } from "../../redux/actions/cartActions";
+import { useDispatch } from "react-redux";
 
 const Component = styled(ButtonGroup)`
 `;
@@ -10,23 +12,23 @@ const StyledButton = styled(Button)`
 
 `;
 
-const GroupButton = () => {
-    const [ counter, setCounter ] = useState(1);
+const GroupButton = ({item}) => {
+    const dispatch=useDispatch();
 
     const handleIncrement = () => {
-        setCounter(counter => counter + 1 );
+        dispatch(increaseQuantity(item))
     };
 
     const handleDecrement = () => {
-        setCounter(counter => counter - 1 );
+        dispatch(decreaseQuantity(item))
     };
 
     return (
-    <div class="quantity">
-        <button href="#" class="quantity__minus"  onClick={() => handleDecrement()} disabled={counter == 0}><span>-</span></button>
-        <div name="quantity" type="text" class="quantity__input"  disabled>{counter}</div>
-        <button href="#" class="quantity__plus" onClick={() => handleIncrement()}><span>+</span></button>
-    </div>
+        <div className="quantity">
+            <button href="#" class="quantity__minus"  onClick={()=>handleDecrement()} disabled={item.quantity == 1}><span>-</span></button>
+            <div name="quantity" type="text" className="quantity__input"  disabled>{item.quantity}</div>
+            <button href="#" className="quantity__plus" onClick={()=>handleIncrement()}><span>+</span></button>
+        </div>
     );
 }
 

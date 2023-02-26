@@ -85,13 +85,17 @@ const CusttomButtons = () => {
   const [storedata,setStore]=useState('');
    const Userresponse= (localStorage.getItem("accountUser"));
    
-   console.log({Userresponse})
   const cartDetails = useSelector(state => state.cart);
   const { cartItems } = cartDetails;
+
+  const getQuantity=()=>{
+      return cartItems.reduce((prevVal,item)=>prevVal+=item.quantity,0);
+  }
+
 // setStore(Userresponse)
   const openDialog = () => {
       setOpen(true);
-}
+  }
   return (
 
     <Wrapper>
@@ -107,7 +111,7 @@ const CusttomButtons = () => {
         </NavLink>
       </TypographyBtn> 
       <Container to="/cart">
-        <Badge badgeContent={cartItems?.length} color="secondary">
+        <Badge badgeContent={cartItems?getQuantity():0} color="secondary">
             <LocalMallRoundedIcon  className='fontColorStyle' style={{color:'#6855e0'}}/>
         </Badge>
         <Typography style={{ marginLeft: 4 ,color:'#6855e0',fontWeight:600 ,marginTop:4}} className='fontColorStyle'>Cart</Typography>

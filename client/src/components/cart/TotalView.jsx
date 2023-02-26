@@ -63,10 +63,9 @@ const StyledButton = styled(Button)`
 // },
 
 
-const TotalView = ({ cartItems }) => {
-    console.log({cartItems},'cart');
+const TotalView = ({cartItems}) => {
     const [price, setPrice] = useState(0);
-    const [discount, setDiscount] = useState(0)
+    const [discount, setDiscount] = useState(0);
 
     useEffect(() => {
         totalAmount();
@@ -76,34 +75,39 @@ const TotalView = ({ cartItems }) => {
         let price = 0, discount = 0;
         // console.log(cartItems);
         cartItems.map(item => {
-            price+=(item.mrp*item.quantity);
-            discount+=(item.mrp*(item.discount/100))
+            price+=(Math.round(item.mrp*item.quantity));
+            discount+=item.mrp*item.quantity*(item.discount/100);
         })
         setPrice(price);
         setDiscount(discount);
     }
 
-
+    const getQuantity=()=>{
+        const quantity= cartItems.reduce((prevVal,item)=>prevVal+=item.quantity,0);
+        return quantity;
+    }
 
   const addProducts = async () => {
     if(localStorage.getItem("token")){
     const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp-(val.mrp*(val.discount/100)))};
+      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.quantity/100)))};
       return temp;
     });
     const response = await axios.post("http://localhost:8000/addProducts", {
       products: products,
     });
     // console.log(products);
-  }
-  };
+  }};
+  
+
+
     return (
         <Box>  {/* className={classes.component}> */}
             <Header>
                 <Heading>PRICE DETAILS</Heading>
             </Header>
             <div className='shadow bg-white rounded-md p-4 mx-2'>
-                <Typography>Price ({cartItems?.length} item)
+                <Typography>Price ({cartItems?getQuantity():0} item)
                     <Price component="span">₹{price}</Price>
                 </Typography>
                 <div className='text-gray-600 text-sm my-2'>Discount
@@ -113,7 +117,7 @@ const TotalView = ({ cartItems }) => {
                     <Price component="span">₹40</Price>
                 </div>
                 <TotalAmount>Total Amount
-                    <Price>₹{price - discount + 40}</Price>
+                    <Price>₹{price- discount + 40}</Price>
                 </TotalAmount>
                 <Discount>You will save ₹{discount - 40} on this order</Discount>
                 <StyledButton variant="contained" onClick={() => addProducts()}>

@@ -1,6 +1,4 @@
-import { Card, Box, Typography, Button, styled } from '@mui/material';
-
-import { addEllipsis } from '../utils/util';
+import { Box, Typography, Button, styled } from '@mui/material';
 import GroupButton from './GroupButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -49,9 +47,7 @@ const Remove = styled(Button)`
   }
 `;
 
-const CartItem = ({ item, removeItemFromCart }) => {
-
-    console.log(item,removeItemFromCart);
+const CartItem = ({ item, removeItemFromCart}) => {
     return (
         <Component>
             <LeftComponent>
@@ -62,12 +58,12 @@ const CartItem = ({ item, removeItemFromCart }) => {
                 <SmallText>Seller:RetailNet
                 </SmallText>
                 <Typography style={{margin: '10px 0'}}>
-                    <Cost component="span" >₹{Math.round(item.mrp-(item.mrp*(item.discount/100)))}</Cost>&nbsp;&nbsp;&nbsp;
-                    <MRP component="span" ><strike>₹{item.mrp}</strike></MRP>&nbsp;&nbsp;&nbsp;
+                    <Cost component="span" >₹{Math.round(item.mrp*item.quantity-(item.mrp*item.quantity*(item.discount/100)))}</Cost>&nbsp;&nbsp;&nbsp;
+                    <MRP component="span" ><strike>₹{item.mrp*item.quantity}</strike></MRP>&nbsp;&nbsp;&nbsp;
                     <Discount component="span">{item.discount} %off</Discount>
                 </Typography>
                 <div className='flex justify-between'>
-                <GroupButton />
+                <GroupButton item={item}/>
                 <Remove onClick={() => removeItemFromCart(item._id)}> <DeleteIcon style={{fontSize:'18px'}}/>Delete </Remove>
                 </div>
             </div>
