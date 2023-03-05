@@ -1,7 +1,7 @@
 
 import { Box, Button, Typography, styled,Badge } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
-import React, { useState ,useContext } from 'react';
+import React, { useState ,useContext, useEffect } from 'react';
 import LoginDialog from '../login/LoginDialog';
 import {DataContext} from '../../context/DataProvider';
 import Profile from './profile';
@@ -85,13 +85,13 @@ const CusttomButtons = () => {
   const [storedata,setStore]=useState('');
    const Userresponse= (localStorage.getItem("accountUser"));
    
-  const cartDetails = useSelector(state => state.cart);
-  const { cartItems } = cartDetails;
 
   const getQuantity=()=>{
-      return cartItems.reduce((prevVal,item)=>prevVal+=item.quantity,0);
+    if(localStorage.getItem("cartItem")){
+      return JSON.parse(localStorage.getItem("cartItem")).cartItems.reduce((prevVal,item)=>prevVal+=item.quantity,0);
+    }
   }
-
+  
 // setStore(Userresponse)
   const openDialog = () => {
       setOpen(true);
@@ -111,7 +111,7 @@ const CusttomButtons = () => {
         </NavLink>
       </TypographyBtn> 
       <Container to="/cart">
-        <Badge badgeContent={cartItems?getQuantity():0} color="secondary">
+        <Badge badgeContent={localStorage.getItem("cartItem") && JSON.parse(localStorage.getItem("cartItem")).cartItems?getQuantity():0} color="secondary">
             <LocalMallRoundedIcon  className='fontColorStyle' style={{color:'#6855e0'}}/>
         </Badge>
         <Typography style={{ marginLeft: 4 ,color:'#6855e0',fontWeight:600 ,marginTop:4}} className='fontColorStyle'>Cart</Typography>

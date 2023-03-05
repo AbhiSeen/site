@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../header/Header";
 import { Box, Typography, styled } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -36,19 +36,24 @@ const Cart = () => {
   const { cartItems } = cartDetails;
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [cart,setCart]=useState([]);
 
   axios.defaults.headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
 
-  useEffect(() => {
+  useEffect(()=>{
     if (cartItems && id) dispatch(addToCart(id));
-  }, []);
+  },[])
+
+  useEffect(()=>{
+    const data = window.localStorage.getItem('cartItem');
+    if ( data !== null && data!==undefined ) setCart(JSON.parse(data).cartItems);
+  },[cartItems])
 
 
-  setTimeout(()=>{
-    localStorage.setItem("cartItem",JSON.stringify(cartItems));
-  },1500)
+
+  
 
   const removeItemFromCart = (id) => {
     dispatch(removeFromCart(id));
@@ -67,7 +72,7 @@ const Cart = () => {
   return (
     <>
       <Header />
-      {cartItems.length ? (
+      {cart && cart.length>0 ? (
         <CartComp className="h-screen">
           {/* <Component container> */}
             <div className="shadow bg-white rounded-md p-2 m-4 w-full lg:w-8/12 xl:w-8/12 h-min ">
@@ -76,13 +81,13 @@ const Cart = () => {
                   My Cart
                 </Typography>
               </HeaderComponent>
-              {cartItems.map((item) => (
+              {cart.map((item)=>(
                 <CartItem key={item._id} item={item} removeItemFromCart={removeItemFromCart}/>
-              ))} 
+              ))}          
             </div>
           {/* </Component> */}
             <div>
-              <TotalView cartItems={cartItems}/>
+              <TotalView cartItems={cart}/>
             </div>
         </CartComp>
       ) : (

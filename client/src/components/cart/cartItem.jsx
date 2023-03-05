@@ -48,8 +48,8 @@ const Remove = styled(Button)`
 `;
 
 const CartItem = ({ item, removeItemFromCart}) => {
-    return (
-        <Component>
+    return ( 
+            <Component>
             <LeftComponent>
                 <img src={item.productImage? `data:${item.image.contentType};base64,${item.productImage}`:''} alt="product" style={{ height: 120, width: 95 }} />
             </LeftComponent>
@@ -67,7 +67,7 @@ const CartItem = ({ item, removeItemFromCart}) => {
                 <Remove onClick={() => removeItemFromCart(item._id)}> <DeleteIcon style={{fontSize:'18px'}}/>Delete </Remove>
                 </div>
             </div>
-        </Component>
+            </Component>
     )
 }
 

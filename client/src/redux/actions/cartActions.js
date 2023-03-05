@@ -6,7 +6,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
     const { data } = await axios.get(`http://localhost:8000/getProducts?id=${id}`);
     dispatch({ type: actionType.ADD_TO_CART, payload: { ...data, quantity } });
   } catch (error) {
-    console.log("Error while calling cart API");
+    console.log("Error while calling cart API",error);
   }
 };
 

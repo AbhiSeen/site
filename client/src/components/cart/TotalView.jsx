@@ -90,13 +90,14 @@ const TotalView = ({cartItems}) => {
   const addProducts = async () => {
     if(localStorage.getItem("token")){
     const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.quantity/100)))};
+      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.discount/100))),quantity:val.quantity};
       return temp;
     });
-    const response = await axios.post("http://localhost:8000/addProducts", {
+    const response = await axios.post("http://localhost:8000/addOrder", {
       products: products,
     });
-    // console.log(products);
+  }else{
+    alert("You are not logged in!");
   }};
   
 
@@ -119,7 +120,7 @@ const TotalView = ({cartItems}) => {
                 <TotalAmount>Total Amount
                     <Price>₹{price- discount + 40}</Price>
                 </TotalAmount>
-                <Discount>You will save ₹{discount - 40} on this order</Discount>
+                <Discount>You will save ₹{40-discount} on this order</Discount>
                 <StyledButton variant="contained" onClick={() => addProducts()}>
                   Place Order
                 </StyledButton>
