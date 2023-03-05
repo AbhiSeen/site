@@ -18,12 +18,10 @@ export const getProducts = async (request, response) => {
       const cache = await client.get(`${id}`);
       const product = await Product.findOne({ _id: mongoose.Types.ObjectId(id) });
       if (cache) {
-        console.log("Cache hit");
         const cachedProduct = JSON.parse(cache);
         if (product.name.includes(cachedProduct))
           return response.status(200).json(JSON.parse(cache));
         else {
-          console.log("Cache Miss");
           if (product && product.image.data) {
             let productImage = "";
             const file = await UploadFiles.findOne({ filename: product.image.data });
@@ -46,7 +44,6 @@ export const getProducts = async (request, response) => {
           }
         }
       } else {
-        console.log("Cache Miss");
         if (product && product.image.data) {
           let productImage = "";
           const file = await UploadFiles.findOne({ filename: product.image.data });
@@ -75,7 +72,6 @@ export const getProducts = async (request, response) => {
         const cachedProducts = JSON.parse(cache);
         const isCached = isinCache(dbproducts, cachedProducts);
         if (isCached) {
-          console.log("Cache hit");
           return response.status(200).json(cachedProducts);
         } else {
           if (dbproducts && dbproducts.length > 0) {
