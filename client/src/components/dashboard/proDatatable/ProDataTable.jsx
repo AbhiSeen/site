@@ -47,8 +47,8 @@ const Datatable = () => {
       },
     },
     {
-      field: "type",
-      headerName: "Type",
+      field: "Category",
+      headerName: "Category",
       width: 100,
       renderCell: (params) => {
         return <div className="rowitem">{params.row.type}</div>;

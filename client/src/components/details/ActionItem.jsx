@@ -8,7 +8,7 @@ import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,Dot } from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
+
 
 const ActionItem = ({ product }) => {
     const navigate = useNavigate();
