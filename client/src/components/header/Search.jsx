@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 
 
 const SearchContainer = styled(Box)`
-  border-radius: 2px;
+  border-radius: 25px;
   margin-left: 10px;
   width: 38%;
   background-color: #fff;
+  border: 1px solid rgb(104, 85, 224);
   display: flex;
 `;
 

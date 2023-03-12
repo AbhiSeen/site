@@ -25,26 +25,33 @@ const Profile = ({ account, setAccount }) => {
 
     const handleClose = () => {
         setOpen(false);
+        //
     };
 
     const logoutUser = async() => {
+       
          const response=await logout(localStorage.getItem("token"));
+         console.log({response})
         if (response) {
             localStorage.clear();
-            setAccount('');
+            localStorage.removeItem("accountUser");
+            let newdata = localStorage.getItem("accountUser");
+            // setStore()
+            setAccount(newdata);
+            console.log({newdata})
             navigate("/")
         }
     }
     
     return (
         <>
-            <Box onClick={handleClick}><Typography style={{ marginTop: 2 ,cursor :'pointer'}}>{account}</Typography></Box>
+            <Box onClick={handleClick}><Typography style={{ marginTop: 2 ,cursor :'pointer',color:'#6855e0',verticalAlign:'center'}}>{account}</Typography></Box>
             <Component
                 anchorEl={open}
                 open={Boolean(open)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => { handleClose(); logoutUser();}}>
+                <MenuItem onClick={() => {  handleClose(); logoutUser();}}>
                     <PowerSettingsNew fontSize='small' color='primary'/> 
                     <Logout>Logout</Logout>
                 </MenuItem>

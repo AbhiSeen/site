@@ -5,7 +5,6 @@ import Navbar from '../navbar/Navbar'
 import Widget from '../widget/Widget'
 import Featured from '../featured/Featured'
 import Chart from '../chart/Chart'
-import { List } from '@mui/material'
 import '../style/dark.scss';
 import {  useEffect, useState } from "react";
 import { getOrders ,getUsersList} from "../../service/api";
@@ -20,20 +19,24 @@ const DashHome = () => {
   });
 
   const getNumbers=async()=>{
-    const [firstResponse, secondResponse] = await Promise.all([
-      setOrdersfromApi(),
-      setUsersfromApi()
+    const [orders, users] = await Promise.all([
+      getOrdersfromDB(),
+      getUsersfromDB()
     ]);
-    setNumber({...number,numberofUsers:secondResponse,numberofOrders:firstResponse});
+    setNumber({...number,numberofUsers:users,numberofOrders:orders});
   }
 
-  const setOrdersfromApi = async () => {
-      const {orders:ordersArray} = await getOrders(window.location.pathname.split("/")[3]);
-      const numberofOrders=ordersArray.reduce((prevVal,current)=>prevVal+=current.orders.length,0);
+  const getOrdersfromDB = async () => {
+      const id=window.location.pathname.split("/")[3];
+      const {orders:ordersArray} = await getOrders(id);
+      let numberofOrders=0;
+      if(ordersArray){
+        numberofOrders=ordersArray.reduce((prevVal,current)=>prevVal+=current.orders.length,0);
+      }
       return numberofOrders;
   };
 
-  const setUsersfromApi=async()=>{
+  const getUsersfromDB=async()=>{
     const response=await getUsersList();
     return response.length
   }

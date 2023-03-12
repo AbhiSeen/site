@@ -18,7 +18,6 @@ background:#F2F2F2;
 
 const Home = () => {
   const { products } = useSelector(state => state.getProducts)
-  // console.log(products)
   useEffect(() => {
    getProducts()
   }, [products])
@@ -29,11 +28,11 @@ const Home = () => {
       <NavBar />
       <Component> 
         <Banner />
-        <MidSlide products={products}  title="Deal Of the day" timer={true}/>
-        <MideSection/>
-        <Slide products={products} title="Discounts for you" timer={false}/>
-        <Slide products={products} title="Suggest items" timer={false}/>
-        <Slide products={products} title="Top Deal's" timer={false}/>
+        <MidSlide products={products}  title="Men's Fashion"/>
+        {/* <MideSection/> */}
+        <Slide products={products} title="Men's Fashion" timer={false}/>
+        <Slide products={products} title="Kids Wear's" timer={false}/>
+        <Slide products={products} title="Home Decor" timer={false}/>
       </Component>
       <Footer/>
     </Fragment>

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../header/Header";
-import { Box, Typography, Button, Grid, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
@@ -10,61 +10,50 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
 import Referral from "../Referral/Referral";
 import axios from "axios";
+import _ from "underscore";
 
 
 // import { post } from '../../utils/paytm';
 // import { payUsingPaytm } from '../../service/api';
 
-const Component = styled(Grid)(({ theme }) => ({
-  padding: "30px 135px",
-  display: "flex",
-  [theme.breakpoints.down("md")]: {
-    padding: "15px 0",
-  },
-}));
-
-const LeftComponent = styled(Grid)(({ theme }) => ({
-  paddingRight: 15,
-  [theme.breakpoints.down("sm")]: {
-    marginBottom: 15,
-  },
-}));
-
+const CartComp= styled(Box)`
+    background-color: rgb(238, 238, 238);
+    display:flex;
+    flex-wrap: wrap;
+    padding: 6rem 8rem;
+    justify-content: center;
+    @media screen and (max-width: 850px) {
+         padding: 5rem 0;
+    }
+`;
 const HeaderComponent = styled(Box)`
-  padding: 15px 24px;
+  padding: 1rem;
 `;
 
-const BottomWrapper = styled(Box)`
-  padding: 16px 22px;
-  background: #fff;
-  box-shadow: 0 -2px 10px 0 rgb(0 0 0 / 10%);
-  border-top: 1px solid #f0f0f0;
-`;
-
-const StyledButton = styled(Button)`
-  display: flex;
-  margin-left: auto;
-  background: #fb641b;
-  color: #fff;
-  border-radius: 2px;
-  width: 250px;
-  height: 51px;
-`;
 
 const Cart = () => {
   const cartDetails = useSelector((state) => state.cart);
   const { cartItems } = cartDetails;
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [cart,setCart]=useState([]);
 
   axios.defaults.headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
 
-  useEffect(() => {
-    if (cartItems && id !== cartItems.id) dispatch(addToCart(id));
-    // console.log(cartItems);
-  }, [dispatch, cartItems, id]);
+  useEffect(()=>{
+    if (cartItems && id) dispatch(addToCart(id));
+  },[])
+
+  useEffect(()=>{
+    const data = window.localStorage.getItem('cartItem');
+    if ( data !== null && data!==undefined ) setCart(JSON.parse(data).cartItems);
+  },[cartItems])
+
+
+
+  
 
   const removeItemFromCart = (id) => {
     dispatch(removeFromCart(id));
@@ -79,45 +68,28 @@ const Cart = () => {
   //     post(information);
   // }
 
-  const addProducts = async () => {
-    if(localStorage.getItem("token")){
-    const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp-(val.mrp*(val.discount/100)))};
-      return temp;
-    });
-    const response = await axios.post("http://localhost:8000/addProducts", {
-      products: products,
-    });
-    // console.log(products);
-  }
-  };
 
   return (
     <>
       <Header />
-      {cartItems.length ? (
-        <>
-          <Component container>
-            <LeftComponent item lg={9} md={9} sm={12} xs={12}>
+      {cart && cart.length>0 ? (
+        <CartComp className="h-screen">
+          {/* <Component container> */}
+            <div className="shadow bg-white rounded-md p-2 m-4 w-full lg:w-8/12 xl:w-8/12 h-min ">
               <HeaderComponent>
-                <Typography style={{ fontWeight: 600, fontSize: 18 }}>
-                  My Cart ({cartItems?.length})
+                <Typography style={{ fontWeight: 500, fontSize: 16 }}>
+                  My Cart
                 </Typography>
               </HeaderComponent>
-              {cartItems.map((item) => (
-                <CartItem item={item} removeItemFromCart={removeItemFromCart} />
-              ))}
-              <BottomWrapper>
-                <StyledButton variant="contained" onClick={() => addProducts()}>
-                  Place Order
-                </StyledButton>
-              </BottomWrapper>
-            </LeftComponent>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <TotalView cartItems={cartItems} />
-            </Grid>
-          </Component>
-        </>
+              {cart.map((item)=>(
+                <CartItem key={item._id} item={item} removeItemFromCart={removeItemFromCart}/>
+              ))}          
+            </div>
+          {/* </Component> */}
+            <div>
+              <TotalView cartItems={cart}/>
+            </div>
+        </CartComp>
       ) : (
         <EmptyCart />
       )}

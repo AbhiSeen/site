@@ -7,33 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
-
-
-const LeftContainer = styled(Box)(({ theme }) => ({
-    minWidth: '40%',
-    // height:'100%',
-    padding: '5rem 0 0 25px',
-    [theme.breakpoints.down('lg')]: {
-        padding: '20px 40px'
-    }
-}))
-
-const Image = styled('img')({
-    padding: '15px',
-});
-
-const StyledButton = styled(Button)(({ theme }) => ({
-    width: '40%',
-    borderRadius: "2px",
-    height: "50px",
-    [theme.breakpoints.down('lg')]: {
-        width: '46%'
-    },
-    [theme.breakpoints.down('sm')]: {
-        width: '48%'
-    }
-   
-}));
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,Dot } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const ActionItem = ({ product }) => {
     const navigate = useNavigate();
@@ -61,55 +36,35 @@ const ActionItem = ({ product }) => {
     // onClick={() => buyNow()}
   
 
-  return (
-    <LeftContainer>
-      <Box
-        style={{
-          border: "1px solid #f0f0f0",
-          width: "90%",
-        }}
+  return (    
+    <div className='shadow-md bg-slate-50 rounded-md p-6 w-96  box-border flex justify-center flex-col items-center'>    
+   
+    <CarouselProvider 
+        naturalSlideWidth={600}
+        naturalSlideHeight={800}
+        totalSlides={3} className='divide-y-2'
       >
-        <Image src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="250px" style={{padding:"0px"}} alt="none" />
-        <br />
-      </Box>
-
-      <StyledButton
-        onClick={() => addItemToCart()}
-        style={{ marginRight: 10, background: "#ff9f00" }}
-        variant="contained"
-      >
-        <Cart />
-        Add to Cart
-      </StyledButton>
-      <StyledButton
-        style={{ background: "#fb641b" }}
-        variant="contained"
-        // onClick={() => addReferral()}
-      >
-        <Flash /> Buy Now
-      </StyledButton>
-      <StyledButton
-        style={{ background: "#ff9f00", marginTop: "1rem" }}
-        variant="contained"
-        // onClick={() => setLink(generateLink(userName.length, userName))}
-      >
-        <Share/>
-      </StyledButton>
-      <div>
-        <p>Here is your link</p>
-        <p
-          onClick={() => {
-            // navigator.clipboard.writeText(link).then(() => {
-            //   // Alert the user that the action took place.
-            //   // Nobody likes hidden stuff being done under the hood!
-            //   alert("Copied to clipboard");
-            // });
-          }}
-        >
-          {/* {link} */}
-        </p>
+        <Slider className=''>
+            <Slide index={0}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={1}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={2}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+        </Slider>
+        <div>
+        <Dot slide={0} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded p-1'>
+        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span className="sr-only"></span>
+        </Dot>
+        <Dot slide={1}  className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded  p-1'>
+        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span className="sr-only"></span>
+        </Dot>
+        <Dot slide={2} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded  p-1'>
+        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span className="sr-only"></span>
+        </Dot>
+        </div>
+      </CarouselProvider> 
       </div>
-    </LeftContainer>
   );
 };
 

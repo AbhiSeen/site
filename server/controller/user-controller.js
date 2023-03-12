@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import BlackList from "../model/blacklist-schema.js";
 import mongoose from "mongoose";
+import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
 
 dotenv.config();
 
@@ -64,25 +65,6 @@ const modifyUserInfo = async (id, token) => {
       },
       {
         new: true,
-      }
-    );
-    return true;
-  } catch (error) {
-    console.log("Error is:", error);
-    return false;
-  }
-};
-
-const deleteToken = async (id) => {
-  try {
-    await User.findOneAndUpdate(
-      {
-        _id: mongoose.Types.ObjectId(id),
-      },
-      {
-        $set: {
-          authToken: "",
-        },
       }
     );
     return true;
@@ -163,7 +145,7 @@ const getOrders = async (userIds) => {
 };
 
 
-export const userSignUp = async (request, response) => {
+export const signUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
       email: request.body.email,
@@ -179,11 +161,11 @@ export const userSignUp = async (request, response) => {
     return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
     console.log("Error is: ", error);
-    return response.status(500).json({ message: "some error occured" });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
   }
 };
 
-export const userLogin = async (request, response) => {
+export const login = async (request, response) => {
   try {
     const user = await User.findOne({
       email: request.body.email,
@@ -199,21 +181,17 @@ export const userLogin = async (request, response) => {
       const token = generateAccessToken(user);
       await modifyUserInfo(user._id, token);
       delete user._doc.password;
-      if (user.username !== "admin" && decryptedPassword) {
-        return response.status(200).json({ ...user._doc, authToken: token });
-      } else if (user.username === "admin") {
-        return response.status(200).json({ message: "ok", authToken: token });
-      } else {
-        return response
-          .status(200)
-          .json({ message: "No valid user found" });
+      if (decryptedPassword) {
+        return response.status(200).json({ message:"ok",...user._doc, authToken: token });
       }
-    } else {
-      return response.status(401).json({ message: "Invalid username/password" });
+    }else {
+      return response
+        .status(401)
+        .json({  message: "Invalid username/password"  });
     }
   } catch (error) {
     console.log("Error is: ", error);
-    return response.status(500).json({ error: "some error occured" });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -226,13 +204,13 @@ export const verifyToken = async (request, response, next) => {
         const { id,username } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
-          return response.status(200).json({
+          return response.status(401).json({
             message: "Token is not valid!",
           });
         } else {
           jwt.verify(token, process.env.JWT_SECRET, (err) => {
             if (err) {
-              return response.status(200).json({
+              return response.status(401).json({
                 message: "Token is not valid!",
               });
             } else {
@@ -244,12 +222,11 @@ export const verifyToken = async (request, response, next) => {
       }
     } catch (error) {
       console.log("Error is: ", error);
-      return response.status(500).json({
-        message: "cannot decode token",
-      });
+      return response.status(500).json({ error:INTERNAL_SERVER_ERROR});
     }
-  } else
+  } else{
     return response.status(401).json({ message: "You are not authenticated!" });
+  }
 };
 
 
@@ -272,7 +249,7 @@ export const addReferralLink = async (request, response) => {
     return response.status(200).json("referral added successfully")
   }catch(err){
     console.error(err);
-    return response.status(500).json("some error occured.Please try again after some time")
+    return response.status(500).json({error:INTERNAL_SERVER_ERROR})
   }
 };
 
@@ -297,11 +274,12 @@ export const addReferral = async (request, response) => {
     // console.log("in else case");
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: "some error occured" });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
   }
 };
 
 export const getEarnings = async (request, response) => {
+  try{
   const authCode = request.headers.authorization.split(" ")[1];
   const { id } = jwt.decode(authCode);
   const { referrals } = await getReferralsfromUserId(id);
@@ -323,6 +301,10 @@ export const getEarnings = async (request, response) => {
   } else {
     return response.status(200).json({ message: "No referrals found" });
   }
+}catch(err){
+  console.log(err);
+  return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
+}
 };
 
 export const getReferrals = async (request, response) => {
@@ -338,11 +320,11 @@ export const getReferrals = async (request, response) => {
     console.log(error);
     return response
       .status(500)
-      .json({ error: "some error occured.Please try again after some time" });
+      .json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
-export const addProductsfromUser = async (request, response) => {
+export const addOrder = async (request, response) => {
   try {
     const products = request.body.products;
     if (products) {
@@ -359,7 +341,7 @@ export const addProductsfromUser = async (request, response) => {
         {
           $push: {
             orders: {
-              //add orderDate and deliveryDate fields and trackingId
+              //add orderDate and deliveryDate fields and trackingId--DONE
               orderId: new mongoose.Types.ObjectId(),
               orderDate:new Date(),
               deliveryDate:"",
@@ -377,7 +359,7 @@ export const addProductsfromUser = async (request, response) => {
     console.log(err);
     return response
       .status(500)
-      .json({ message: "some error occured.Please try again after some time" });
+      .json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -388,13 +370,12 @@ export const logout = async (request, response) => {
       const id=request.user.id;
       const token=request.user.token;
       const currentToken = await findCurrentToken(id);
-      const tokenDeleted = await deleteToken(id); 
       if (token === currentToken) {
         expirySuccessful = await expireToken(id, currentToken);
       } else {
         expirySuccessful = await expireToken(id, token);
       }
-      if (expirySuccessful && tokenDeleted)
+      if (expirySuccessful)
           return response.status(200).json({ message: "Succesfully logged out!" });
     } else {
       return response
@@ -403,6 +384,6 @@ export const logout = async (request, response) => {
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ message: "Some error occured" });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };

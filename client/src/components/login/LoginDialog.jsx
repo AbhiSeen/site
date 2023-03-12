@@ -11,22 +11,41 @@ import {
 } from "@mui/material";
 import { authenticateLogin, authenticateSignup } from "../service/api.js";
 import { DataContext } from "../../context/DataProvider";
-import loginImg from "../images/loginImg.png";
+import loginImg from "../images/loginForm.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CloseRounded } from "@mui/icons-material";
+import "./Login.css";
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
+
+const DialogBox = styled(Dialog)`
+ @media screen and (max-width: 800) {
+
+        margin:0 !important;
+  }
+`;
 const Component = styled(DialogContent)`
-  height: 70vh;
-  width: 90vh;
+  height: 92vh;
+  width: 150vh;
   padding: 0;
   padding-top: 0;
+    @media screen and (max-width :999px){
+    height: 100%;
+    width:100%;
+    margin: 22px 0 0 0px;
+    padding: 26px 10px;
+
+
+    }
 `;
 const Image = styled(Box)`
-  background: #ffcd4f;
+// background: rgb(151,191,255);
+// background: linear-gradient(90deg, rgba(151,191,255,1) 0%, rgba(57,35,212,1) 100%);
+//   background: #ffcd4f;
   // background-image:url('../images/loginImg.png');
-  width: 25%;
-  height: 80%;
+  width: 55%;
+  height: 96%;
   margin-top: 13px;
   padding: 45px 35px;
   & > p,
@@ -34,17 +53,33 @@ const Image = styled(Box)`
     color: #ffffff;
     font-weight: 600;
   }
+  @media screen and (max-width: 999px) {
+    display:none;
+  }
 `;
 const Wrapper = styled(Box)`
-  padding: 25px 35px;
-  display: flex;
-  flex: 1;
-  overflow: auto;
-  flex-direction: column;
-  & > div,
-  & > button,
-  & > p {
-    margin-top: 20px;
+border-radius: 10px;
+border-bottom: 10px solid #8686b7;
+border-top: 10px solid #8686b7;
+height: 77vh;
+margin: 50px 40px;
+padding: 25px 35px;
+background-color:white;
+display: flex;
+flex: 1;
+overflow: auto;
+flex-direction: column;
+& > div,
+& > button,
+& > p {
+margin-top: 20px;
+}
+  @media screen and (max-width :999px){
+    height: 100%;
+    margin: 22px 0 0 0px;
+    padding: 26px 10px;
+    
+
   }
 `;
 const LoginButton = styled(Button)`
@@ -85,10 +120,12 @@ const Error = styled(Typography)`
   font-weight: 500;
 `;
 const loginStyle = {
-  width: "135%",
-  height: "55%",
-  marginLeft: "-2rem",
+  width: "48%",
+  height: "52%",
+//   marginLeft: "-2rem",
   marginTop: "5rem",
+    position: 'absolute',
+
 };
 const loginInitialValues = {
   email: "",
@@ -137,6 +174,8 @@ const LoginDialog = ({ open, setOpen }) => {
   const { setAccount } = useContext(DataContext);
   const [disabled, setDisabled] = useState({});
   const navigate = useNavigate();
+  const [useraccount, setUserAccount]= useState({});
+  const [loginError, setLoginError]= useState({});
 
   const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -172,14 +211,21 @@ const LoginDialog = ({ open, setOpen }) => {
     setDisabled({ ...disabled, login: true });
     const response = await authenticateLogin(login);
     const { authToken, fullName } = response.data;
-    if(authToken && fullName){
+    console.log(response)
+    if(response?.data?.message.includes("Invalid username/password")){
+        setLoginError("Invalid Credentials");
+    }
+    if (response.status === 200 && authToken) {
+        console.log({fullName})
       localStorage.setItem("token", authToken);
-      if (response.status === 200 && !fullName.includes("admin")) {
+      if (!fullName.includes("admin")) {
         setTimeout(() => {
+
+   localStorage.setItem("accountUser", fullName.split(" ")[0]);
           setAccount(fullName.split(" ")[0]);
           handleClose();
         }, 1000);
-      } else if (fullName.includes("admin")) {
+      }else{
         setOpen(false);
         navigate("/dashboard");
       }
@@ -190,36 +236,46 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   const signupUser = async () => {
+    // console.log(signup);
     setDisabled({ ...disabled, signUp: true });
     let response = await authenticateSignup(signup);
+    // console.log({response});
+    setUserAccount(response?.data?.message);
+    if(response?.data?.message == "successfully signed up")
+    {
+        setOpen(false);
+    toggleAccount(accountInitialValues.login);
+    setError(false);
+    }
+    // console.log(useraccount,'useraccount');
     if (!response) return;
     setDisabled({ ...disabled, signUp: false });
   };
 
   return (
-    <Dialog
+    <DialogBox
       open={open}
-      style={{ mergin: 0 }}
+      style={{ margin: '0px' }}
       onClose={handleClose}
+      className="dailogBox"
       PaperProps={{ sx: { maxWidth: "unset" } }}
     >
-      <div className="closeBox">
+      {/* <div className="closeBox">
         <button className="cancelBtn" onClick={handleClose}>
-          <CloseRounded onClose={handleClose} className="closeIcon" />
+          <CloseRounded onClick={handleClose} className="closeIcon" />
         </button>
-      </div>
-      <Component className="loginCard">
-        <Box style={{ display: "flex", height: "100%" }}>
-          <Image>
-            {/* <LoginBg /> */}
-            <Typography variant="h5">{account.heading}</Typography>
-            <Typography style={{ marginTop: 20 }}>
+      </div> */}
+      <Component className="loginCard"> 
+          <Image> 
+            <Typography variant="h5" style={{color:'#444d9b'}}>{account.heading}</Typography>
+            <Typography style={{ marginTop: 20 ,color:'#444d9b'}}>
               {account.subHeading}
             </Typography>
             <img src={loginImg} style={loginStyle} />
-          </Image>
+           </Image>
           {account.view === "login" ? (
             <Wrapper>
+                <div className="amFashion">AMFashion</div>
               <ValidationTextField
                 variant="outlined"
                 id="validation-outlined-input"
@@ -229,8 +285,9 @@ const LoginDialog = ({ open, setOpen }) => {
               />
               {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='email' label="Enter Your Email" /> */}
               <ValidationTextField
+                type="password"
                 variant="outlined"
-                id="validation-outlined-input"
+                id="validation-outlined-input-password"
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Your Password"
@@ -258,6 +315,15 @@ const LoginDialog = ({ open, setOpen }) => {
                 By continuing, you agree to AMFashion's Terms of Use and Privacy
                 Policy.
               </Text>
+              {
+            loginError== 'Invalid Credentials' ? 
+            ( 
+            <div className="WarningMsg">
+                <WarningRoundedIcon/>
+                <p className="warningData">{loginError} !</p>
+            </div>
+            )
+            : null}
               <button
                 className="button-24"
                 role="button"
@@ -265,18 +331,18 @@ const LoginDialog = ({ open, setOpen }) => {
                 >
                 Login
               </button>
-              {/* <LoginButton onClick={() => loginUser()} >Login</LoginButton> */}
               <Typography style={{ textAlign: "center" }}>OR</Typography>
-              <button class="button-81" role="button">
+              <button className="requestOtp" role="button">
                 Request OTP
               </button>
               <CreateAccount onClick={() => toggleSignup()}>
-                New to AMFashion's?{" "}
+                New to AMFashion's?
                 <span className="toggleBtn">Create an account</span>
               </CreateAccount>
             </Wrapper>
           ) : (
             <Wrapper>
+                 <div className="amFashion">AMFashion</div>
               <ValidationTextField
                 variant="outlined"
                 id="validation-outlined-input"
@@ -312,60 +378,23 @@ const LoginDialog = ({ open, setOpen }) => {
               >
                 Explore Now
               </button>
-
+            {
+            useraccount == 'already exists' ? 
+               ( 
+                <div className="WarningMsg">
+                    <WarningRoundedIcon/>
+                    <p className="warningData">Account {useraccount} !</p>
+                </div>)
+            : null}
               <CreateAccount onClick={() => toggleLogin()}>
-                Already have a account ?{" "}
+                Already have a account ?
                 <span className="toggleBtn">Login</span>
               </CreateAccount>
             </Wrapper>
-          )}
-        </Box>
+          )} 
       </Component>
-    </Dialog>
+    </DialogBox>
   );
 };
 
 export default LoginDialog;
-// </Dialog>
-
-//         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>
-
-//     <div className="loginContainer">
-//   <div className="loginDetails">
-//     <h1 className="loginHeader">Welcome to the family</h1>
-//     <h1 className="loginMsg">
-//       Login to explore the fashion
-//       {/* <FontAwesomeIcon icon={artstation} /> */}
-//     </h1>
-//     <div className="inputBox">
-//       <label className="userLabel">E-mail</label>
-//       <input
-//         type="email"
-//         placeholder="Enter your Email"
-//         className="userInput"
-//         name="email"
-//         value={user.email}
-//         onChange={handleChange}
-//       />
-//       <label className="userLabel">Password</label>
-//       <input
-//         type="password"
-//         placeholder="Enter your Password"
-//         className="userInput"
-//         name="password"
-//         value={user.password}
-//         onChange={handleChange}
-//       />
-//       <button className="loginBtn" onClick={handleSubmit}>Login</button>
-//     </div>
-//     <div className="lineBox">
-//     <div className="forgotBox"></div> Or
-//       <div className="forgotBox"></div>
-//     </div>
-//     <p className="forgot">
-//       Forgot Password ? <Link to="/" className="forgotSignup">Sign Up</Link>
-//     </p>
-//   </div>
-//   <LoginBg />
-// </div>
-//     </Dialog>
