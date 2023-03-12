@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 
 import { Box, Typography, Button, Grid, styled } from "@mui/material";
 
+import LoginDialog from '../login/LoginDialog';
+
 import axios from 'axios';
 
 const Header = styled(Box)`
@@ -66,6 +68,8 @@ const StyledButton = styled(Button)`
 const TotalView = ({cartItems}) => {
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
+    const [open,setOpen]=useState(false)
+
 
     useEffect(() => {
         totalAmount();
@@ -97,13 +101,13 @@ const TotalView = ({cartItems}) => {
       products: products,
     });
   }else{
-    alert("You are not logged in!");
+    setOpen(true);
   }};
   
 
 
     return (
-        <Box>  {/* className={classes.component}> */}
+            <Box>  {/* className={classes.component}> */}
             <Header>
                 <Heading>PRICE DETAILS</Heading>
             </Header>
@@ -125,6 +129,7 @@ const TotalView = ({cartItems}) => {
                   Place Order
                 </StyledButton>
             </div>
+            <LoginDialog open={open} setOpen={setOpen}/>
             {/* <BottomWrapper>
             </BottomWrapper> */}
         </Box>

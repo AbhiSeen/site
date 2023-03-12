@@ -197,18 +197,22 @@ export const login = async (request, response) => {
 
 export const verifyToken = async (request, response, next) => {
   const authHeader = request.headers.authorization;
-  if (authHeader) {
+  if (authHeader) { 
     try {
       const token = authHeader.split(" ")[1];
+      const date=new Date();
       if (token!=="null") {
-        const { id,username } = jwt.decode(token);
+        const { id,username,exp } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
+          if(Date.now() > new Date(exp*1000)){
+            await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:token}}});
+          }
           return response.status(401).json({
             message: "Token is not valid!",
           });
         } else {
-          jwt.verify(token, process.env.JWT_SECRET, (err) => {
+          jwt.verify(token, process.env.JWT_SECRET, (err) => { 
             if (err) {
               return response.status(401).json({
                 message: "Token is not valid!",
@@ -306,7 +310,7 @@ export const getEarnings = async (request, response) => {
   return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
 }
 };
-
+ 
 export const getReferrals = async (request, response) => {
   try {
     const authCode = request.headers.authorization.split(" ")[1];
@@ -384,6 +388,24 @@ export const logout = async (request, response) => {
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR } );
   }
 };
+
+export const clearBlackList=async()=>{
+  let expiredTokens=await BlackList.find({},{expiredTokens:1,_id:0});
+  if(expiredTokens){
+    expiredTokens.map((expiredToken)=>expiredToken.expiredTokens).flat(1).forEach(async(val)=>{
+      const {id,exp}=jwt.decode(val);
+      if(Date.now() > new Date(exp*1000)){
+        const {acknowledged}=await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:val}}});
+        if (acknowledged){
+          console.log(`deleted token`)
+        }
+      }
+    });
+  }else{
+    console.log("no expiredTokens found")
+  }
+}
+  
