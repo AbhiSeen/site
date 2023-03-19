@@ -11,11 +11,13 @@
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block; 
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800; 
   outline: 0;
-  padding: 1px 14px;
+  margin: 10px;
+  padding: 0.6rem 2rem;
   text-align: center;
+    width: 182px;
   text-rendering: geometricprecision;
   text-transform: none;
   user-select: none;
@@ -47,18 +49,33 @@
         display: flex;
         justify-content:center ;
         align-items: center; 
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600; 
-        margin: 0 10px;
+        margin:10px;
         padding: 0;
-        padding: 0px 10px;
+        padding: 0.6rem 0rem;
         text-align: center; 
         user-select: none;
         -webkit-user-select: none;
         touch-action: manipulation;
+        width: 182px;
   }
 
   .button-81:hover {
       background-color: #8a5fff;
       color: #fff;
   }
+  .detail-view{
+    display: flex;
+    padding-top: 6rem;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+ @media screen and (max-width: 801px) {
+
+    .detail-view {
+        flex-wrap: wrap;
+    padding-left: 0;
+        padding-right: 0;
+    }
+}
