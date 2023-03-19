@@ -10,6 +10,11 @@ import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,Dot } from 'pure-react-carousel';
 
 
+const productImg ={
+     width:"500px" ,
+     height:"350px",
+     padding:"0px",
+}
 const ActionItem = ({ product }) => {
     const navigate = useNavigate();
     const { _id :id} = product;
@@ -45,13 +50,15 @@ const ActionItem = ({ product }) => {
         totalSlides={3} className='divide-y-2'
       >
         <Slider className=''>
-            <Slide index={0}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={1}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={2}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={0}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} style={productImg}   alt="none" /></Slide>
+            <Slide index={1}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} style={productImg}   alt="none" /></Slide>
+            <Slide index={2}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} style={productImg}   alt="none" /></Slide>
         </Slider>
         <div>
         <Dot slide={0} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded p-1'>
-        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span aria-hidden="true"> <img 
+        src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} 
+        width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
         <span className="sr-only"></span>
         </Dot>
         <Dot slide={1}  className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded  p-1'>
