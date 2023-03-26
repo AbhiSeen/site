@@ -40,7 +40,7 @@ const DetailView = () => {
     useEffect(() => {
         if(product && id !== product._id)   
             dispatch(getProductDetails(id));
-    }, [ id]);
+    }, []);
   return (
     <div style={{backgroundColor:'rgb(238, 238, 238)'}} className='  box-border h-screen'>
         <Header/>

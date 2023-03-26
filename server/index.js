@@ -4,13 +4,11 @@ dotenv.config();
 import express from 'express';
 import {Connection} from './database/db.js';
 import Router from  './controller/main-controller..js'
-import cors from 'cors' 
-import bodyParser from "body-parser"
+import cors from 'cors';
 
 
 const app = express();
-app.use(bodyParser.json({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.json());
 app.use(cors());
 app.use('/', Router);
 

@@ -7,8 +7,8 @@ function ProtectedRoute({ children }) {
   if (token) {
     const user = jwt_decode(token);
     if(user.email.includes("admin")){
-      let current_time = Date.now().valueOf() / 1000;
-      if (current_time > user.exp) {
+      let current_time = Date.now();
+      if (current_time > user.exp*1000) {
         return <Navigate to="/" replace />;
       } else {
         return children;

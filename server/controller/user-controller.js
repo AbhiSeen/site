@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import BlackList from "../model/blacklist-schema.js";
 import mongoose from "mongoose";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
+import user from "../model/user-schema.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ const findCurrentToken = async (id) => {
 
 const expireToken = async (id, currentToken) => {
   try {
-    const createQuery = await BlackList.findOneAndUpdate(
+    await BlackList.findOneAndUpdate(
       {
         user_id: mongoose.Types.ObjectId(id),
       },
@@ -45,6 +46,7 @@ const expireToken = async (id, currentToken) => {
       },
       { upsert: true }
     );
+    await clearCurrentToken(id);
     return true;
   } catch (error) {
     console.log("Error is: ", error);
@@ -144,6 +146,23 @@ const getOrders = async (userIds) => {
   return orders;
 };
 
+
+const clearCurrentToken=async(id)=>{
+  try {
+    await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        $set: {
+          authToken: "",
+        },
+      }
+    );
+  } catch (error) {
+    console.log("Error is:", error);
+  }
+}
 
 export const signUp = async (request, response) => {
   try {
@@ -379,6 +398,7 @@ export const logout = async (request, response) => {
       } else {
         expirySuccessful = await expireToken(id, token);
       }
+      clearCurrentToken(id);
       if (expirySuccessful)
           return response.status(200).json({ message: "Succesfully logged out!" });
     } else {

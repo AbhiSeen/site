@@ -51,7 +51,7 @@ const CartItem = ({ item, removeItemFromCart}) => {
     return ( 
             <Component>
             <LeftComponent>
-                <img src={item.productImage? `data:${item.image.contentType};base64,${item.productImage}`:''} alt="product" style={{ height: 120, width: 95 }} />
+                <img src={item.image.url} alt="product" style={{ height: 120, width: 95 }} />
             </LeftComponent>
             <div className='m-4 w-9/12'>
                 <div className='text-black text-xl font-light'>{item.name}</div>

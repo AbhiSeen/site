@@ -44,22 +44,23 @@ const ActionItem = ({ product }) => {
         naturalSlideHeight={800}
         totalSlides={3} className='divide-y-2'
       >
+        {console.log(product)}
         <Slider className=''>
-            <Slide index={0}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={1}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={2}><img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={0}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={1}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={2}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
         </Slider>
         <div>
         <Dot slide={0} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded p-1'>
-        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span aria-hidden="true"> <img src={product.image.url} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
         <span className="sr-only"></span>
         </Dot>
         <Dot slide={1}  className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded  p-1'>
-        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span aria-hidden="true"> <img src={product.image.url} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
         <span className="sr-only"></span>
         </Dot>
         <Dot slide={2} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded  p-1'>
-        <span aria-hidden="true"> <img src={product.productImage? `data:${product.image.contentType};base64,${product.productImage}`:''} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
+        <span aria-hidden="true"> <img src={product.image.url} width="80px" height="80px" style={{padding:"0px"}}   alt="none" /></span>
         <span className="sr-only"></span>
         </Dot>
         </div>
