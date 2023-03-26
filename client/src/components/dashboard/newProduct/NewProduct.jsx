@@ -16,18 +16,11 @@ export default function NewProduct() {
     description: "",
     image: "",
   }
-  const [productInfo, setProductInfo] = useState({
-    name: "",
-    stock: "",
-    discount: "",
-    mrp: "",
-    description: "",
-    image: "",
-  });
+  const [productInfo, setProductInfo] = useState(defaultProductInfo);
   const formData = new FormData();
 
   const addNewProduct = () => {
-    formData.append("productInfo", JSON.stringify(productInfo));
+    formData.append("productInfo",JSON.stringify(productInfo));
     formData.append("image",image.current)
     const response = addProducts(formData);
     setProductInfo(defaultProductInfo);
