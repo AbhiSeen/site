@@ -36,8 +36,8 @@ const NavBar = () => {
     const navigate = useNavigate();
 
 
-    const CategoryDetail = (page,e) => {
-        console.log({e})
+    const CategoryDetail = (page,e,data) => {
+        console.log({e},data)
         console.log(page,'pagepage');
         const pageUrl= page;
       // 👇️ navigate to /contacts
@@ -49,7 +49,7 @@ const NavBar = () => {
         navData.map((data,idx) => (
             <Container key={idx}>
 
-                <Button onClick={(e)=>CategoryDetail(data.page,e)}>
+                <Button onClick={(e)=>CategoryDetail(data.page,e,data)}>
                  <img src={data.url} alt="NavBar" style={{  width: 64 }} />
                  <Text>{data.text}</Text>
                 </Button>
