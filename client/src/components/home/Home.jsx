@@ -18,7 +18,6 @@ background:#F2F2F2;
 
 const Home = () => {
   const { products } = useSelector(state => state.getProducts)
-  console.log(products)
   useEffect(() => {
    getProducts()
   }, [products])

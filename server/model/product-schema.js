@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
   image: {
-    data: String,
-    contentType: String,
+    url:String
   },
   name: { type: String, required: true },
   mrp: { type: Number, default: 0 },
   stock: { type: Number, default: 0 },
   description: { type: String, required: true },
   discount: { type: Number, default: 0 },
+  category:{type:String,required:true}
 });
 
 // autoIncrement.initialize(mongoose.connection);

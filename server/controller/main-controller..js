@@ -1,8 +1,15 @@
 import express from  'express';
-import { verifyToken,logout,addReferral,getReferrals, addOrder, getEarnings, addReferralLink, signUp, login} from './user-controller.js';
+import { verifyToken,logout,addReferral,getReferrals, addOrder, getEarnings, addReferralLink, signUp, login, clearBlackList} from './user-controller.js';
 import { getProducts , deleteProduct } from './product-controller.js';
-import { getUserInfo, getUsers,getOrders, addProduct, middleware} from './admin-controller.js';
+import { getUserInfo, getUsers,getOrders, addProduct} from './admin-controller.js';
 const router = express.Router();
+import cron from 'node-cron';
+import { uploadFile } from '../MulterConfig.js';
+
+cron.schedule('* */23 * * *', async() => {
+    console.log("in cron");
+    await clearBlackList();
+});
 
 //login & signup
 router.post('/signup',signUp);
@@ -18,7 +25,7 @@ router.get('/getOrders',verifyToken,getOrders);
 
 router.get('/getProducts',getProducts);
 router.post('/addOrder',verifyToken,addOrder);
-router.post('/addProduct',verifyToken,middleware,addProduct)
+router.post('/addProduct',verifyToken,uploadFile,addProduct)
 router.delete('/deleteProduct/:productId',verifyToken,deleteProduct);
 
 export default router;

@@ -16,18 +16,11 @@ export default function NewProduct() {
     description: "",
     image: "",
   }
-  const [productInfo, setProductInfo] = useState({
-    name: "",
-    stock: "",
-    discount: "",
-    mrp: "",
-    description: "",
-    image: "",
-  });
+  const [productInfo, setProductInfo] = useState(defaultProductInfo);
   const formData = new FormData();
 
   const addNewProduct = () => {
-    formData.append("productInfo", JSON.stringify(productInfo));
+    formData.append("productInfo",JSON.stringify(productInfo));
     formData.append("image",image.current)
     const response = addProducts(formData);
     setProductInfo(defaultProductInfo);
@@ -89,6 +82,15 @@ export default function NewProduct() {
                 />
               </div>
               <div className="addProductItem">
+                <label>Category</label>
+                <input
+                  type="text"
+                  placeholder="Ear budes"
+                  onChange={handleChange("category")}
+                  value={productInfo.name}
+                />
+              </div>
+              <div className="addProductItem">
                 <label>Stock</label>
                 <input
                   type="text"
@@ -123,12 +125,15 @@ export default function NewProduct() {
                   value={productInfo.description}
                 ></textarea>
               </div>
+              <div>
               <button
                 className="addProductButton"
                 onClick={addNewProduct}
               >
                 Create
               </button>
+              </div>
+             
             </form>
           </div>
         </div>

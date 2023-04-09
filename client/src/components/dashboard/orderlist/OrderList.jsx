@@ -6,16 +6,16 @@ import Transactionstable from "../table/Transactionstable";
 
 function OrderList() {
   return (
-    <div className="new">
-      <Sidebar />
-      <div className="newContainer">
+    <div className='home'>
+         <Sidebar />
+      <div className="homeContainer">
         <Navbar />
-        <div className="bottom">
+        <div className="listContainer">
         <h1 className="title">List of Orders</h1>
         <Transactionstable />
         </div>
-        </div>
-        </div>
+      </div>
+    </div>
   )
 }
 

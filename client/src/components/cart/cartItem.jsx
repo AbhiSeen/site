@@ -1,6 +1,4 @@
-import { Card, Box, Typography, Button, styled } from '@mui/material';
-
-import { addEllipsis } from '../utils/util';
+import { Box, Typography, Button, styled } from '@mui/material';
 import GroupButton from './GroupButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -49,29 +47,27 @@ const Remove = styled(Button)`
   }
 `;
 
-const CartItem = ({ item, removeItemFromCart }) => {
-
-    console.log(item,removeItemFromCart);
-    return (
-        <Component>
+const CartItem = ({ item, removeItemFromCart}) => {
+    return ( 
+            <Component>
             <LeftComponent>
-                <img src={item.productImage? `data:${item.image.contentType};base64,${item.productImage}`:''} alt="product" style={{ height: 120, width: 95 }} />
+                <img src={item.image.url} alt="product" style={{ height: 120, width: 95 }} />
             </LeftComponent>
             <div className='m-4 w-9/12'>
                 <div className='text-black text-xl font-light'>{item.name}</div>
                 <SmallText>Seller:RetailNet
                 </SmallText>
                 <Typography style={{margin: '10px 0'}}>
-                    <Cost component="span" >₹{Math.round(item.mrp-(item.mrp*(item.discount/100)))}</Cost>&nbsp;&nbsp;&nbsp;
-                    <MRP component="span" ><strike>₹{item.mrp}</strike></MRP>&nbsp;&nbsp;&nbsp;
+                    <Cost component="span" >₹{Math.round(item.mrp*item.quantity-(item.mrp*item.quantity*(item.discount/100)))}</Cost>&nbsp;&nbsp;&nbsp;
+                    <MRP component="span" ><strike>₹{item.mrp*item.quantity}</strike></MRP>&nbsp;&nbsp;&nbsp;
                     <Discount component="span">{item.discount} %off</Discount>
                 </Typography>
                 <div className='flex justify-between'>
-                <GroupButton />
+                <GroupButton item={item}/>
                 <Remove onClick={() => removeItemFromCart(item._id)}> <DeleteIcon style={{fontSize:'18px'}}/>Delete </Remove>
                 </div>
             </div>
-        </Component>
+            </Component>
     )
 }
 

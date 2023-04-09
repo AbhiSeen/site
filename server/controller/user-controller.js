@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import BlackList from "../model/blacklist-schema.js";
 import mongoose from "mongoose";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
+import user from "../model/user-schema.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ const findCurrentToken = async (id) => {
 
 const expireToken = async (id, currentToken) => {
   try {
-    const createQuery = await BlackList.findOneAndUpdate(
+    await BlackList.findOneAndUpdate(
       {
         user_id: mongoose.Types.ObjectId(id),
       },
@@ -45,6 +46,7 @@ const expireToken = async (id, currentToken) => {
       },
       { upsert: true }
     );
+    await clearCurrentToken(id);
     return true;
   } catch (error) {
     console.log("Error is: ", error);
@@ -145,6 +147,23 @@ const getOrders = async (userIds) => {
 };
 
 
+const clearCurrentToken=async(id)=>{
+  try {
+    await User.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(id),
+      },
+      {
+        $set: {
+          authToken: "",
+        },
+      }
+    );
+  } catch (error) {
+    console.log("Error is:", error);
+  }
+}
+
 export const signUp = async (request, response) => {
   try {
     const existingUser = await User.findOne({
@@ -197,18 +216,22 @@ export const login = async (request, response) => {
 
 export const verifyToken = async (request, response, next) => {
   const authHeader = request.headers.authorization;
-  if (authHeader) {
+  if (authHeader) { 
     try {
       const token = authHeader.split(" ")[1];
+      const date=new Date();
       if (token!=="null") {
-        const { id,username } = jwt.decode(token);
+        const { id,username,exp } = jwt.decode(token);
         const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
+          if(Date.now() > new Date(exp*1000)){
+            await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:token}}});
+          }
           return response.status(401).json({
             message: "Token is not valid!",
           });
         } else {
-          jwt.verify(token, process.env.JWT_SECRET, (err) => {
+          jwt.verify(token, process.env.JWT_SECRET, (err) => { 
             if (err) {
               return response.status(401).json({
                 message: "Token is not valid!",
@@ -306,7 +329,7 @@ export const getEarnings = async (request, response) => {
   return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
 }
 };
-
+ 
 export const getReferrals = async (request, response) => {
   try {
     const authCode = request.headers.authorization.split(" ")[1];
@@ -375,6 +398,7 @@ export const logout = async (request, response) => {
       } else {
         expirySuccessful = await expireToken(id, token);
       }
+      clearCurrentToken(id);
       if (expirySuccessful)
           return response.status(200).json({ message: "Succesfully logged out!" });
     } else {
@@ -384,6 +408,24 @@ export const logout = async (request, response) => {
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR } );
   }
 };
+
+export const clearBlackList=async()=>{
+  let expiredTokens=await BlackList.find({},{expiredTokens:1,_id:0});
+  if(expiredTokens){
+    expiredTokens.map((expiredToken)=>expiredToken.expiredTokens).flat(1).forEach(async(val)=>{
+      const {id,exp}=jwt.decode(val);
+      if(Date.now() > new Date(exp*1000)){
+        const {acknowledged}=await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:val}}});
+        if (acknowledged){
+          console.log(`deleted token`)
+        }
+      }
+    });
+  }else{
+    console.log("no expiredTokens found")
+  }
+}
+  

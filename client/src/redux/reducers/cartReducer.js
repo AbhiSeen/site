@@ -1,33 +1,58 @@
 import * as actionTypes from "../constants/cartConstants";
 
 export const cartReducer = (state = { cartItems: [] }, action) => {
-  console.log({ action, state });
+  const item = action.payload;
+  let newCartItems = [];
+  if (localStorage.getItem("cartItem"))
+    state.cartItems = JSON.parse(localStorage.getItem("cartItem")).cartItems;
   switch (action.type) {
-    case actionTypes.ADD_TO_CART:
-      console.log("first");
-      const item = action.payload;
-
+    case actionTypes.ADD_TO_CART: {
       const existItem = state.cartItems.find(
-        (product) => product.id === item.id
+        (product) => product._id === item._id
       );
-
       if (existItem) {
-        return {
+        newCartItems = {
           ...state,
           cartItems: state.cartItems.map((x) =>
-            x.product === existItem.product ? item : x
+            x._id === item._id ? { ...x, quantity: x.quantity + 1 } : x
           ),
         };
       } else {
-        return { ...state, cartItems: [...state.cartItems, item] };
+        newCartItems = { ...state, cartItems: [...state.cartItems, item] };
       }
-    case actionTypes.REMOVE_FROM_CART:
-      return {
+      localStorage.setItem("cartItem", JSON.stringify(newCartItems));
+      return newCartItems;
+    }
+    case actionTypes.REMOVE_FROM_CART: {
+      newCartItems = {
         ...state,
         cartItems: state.cartItems.filter(
-          (product) => product.id !== action.payload
+          (product) => product._id !== action.payload
         ),
       };
+      localStorage.setItem("cartItem", JSON.stringify(newCartItems));
+      return newCartItems;
+    }
+    case actionTypes.INCREASE_QUANTITY: {
+      newCartItems = {
+        ...state,
+        cartItems: state.cartItems.map((x) =>
+          x._id === item._id ? { ...x, quantity: x.quantity + 1 } : x
+        ),
+      };
+      localStorage.setItem("cartItem", JSON.stringify(newCartItems));
+      return newCartItems;
+    }
+    case actionTypes.DECREASE_QUANTITY: {
+      newCartItems = {
+        ...state,
+        cartItems: state.cartItems.map((x) =>
+          x._id === item._id ? { ...x, quantity: x.quantity - 1 } : x
+        ),
+      };
+      localStorage.setItem("cartItem", JSON.stringify(newCartItems));
+      return newCartItems;
+    }
     default:
       return state;
   }

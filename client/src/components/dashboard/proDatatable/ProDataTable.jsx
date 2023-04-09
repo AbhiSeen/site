@@ -1,10 +1,12 @@
 import "./ProDataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, setValue,filterTable} from "react";
 import { getProducts } from "../../service/api";
 import { useEffect } from "react";
 import { deleteProduct } from "../../service/api";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 
 const Datatable = () => {
   const [data, setData] = useState([]);
@@ -25,7 +27,13 @@ const Datatable = () => {
     getProductsfromApi();
   }, [deleted]);
 
+  const [filterdata, setFilterdata]= useState([]);
+  const [query, setQuery] = useState('');
+
+
   //need to set Data from backend--Done
+
+
   const columns = [
     { field: "id", headerName: "ID", width: 220 , renderCell: (params) => {
       return <div className="rowitem">{params.row._id}</div>;
@@ -38,7 +46,14 @@ const Datatable = () => {
         return <div className="rowitem">{params.row.name}</div>;
       },
     },
-
+    {
+      field: "Category",
+      headerName: "Category",
+      width: 100,
+      renderCell: (params) => {
+        return <div className="rowitem">{params.row.type}</div>;
+      },
+    },
     {
       field: "stock",
       headerName: "Stock",
@@ -82,6 +97,7 @@ const Datatable = () => {
       },
     },
   ];
+  
 
   return (
     <div className="datatable">
@@ -100,7 +116,7 @@ const Datatable = () => {
         getRowId={(row)=>row._id}
         checkboxSelection
       />
-    </div>
+    </div> 
   );
 };
 

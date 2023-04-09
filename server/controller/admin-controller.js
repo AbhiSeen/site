@@ -1,64 +1,21 @@
 import Product from "../model/product-schema.js";
 import User from "../model/user-schema.js";
 import mongoose from "mongoose";
-import { GridFsStorage } from "multer-gridfs-storage";
-import multer from "multer";
-import crypto from "crypto";
 import {INTERNAL_SERVER_ERROR} from "../Constants/response.js";
+import { dataUri } from "../MulterConfig.js";
+import { cloudinary } from "../cloudinaryConfig.js";
 
-export const middleware = (req, res, next) => {
-  var imageName, mimeType;
-
-  const storage = new GridFsStorage({
-    url: "mongodb+srv://abhi:QMovVAA2N2q3QdOE@cluster0.whvld.mongodb.net/?retryWrites=true&w=majority",
-    file: (req, file) => {
-      // console.log(file);
-      imageName = file.originalname;
-      mimeType = file.mimetype;
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = file.originalname;
-          const fileInfo = {
-            filename: filename,
-            bucketName: "uploads",
-          };
-          resolve(fileInfo);
-          console.log(fileInfo);
-        });
-      });
-    },
-  });
-
-  var uploader = multer({ storage });
-
-  var uploadFile = uploader.single("image");
-
-  uploadFile(req, res, function (err) {
-    req.imageName = imageName;
-    req.uploadError = err;
-    req.contentType = mimeType;
-    next();
-  });
-};
 
 export const addProduct = async (request, response) => {
   try {
-    const productInfo = JSON.parse(request.body.productInfo);
-    // console.log(request.body.productInfo.image);
+    // 
     if (request.body) {
-      const newProduct = new Product({
-        ...productInfo,
-        image: {
-          data: request.imageName,
-          contentType: request.contentType,
-        },
-      });
-      newProduct.save();
-      return response.status(200).json({ message: "product added" });
-    }
+        const file = dataUri(request).content;
+        const result=await cloudinary.uploader.upload(file,{quality: "jpegmini"});
+        const newProduct = new Product({...JSON.parse(request.body.productInfo),image:{url:result.url},category:"shirts"});
+        newProduct.save();  
+        return response.status(200).json({ message: "product added" });
+    } 
   } catch (err) {
     console.log(err);
     return response
