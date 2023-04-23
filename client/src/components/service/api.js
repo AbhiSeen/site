@@ -1,16 +1,27 @@
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const url = "http://localhost:8000";
 
-const axiosJWT = axios;
+const axiosJWT = axios; 
+
+
+// axiosJWT.interceptors.response.use((response)=>{
+//    const navigate=useNavigate();
+//     if(response.status===401){
+//        return Promise.reject(response.data)
+//     }
+//     return response;
+// });
+
 
 export const authenticateLogin = async (data) => {
   try {
-    return await axios.post(`${url}/login`, data);
+    return await axios.post(`${url}/login`, data,{withCredentials: true});
   } catch (error) {
     // console.log("error while calling login API: ");
     return ;
-  }
+  } 
 };
 
 export const authenticateSignup = async (data) => {
@@ -23,10 +34,7 @@ export const authenticateSignup = async (data) => {
 
 export const verifyToken = async () => {
   try {
-    axiosJWT.defaults.headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    };
-    const response = await axiosJWT.post(`${url}/verify`, "");
+    const response = await axiosJWT.post(`${url}/verify`, "",{withCredentials:true});
     if (response.status === 200) return true;
   } catch (err) {
     return false;
@@ -35,11 +43,8 @@ export const verifyToken = async () => {
 
 export const logout = async (token) => {
   try {
-    axiosJWT.defaults.headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const response = await axiosJWT.post(`${url}/logout`, "");
-    if (response.status === 200) return true;
+    const response = await axiosJWT.post(`${url}/logout`, "",{withCredentials:true});
+    if (response.status === 200 ) return true;
   } catch (err) {
     return false;
   }
@@ -47,11 +52,9 @@ export const logout = async (token) => {
 
 export const getUsersList = async () => {
   try {
-    axiosJWT.defaults.headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    };
-    const response = await axiosJWT.get(`${url}/getUsers`);
-    if (response.status === 200) return response.data;
+    const response = await axiosJWT.get(`${url}/getUsers`,{withCredentials: true});
+    if(response.status === 401) logout().then(()=> console.log("logging due to invalid token"));
+    if (response.status === 200) return response.data ;
   } catch (err) {
     return false;
   }
@@ -59,10 +62,7 @@ export const getUsersList = async () => {
 
 export const getUserInfo = async (id) => {
   try {
-    axiosJWT.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-    const response = await axiosJWT.get(`${url}/getUserInfo/${id}`);
+    const response = await axiosJWT.get(`${url}/getUserInfo/${id}`,{withCredentials:true});
     if (response.status === 200) return response.data;
   } catch (err) {
     return false;
@@ -70,46 +70,35 @@ export const getUserInfo = async (id) => {
 };
 
 export const getOrders = async (id) => {
-  axiosJWT.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
   let response="";
   if(id){
-    response = await axiosJWT.get(`${url}/getOrders?id=${id}`);
+    response = await axiosJWT.get(`${url}/getOrders?id=${id}`,{withCredentials:true});
   }else{
-    response = await axiosJWT.get(`${url}/getOrders`);
+    response = await axiosJWT.get(`${url}/getOrders`,{withCredentials:true});
   }
   // console.log(response)
   if (response.status === 200) return response.data;
 };
 
 export const addProducts = async (product) => {
-  axiosJWT.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
   const response = await axiosJWT.post(`${url}/addProduct`, product, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    withCredentials:true
   });
   // console.log(response)
   if (response.status === 200) return response.data;
 };
 
 export const getProducts = async () => {
-  axiosJWT.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const response = await axiosJWT.get(`${url}/getProducts`);
+  const response = await axiosJWT.get(`${url}/getProducts`,{withCredentials:true});
   // console.log(response)
   if (response.status === 200) return response.data;
 };
 
 export const deleteProduct = async (productId) => {
-  axiosJWT.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const response = await axiosJWT.delete(`${url}/deleteProduct/${productId}`);
+  const response = await axiosJWT.delete(`${url}/deleteProduct/${productId}`,{withCredentials:true});
   // console.log(response)
   if (response.status === 200) return true;
 };

@@ -1,5 +1,5 @@
-import Product from "../model/product-schema.js";
-import User from "../model/user-schema.js";
+import Product from "../schemas/product-schema.js";
+import User from "../schemas/user-schema.js";
 import mongoose from "mongoose";
 import {INTERNAL_SERVER_ERROR} from "../Constants/response.js";
 import { dataUri } from "../MulterConfig.js";
@@ -8,7 +8,6 @@ import { cloudinary } from "../cloudinaryConfig.js";
 
 export const addProduct = async (request, response) => {
   try {
-    // 
     if (request.body) {
         const file = dataUri(request).content;
         const result=await cloudinary.uploader.upload(file,{quality: "jpegmini"});

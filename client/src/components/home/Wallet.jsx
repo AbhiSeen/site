@@ -12,7 +12,7 @@ const Wallet = () => {
   };
 
   const getEarnings=async()=>{
-    const response=await axios.get("http://localhost:8000/getEarnings")
+    const response=await axios.get("http://localhost:8000/getEarnings",{withCredentials:true})
     setEarnings(response.data.earnings??0);
   }
 

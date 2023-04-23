@@ -1,79 +1,101 @@
-import User from "../model/user-schema.js";
+import User from "../schemas/user-schema.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-import BlackList from "../model/blacklist-schema.js";
+import BlackList from "../schemas/blacklist-schema.js";
 import mongoose from "mongoose";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
-import user from "../model/user-schema.js";
+import user from "../schemas/user-schema.js";
+
 
 dotenv.config();
+
+let options = {
+                maxAge: 660000, // would expire after 10 minutes
+                sameSite: 'none',
+                secure:true,
+                httpOnly: false, // The cookie only accessible by the web server
+                signed: false // Indicates if the cookie should be signed */
+              }
 
 const generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      email: user.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXP_TIME }
   );
 };
 
-const findCurrentToken = async (id) => {
+const generateRefreshToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      email: user.email
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '10m' }
+  );
+};
+
+const findCurrentToken = async (id,refreshToken) => {
   try {
-    const { authToken } = await User.findOne(
+    const {sessions} = await User.findOne(
+      {_id:mongoose.Types.ObjectId(id)},
       {
-        _id: mongoose.Types.ObjectId(id),
-      },
-      { _id: 0, authToken: 1 }
-    ).lean();
-    return authToken;
+        sessions:{$elemMatch:{refreshToken:refreshToken}}
+      }
+    ).lean();  
+    return sessions; 
   } catch (error) {
     console.log("Error is: ", error);
     return null;
   }
 };
 
-const expireToken = async (id, currentToken) => {
+const expireToken = async (id, refreshToken) => {
   try {
     await BlackList.findOneAndUpdate(
       {
         user_id: mongoose.Types.ObjectId(id),
       },
       {
-        $push: { expiredTokens: currentToken },
+        $push: { expiredTokens: refreshToken},
       },
       { upsert: true }
     );
-    await clearCurrentToken(id);
+    await clearCurrentToken(id,refreshToken);
     return true;
   } catch (error) {
     console.log("Error is: ", error);
-    return false;
   }
+  return false;
 };
 
 const modifyUserInfo = async (id, token) => {
   try {
-    await User.findOneAndUpdate(
+    const result=await User.findOneAndUpdate(
       {
         _id: mongoose.Types.ObjectId(id),
       },
       {
-        $set: {
-          authToken: token,
+        $push: {
+          sessions:{
+            refreshToken: token
+          }
         },
       },
       {
         new: true,
       }
     );
+    console.log(result); 
     return true;
   } catch (error) {
     console.log("Error is:", error);
-    return false;
   }
+  return false;
 };
 
 const addReferrals = async (referredId, referreId, username) => {
@@ -147,15 +169,15 @@ const getOrders = async (userIds) => {
 };
 
 
-const clearCurrentToken=async(id)=>{
+const clearCurrentToken=async(id,refreshToken)=>{
   try {
     await User.findOneAndUpdate(
       {
         _id: mongoose.Types.ObjectId(id),
       },
       {
-        $set: {
-          authToken: "",
+        $pull: {
+          sessions:{refreshToken:refreshToken}
         },
       }
     );
@@ -189,20 +211,20 @@ export const login = async (request, response) => {
     const user = await User.findOne({
       email: request.body.email,
     });
-    // console.log(user)
     if (user) {
-      const decryptedPassword = await bcrypt.compare(
+      const decryptedPassword = bcrypt.compareSync(
         request.body.password,
         user.password
       );
-      const currentToken = await findCurrentToken(user._id);
-      if (currentToken) await expireToken(user._id, currentToken);
-      const token = generateAccessToken(user);
-      await modifyUserInfo(user._id, token);
+      const refreshToken = generateRefreshToken(user);
+      const accessToken = generateAccessToken(user);
       delete user._doc.password;
-      if (decryptedPassword) {
-        return response.status(200).json({ message:"ok",...user._doc, authToken: token });
+      const modified=await modifyUserInfo(user._id, refreshToken);
+      if(modified && decryptedPassword){
+        response.cookie('_at', accessToken,{...options,httpOnly:true,maxAge:240000});
+        response.cookie('_rt', refreshToken,options);
       }
+      return response.json({ message:"ok",...user._doc});  
     }else {
       return response
         .status(401)
@@ -215,14 +237,59 @@ export const login = async (request, response) => {
 };
 
 export const verifyToken = async (request, response, next) => {
-  const authHeader = request.headers.authorization;
-  if (authHeader) { 
+  const refreshToken = request.cookies._rt;
+  const accessToken=request.cookies._at;
+  let expired=false; 
+  if (refreshToken) { 
     try {
-      const token = authHeader.split(" ")[1];
-      const date=new Date();
-      if (token!=="null") {
-        const { id,username,exp } = jwt.decode(token);
-        const inBlackList = await checkTokenInBlackList(token, id);
+      if (refreshToken!=="null" && accessToken!=="null") {
+        const { id,exp } = jwt.decode(refreshToken);
+        const sessions=await findCurrentToken(id,refreshToken);
+        if(sessions[0].refreshToken!==refreshToken || Date.now() > new Date(exp*1000)){
+          await expireToken(id,refreshToken,accessToken);
+          expired=true;
+        } 
+        if(expired){ 
+          log.info("expired")
+          response.clearCookie("_at");
+          response.clearCookie("_rt");
+          return response.status(401).json({
+            message: "Invalid creds!", 
+          }); 
+        }
+        if(accessToken) 
+        { 
+          const {exp:aExp}=jwt.decode(accessToken); 
+          if(Date.now() > new Date(aExp*1000)){
+              const user = await User.findOne({
+                _id: mongoose.Types.ObjectId(id)
+              });
+              const accessToken=generateAccessToken(user);
+              // let options = {
+              //   maxAge: 300000, // would expire after 15 minutes
+              //   sameSite: 'none',
+              //   secure:true,
+              //   httpOnly: true, // The cookie only accessible by the web server
+              //   signed: false // Indicates if the cookie should be signed */
+              // }
+        
+              // Set cookie
+              response.cookie('_at', accessToken,{...options,maxAge:240000,httpOnly:true});
+              request.user={id,accessToken};
+              next();
+          }else{         
+           response.cookie('_at', accessToken,{...options,maxAge:240000,httpOnly:true});
+            request.user={id,accessToken};
+            next();
+         }
+        }else{
+          const accessToken=generateAccessToken(user);
+          response.cookie('_at', accessToken,{...options,maxAge:240000,httpOnly:true});
+          request.user={id,accessToken};
+          next();
+       }
+           
+       /*  const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
           if(Date.now() > new Date(exp*1000)){
             await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:token}}});
@@ -231,19 +298,10 @@ export const verifyToken = async (request, response, next) => {
             message: "Token is not valid!",
           });
         } else {
-          jwt.verify(token, process.env.JWT_SECRET, (err) => { 
-            if (err) {
-              return response.status(401).json({
-                message: "Token is not valid!",
-              });
-            } else {
-              request.user = {id,username,token};
-              next();
-            }
-          });
-        }
+          };*/
+          
       }
-    } catch (error) {
+    }catch (error) {
       console.log("Error is: ", error);
       return response.status(500).json({ error:INTERNAL_SERVER_ERROR});
     }
@@ -388,19 +446,20 @@ export const addOrder = async (request, response) => {
 
 export const logout = async (request, response) => {
   try {
-    if (request.user.id) {
+    const refreshToken = request.cookies._rt;
+    const accessToken=request.cookies._at;
+    if (refreshToken && accessToken) {
       let expirySuccessful=false;
-      const id=request.user.id;
-      const token=request.user.token;
-      const currentToken = await findCurrentToken(id);
-      if (token === currentToken) {
-        expirySuccessful = await expireToken(id, currentToken);
-      } else {
-        expirySuccessful = await expireToken(id, token);
-      }
-      clearCurrentToken(id);
-      if (expirySuccessful)
+      const {id}=jwt.decode(accessToken);
+      const session = await findCurrentToken(id,refreshToken);
+      await expireToken(id, session[0].refreshToken,accessToken).then(()=>{expirySuccessful=true; console.log(expirySuccessful) })   
+      if (expirySuccessful){
+          response.clearCookie("_at");
+          response.clearCookie("_rt");
           return response.status(200).json({ message: "Succesfully logged out!" });
+      }else{
+          return response.status(500).json({ error: INTERNAL_SERVER_ERROR } );
+      }
     } else {
       return response
         .status(401)
@@ -414,18 +473,22 @@ export const logout = async (request, response) => {
 
 export const clearBlackList=async()=>{
   let expiredTokens=await BlackList.find({},{expiredTokens:1,_id:0});
-  if(expiredTokens){
+  if(expiredTokens && expiredTokens.length>0){
     expiredTokens.map((expiredToken)=>expiredToken.expiredTokens).flat(1).forEach(async(val)=>{
+      if(val!==null){
       const {id,exp}=jwt.decode(val);
       if(Date.now() > new Date(exp*1000)){
-        const {acknowledged}=await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:val}}});
+        const {acknowledged}=await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:val}},{safe:true});
         if (acknowledged){
           console.log(`deleted token`)
-        }
+        } 
+      }else{
+        console.log("no expiredTokens found")
       }
+    } 
     });
   }else{
-    console.log("no expiredTokens found")
+    console.log("no expiredTokens remaining to be cleared")
   }
 }
   

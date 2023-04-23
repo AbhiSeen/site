@@ -6,7 +6,7 @@ const router = express.Router();
 import cron from 'node-cron';
 import { uploadFile } from '../MulterConfig.js';
 
-cron.schedule('* */23 * * *', async() => {
+cron.schedule('*/10 * * * *', async() => {
     console.log("in cron");
     await clearBlackList();
 });
@@ -14,7 +14,7 @@ cron.schedule('* */23 * * *', async() => {
 //login & signup
 router.post('/signup',signUp);
 router.post('/login',login); 
-router.post('/logout',verifyToken,logout);
+router.post('/logout',logout);
 router.post('/addReferral',verifyToken,addReferral);
 router.post('/addReferralLink',verifyToken,addReferralLink);
 router.get('/getReferrals',verifyToken,getReferrals);

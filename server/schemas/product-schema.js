@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// import autoIncrement from 'mongoose-auto-increment';
+
 
 const productSchema = new mongoose.Schema({
   image: {
@@ -13,8 +13,6 @@ const productSchema = new mongoose.Schema({
   category:{type:String,required:true}
 });
 
-// autoIncrement.initialize(mongoose.connection);
-// productSchema.plugin(autoIncrement.plugin, 'product');
 
 const Product = mongoose.model("product", productSchema);
 

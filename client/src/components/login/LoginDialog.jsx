@@ -210,14 +210,12 @@ const LoginDialog = ({ open, setOpen }) => {
   const loginUser = async () => {
     setDisabled({ ...disabled, login: true });
     const response = await authenticateLogin(login);
-    const { authToken, fullName } = response.data;
-    console.log(response)
+    const {  fullName } = response.data;
     if(response?.data?.message.includes("Invalid username/password")){
         setLoginError("Invalid Credentials");
     }
-    if (response.status === 200 && authToken) {
+    if (response.status === 200) {
         console.log({fullName})
-      localStorage.setItem("token", authToken);
       if (!fullName.includes("admin")) {
         setTimeout(() => {
 

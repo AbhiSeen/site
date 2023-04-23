@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { client } from "../database/db.js";
-import Product from "../model/product-schema.js";
+import Product from "../schemas/product-schema.js";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
 
 const isinCache = (cachedProducts, dbproducts) => {

@@ -27,7 +27,7 @@ function Referral({ delivered }) {
   };
 
   const getReferrals=async()=>{
-    const response=await axios.get("http://localhost:8000/getReferrals");
+    const response=await axios.get("http://localhost:8000/getReferrals",{withCredentials:true});
     // console.log(response.data.referrals)
     setReferrals(response.data.referrals);
   }
