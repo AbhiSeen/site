@@ -38,10 +38,12 @@ const NavBar = () => {
 
     const CategoryDetail = (page,e,data) => {
         console.log({e},data)
-        console.log(page,'pagepage');
+    
         const pageUrl= page;
+        // console.log({data})
       // 👇️ navigate to /contacts
-      navigate('/'+pageUrl);
+      console.log({navigate})
+      navigate('/CategoryPage',{item:data});
     };
     
   return (

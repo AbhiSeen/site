@@ -25,7 +25,7 @@ import ReferNdEarn from "./components/OtherPage/ReferandEarn";
 import Wallet from "./components/home/Wallet";
 import TopOffers from "./components/details/TopOffers";
 import Mobile from "./components/details/Mobile";
-import Fashion from "./components/details/Fashion";
+import CategoryPage from "./components/details/CategoryPage";
 import Electronics from "./components/details/Electronics";
 import HomeDecor from "./components/details/HomeDecor";
 import Appliances from "./components/details/Appliances";
@@ -110,7 +110,7 @@ function App() {
             <Route path="/CategoryDetail" element={<CategoryDetail />} />
             <Route path="/TopOffers" element={<TopOffers />} />
             <Route path="/Mobile" element={<Mobile />} />
-            <Route path="/Fashion" element={<Fashion />} />
+            <Route path="/CategoryPage" element={<CategoryPage />} />
             <Route path="/Electronics" element={<Electronics />} />
             <Route path="/HomeDecor" element={<HomeDecor />} />
 
