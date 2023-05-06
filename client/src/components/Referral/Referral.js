@@ -21,7 +21,8 @@ function Referral({ delivered }) {
       {
         referralCode: code,
         delivered: delivered,
-      } 
+      } ,
+      {withCredentials:true}
     );
     return response.data;
   };

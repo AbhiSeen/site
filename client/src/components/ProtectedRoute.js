@@ -8,7 +8,6 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const logoutUser = async () => {
     const response = await logout();
-    console.log({ response });
     if (response) {
       localStorage.removeItem("accountUser");
       navigate("/");
@@ -16,15 +15,15 @@ function ProtectedRoute({ children }) {
   };
 
   const token = document.cookie.split("=")[1];
-  const user = jwt_decode(token);
-  if (user) {
-    let current_time = Date.now();
-    if (current_time > user.exp * 1000) {
-      logoutUser().then(() => console.log("logged out due to expiry"));
-    } else {
-      return children;
-    }
-  } else {
+  if(token){
+    const user = jwt_decode(token);
+      let current_time = Date.now();
+      if (current_time > user.exp * 1000) {
+        logoutUser().then(() => console.log("logged out due to expiry"));
+      } else {
+        return children;
+      }
+  }else {
     return <Navigate to="/" replace />;
   }
 }

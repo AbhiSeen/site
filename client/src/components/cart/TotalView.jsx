@@ -92,14 +92,14 @@ const TotalView = ({cartItems}) => {
     }
 
   const addProducts = async () => {
-    if(localStorage.getItem("token")){
+    if(document.cookie && document.cookie.split("=")[1]){
     const products = cartItems.map((val) => {
       const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.discount/100))),quantity:val.quantity};
       return temp;
     });
     const response = await axios.post("http://localhost:8000/addOrder", {
       products: products,
-    });
+    },{withCredentials: true});
   }else{
     setOpen(true);
   }};

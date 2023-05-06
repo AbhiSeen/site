@@ -1,5 +1,5 @@
 import express from  'express';
-import { verifyToken,logout,addReferral,getReferrals, addOrder, getEarnings, addReferralLink, signUp, login, clearBlackList} from './user-controller.js';
+import { verifyToken,logout,addReferral,getReferrals, addOrder, getEarnings, addReferralLink, signUp, login, clearBlackList, refreshTokens} from './user-controller.js';
 import { getProducts , deleteProduct } from './product-controller.js';
 import { getUserInfo, getUsers,getOrders, addProduct} from './admin-controller.js';
 const router = express.Router();
@@ -22,6 +22,7 @@ router.get('/getEarnings',verifyToken,getEarnings)
 router.get('/getUsers',verifyToken,getUsers);
 router.get('/getUserInfo/:id',verifyToken,getUserInfo);
 router.get('/getOrders',verifyToken,getOrders);
+router.post("/refresh",verifyToken,refreshTokens);
 
 router.get('/getProducts',getProducts);
 router.post('/addOrder',verifyToken,addOrder);
