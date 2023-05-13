@@ -44,6 +44,7 @@ ul{
 }
 
 .about-sec-con{
+    color: white;
   text-decoration: none;
     padding: 3px 10px;
     font-size: 14px;
@@ -52,6 +53,7 @@ ul{
     margin: 4px;
 }
 .about-sec-con2{
+    color: white;
   text-decoration: none;
   padding-top: -10px;
     padding: 3px 10px;
@@ -103,10 +105,10 @@ ul{
 
 .about-sec-con:hover {
   text-decoration: none;
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 .footer-icons:hover{
-    color: #58bed5;
+    color: rgb(104, 85, 224);
     cursor: pointer;
 }
 .col2 .languages {
@@ -117,6 +119,7 @@ ul{
 }
 .navlink {
   display: flex;
+  align-items: center;
   padding: 3px 5px;
   border-radius: 3px;
   color: white;
@@ -124,10 +127,10 @@ ul{
 }
 .navlink:hover{
 
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 .col2 a:hover {
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 
 .social {

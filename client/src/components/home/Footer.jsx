@@ -64,7 +64,7 @@ const Footer = () => {
                     </h3>
                     <div className="languages">
                         <NavLink exact="true" to="/ReferandEarn" className='navlink about-sec-money'> 
-                        <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con2'>Refer and Earn</p>
+                        <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con'>Refer and Earn</p>
                         </NavLink>
                     </div>
                     </div>
