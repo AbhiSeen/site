@@ -32,17 +32,22 @@ ul{
  padding-inline-start: 0px;
 }
 .footerCon{
-    background: rgb(57 54 78);
+    /* background: rgb(57 54 78); */
+    background: #697ca2;
+
     /* border-radius: 15px; */
     box-shadow: #2f4374 0 10px 20px 5px;
     padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: rgb(0, 0, 0);
     overflow-x: hidden;
 }
 
+.text-color{
+    color: rgb(43, 43, 43);
+}
 .about-sec-con{
     color: white;
   text-decoration: none;

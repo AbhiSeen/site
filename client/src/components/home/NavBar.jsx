@@ -39,11 +39,9 @@ const NavBar = () => {
     const CategoryDetail = (page,e,data) => {
         console.log({e},data)
     
-        const pageUrl= page;
-        // console.log({data})
-      // 👇️ navigate to /contacts
+    const pageUrl= page;
       console.log({navigate})
-      navigate('/CategoryPage',{item:data});
+      navigate('/CategoryPage',{state:{data}});
     };
     
   return (

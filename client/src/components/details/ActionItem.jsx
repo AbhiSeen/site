@@ -51,9 +51,15 @@ const ActionItem = ({ product }) => {
       >
         {console.log(product)}
         <Slider className=''>
-            <Slide index={0}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={1}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
-            <Slide index={2}><img src={product.image.url} width="500px" height="350px" style={{padding:"0px"}}   alt="none" /></Slide>
+            <Slide index={0}>
+                <img src={product.image.url} width="500px" height="350px" style={{padding:"0px" ,borderRadius:10,}}   alt="none" />
+            </Slide>
+            <Slide index={1}>
+                <img src={product.image.url} width="500px" height="350px" style={{padding:"0px" ,borderRadius:10,}}   alt="none" />
+            </Slide>
+            <Slide index={2}>
+                <img src={product.image.url} width="500px" height="350px" style={{padding:"0px" ,borderRadius:10,}}   alt="none" />
+            </Slide>
         </Slider>
         <div>
         <Dot slide={0} className='mx-3 focus:outline-none focus:ring focus:ring-blue-400 focus:rounded p-1'>

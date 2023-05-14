@@ -1,8 +1,10 @@
 import React from "react";
 import "./categoryStyle.css";
 import Header from "../header/Header";
-const CategoryPage = (navigation) => {
+import { useSelector } from "react-redux";
+const CategoryPage = ({ navigation }) => {
   console.log({ navigation });
+  const { product } = useSelector((state) => state.getProductDetails);
   return (
     <>
       <Header />
