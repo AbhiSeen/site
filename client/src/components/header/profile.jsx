@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-
+import PersonPinRoundedIcon from '@mui/icons-material/PersonPinRounded';
 import { Typography, Menu, MenuItem, Box, styled } from '@mui/material';
 import { PowerSettingsNew } from '@mui/icons-material';
 import {logout} from "../service/api";
@@ -45,7 +45,11 @@ const Profile = ({ account, setAccount }) => {
     
     return (
         <>
-            <Box onClick={handleClick}><Typography style={{ marginTop: 2 ,cursor :'pointer',color:'#6855e0',verticalAlign:'center'}}>{account}</Typography></Box>
+            <Box onClick={handleClick}>
+                <Typography style={{ marginTop: '5px' ,cursor :'pointer',color:'#6855e0', display:'flex',verticalAlign:'center'}}>    
+                    <PersonPinRoundedIcon/> <span style={{marginLeft:'4px'}}>{account}</span>
+                </Typography>
+            </Box>
             <Component
                 anchorEl={open}
                 open={Boolean(open)}

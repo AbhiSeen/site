@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 
 
 const SearchContainer = styled(Box)`
-  border-radius: 25px;
+  border-radius: 4px;
   margin-left: 10px;
-  width: 38%;
+  width: 35vw;
   background-color: #fff;
   border: 1px solid rgb(104, 85, 224);
+  border-left:8px solid rgb(104, 85, 224);
   display: flex;
 `;
 
@@ -19,7 +20,8 @@ const SearchIconWrapper = styled(Box)`
   margin-left: auto;
   padding: 5px;
   display: flex;
-  color: blue;
+  color: #fff;
+  background: rgb(104, 85, 224);
 `;
 
 const ListWrapper = styled(List)`
