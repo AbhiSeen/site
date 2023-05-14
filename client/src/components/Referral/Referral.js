@@ -21,13 +21,14 @@ function Referral({ delivered }) {
       {
         referralCode: code,
         delivered: delivered,
-      } 
+      } ,
+      {withCredentials:true}
     );
     return response.data;
   };
 
   const getReferrals=async()=>{
-    const response=await axios.get("http://localhost:8000/getReferrals");
+    const response=await axios.get("http://localhost:8000/getReferrals",{withCredentials:true});
     // console.log(response.data.referrals)
     setReferrals(response.data.referrals);
   }

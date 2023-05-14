@@ -1,79 +1,102 @@
-import User from "../model/user-schema.js";
+import User from "../schemas/user-schema.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-import BlackList from "../model/blacklist-schema.js";
+import BlackList from "../schemas/blacklist-schema.js";
 import mongoose from "mongoose";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
-import user from "../model/user-schema.js";
+import user from "../schemas/user-schema.js";
+import { request } from "express";
 
 dotenv.config();
+
+let options = {
+  maxAge: 720000, // would expire after 10 minutes
+  sameSite: "none",
+  secure: true,
+  httpOnly: true, // The cookie only accessible by the web server
+  signed: false, // Indicates if the cookie should be signed */
+};
 
 const generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      email: user.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXP_TIME }
   );
 };
 
-const findCurrentToken = async (id) => {
+const generateRefreshToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "10m" }
+  );
+};
+
+const findCurrentToken = async (id, refreshToken) => {
   try {
-    const { authToken } = await User.findOne(
+    const result = await User.findOne(
+      { _id: mongoose.Types.ObjectId(id) },
       {
-        _id: mongoose.Types.ObjectId(id),
+        sessions: { $elemMatch: { refreshToken: refreshToken } },
       },
-      { _id: 0, authToken: 1 }
+      { _id: 0 }
     ).lean();
-    return authToken;
+    return result;
   } catch (error) {
-    console.log("Error is: ", error);
+    console.error("Error is: ", error);
     return null;
   }
 };
 
-const expireToken = async (id, currentToken) => {
+const expireToken = async (id, refreshToken) => {
   try {
     await BlackList.findOneAndUpdate(
       {
         user_id: mongoose.Types.ObjectId(id),
       },
       {
-        $push: { expiredTokens: currentToken },
+        $push: { expiredTokens: refreshToken },
       },
       { upsert: true }
     );
-    await clearCurrentToken(id);
+    await clearCurrentToken(id, refreshToken);
     return true;
   } catch (error) {
     console.log("Error is: ", error);
-    return false;
   }
+  return false;
 };
 
 const modifyUserInfo = async (id, token) => {
   try {
-    await User.findOneAndUpdate(
+    const result = await User.findOneAndUpdate(
       {
         _id: mongoose.Types.ObjectId(id),
       },
       {
-        $set: {
-          authToken: token,
+        $push: {
+          sessions: {
+            refreshToken: token,
+          },
         },
       },
       {
         new: true,
       }
     );
+    console.log(result);
     return true;
   } catch (error) {
     console.log("Error is:", error);
-    return false;
   }
+  return false;
 };
 
 const addReferrals = async (referredId, referreId, username) => {
@@ -98,11 +121,9 @@ const addReferrals = async (referredId, referreId, username) => {
 };
 
 const getIdAndOrderfromUsername = async (name) => {
-  const user = await User.findOne(
-    {
-      username: name,
-    },
-  );
+  const user = await User.findOne({
+    username: name,
+  });
   return user;
 };
 
@@ -146,23 +167,23 @@ const getOrders = async (userIds) => {
   return orders;
 };
 
-
-const clearCurrentToken=async(id)=>{
+const clearCurrentToken = async (id, token) => {
   try {
-    await User.findOneAndUpdate(
+    const result=await User.findOneAndUpdate(
       {
         _id: mongoose.Types.ObjectId(id),
       },
       {
-        $set: {
-          authToken: "",
+        $pull: {
+          sessions: { refreshToken: token },
         },
       }
     );
+    console.log(result);
   } catch (error) {
     console.log("Error is:", error);
   }
-}
+};
 
 export const signUp = async (request, response) => {
   try {
@@ -174,13 +195,13 @@ export const signUp = async (request, response) => {
     }
     const newUser = request.body;
     const password = await bcrypt.hash(request.body.password, 10);
-    const modifiedUser = { ...newUser,fullName:newUser.name,password };
+    const modifiedUser = { ...newUser, fullName: newUser.name, password };
     const user = new User(modifiedUser);
     await user.save();
     return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
     console.log("Error is: ", error);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -189,40 +210,43 @@ export const login = async (request, response) => {
     const user = await User.findOne({
       email: request.body.email,
     });
-    // console.log(user)
     if (user) {
-      const decryptedPassword = await bcrypt.compare(
-        request.body.password,
-        user.password
-      );
-      const currentToken = await findCurrentToken(user._id);
-      if (currentToken) await expireToken(user._id, currentToken);
-      const token = generateAccessToken(user);
-      await modifyUserInfo(user._id, token);
+      const decryptedPassword = bcrypt.compareSync(request.body.password, user.password);
+      const refreshToken = generateRefreshToken(user);
+      const accessToken = generateAccessToken(user);
       delete user._doc.password;
-      if (decryptedPassword) {
-        return response.status(200).json({ message:"ok",...user._doc, authToken: token });
+      const modified = await modifyUserInfo(user._id, refreshToken);
+      if (modified && decryptedPassword) {
+        response.cookie("_at", accessToken, { ...options,httpOnly:false,maxAge:240000});
+        response.cookie("_rt", refreshToken, options);
       }
-    }else {
-      return response
-        .status(401)
-        .json({  message: "Invalid username/password"  });
+      return response.json({ message: "ok", ...user._doc });
+    } else {
+      return response.status(401).json({ message: "Invalid username/password" });
     }
   } catch (error) {
-    console.log("Error is: ", error);
+    console.log("Error is: ", error.message);
     return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
-export const verifyToken = async (request, response, next) => {
-  const authHeader = request.headers.authorization;
-  if (authHeader) { 
+export const refreshTokens = async (request, response) => {
+  const accessToken = request.cookies._at;
+  if (accessToken) {
     try {
-      const token = authHeader.split(" ")[1];
-      const date=new Date();
-      if (token!=="null") {
-        const { id,username,exp } = jwt.decode(token);
-        const inBlackList = await checkTokenInBlackList(token, id);
+      let newAccessToken = "";
+      const { exp: aExp,id } = jwt.decode(accessToken);
+      if (Date.now() > new Date(aExp * 1000)) {
+        const user = await User.findOne({
+          _id: mongoose.Types.ObjectId(id),
+        });
+        newAccessToken = generateAccessToken(user);
+        response.cookie("_at", newAccessToken, { ...options, httpOnly: false,maxAge:240000 });
+      } else {
+        response.cookie("_at", accessToken, { ...options, httpOnly: false,maxAge:240000 });
+      }
+      return response.status(200).json({ message: "ok" });
+      /*  const inBlackList = await checkTokenInBlackList(token, id);
         if (inBlackList) {
           if(Date.now() > new Date(exp*1000)){
             await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:token}}});
@@ -231,31 +255,63 @@ export const verifyToken = async (request, response, next) => {
             message: "Token is not valid!",
           });
         } else {
-          jwt.verify(token, process.env.JWT_SECRET, (err) => { 
-            if (err) {
-              return response.status(401).json({
-                message: "Token is not valid!",
-              });
-            } else {
-              request.user = {id,username,token};
-              next();
-            }
-          });
-        }
-      }
+          };*/
     } catch (error) {
-      console.log("Error is: ", error);
-      return response.status(500).json({ error:INTERNAL_SERVER_ERROR});
+      console.log("Error is: ", error.message);
+      return response.status(500).json({ error: error.message || INTERNAL_SERVER_ERROR });
     }
-  } else{
-    return response.status(401).json({ message: "You are not authenticated!" });
+  } else {
+    return response.status(401).json({ error: "You are not authenticated!" });
   }
 };
 
+export const verifyToken = async (request, response, next) => {
+  try{
+    const refreshToken = request.cookies._rt;
+    let expired = false;
+    if (refreshToken ) {
+      jwt.verify(refreshToken, process.env.JWT_SECRET,async(err,decodedPayload)=>{
+        const { id, exp } = jwt.decode(refreshToken);
+        if (decodedPayload) {
+          const sessions = await findCurrentToken(id, refreshToken);
+          if (
+            sessions.sessions[0].refreshToken !== refreshToken || 
+            Date.now() > new Date(exp * 1000)
+          ) {
+            await expireToken(id, refreshToken);
+            expired = true;
+          }
+          if (expired) {
+            response.clearCookie("_at");
+            response.clearCookie("_rt");
+            return response.status(401).json({
+              message: "Invalid creds!",
+            });
+          } else {
+            request.user = { id, refreshToken };
+            next();
+          }
+        } else {
+          expireToken(id,refreshToken).then(()=>console.log("expired token"));
+          response.clearCookie("_at");
+          response.clearCookie("_rt");
+          return response.status(200).json({message: "Logged out due to expiry"});
+        }
+      })
+    }else {
+      response.clearCookie("_at");
+      response.clearCookie("_rt");
+      throw new Error("Invalid creds!");
+    }
+  }catch(error){
+    console.log(error.message);
+    return response.status(500).json({message: INTERNAL_SERVER_ERROR});
+  } 
+};
 
 export const addReferralLink = async (request, response) => {
-  try{
-    const authCode = request.headers.authorization.split(" ")[1];
+  try {
+    const authCode = request.cookies._rt;
     const { id } = jwt.decode(authCode);
     const referralCode = request.body.referralCode;
     // console.log(referralCode)
@@ -265,22 +321,23 @@ export const addReferralLink = async (request, response) => {
       },
       {
         referralCode: referralCode,
-      },{
-        new:true
+      },
+      {
+        new: true,
       }
-      );
-    return response.status(200).json("referral added successfully")
-  }catch(err){
+    );
+    return response.status(200).json("referral added successfully");
+  } catch (err) {
     console.error(err);
-    return response.status(500).json({error:INTERNAL_SERVER_ERROR})
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const addReferral = async (request, response) => {
   try {
     const { referralCode } = request.body;
-    const authCode = request.headers.authorization.split(" ")[1];
-    const { id, username } = jwt.decode(authCode);
+    const authCode = request.cookies._rt;
+    const { id, email } = jwt.decode(authCode);
     let userInfo = "";
     if (referralCode.indexOf("#") !== -1) {
       const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
@@ -290,49 +347,46 @@ export const addReferral = async (request, response) => {
       // console.log(userInfo)
     }
     await addReferrals(userInfo._id, id, username);
-    return response
-      .status(200)
-      .json({ message: "referral added successfully." });
+    return response.status(200).json({ message: "referral added successfully." });
 
     // console.log("in else case");
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const getEarnings = async (request, response) => {
-  try{
-  const authCode = request.headers.authorization.split(" ")[1];
-  const { id } = jwt.decode(authCode);
-  const { referrals } = await getReferralsfromUserId(id);
-  // console.log(referrals)
-  if (referrals) {
-    const ids = referrals.map((val) => val.referreId);
-    const orders = await getOrders(ids);
-    const orderValues = orders
-      .reduce((arr, val) => arr.concat(val.orders), [])
-      .map((val) => val.products)
-      .flat(2)
-      .filter((val) => val.status === "delivered")
-      .map((val) => val.orderValue);
-    const earnings = Math.round(
-      orderValues.reduce((totalValue, value) => (totalValue += value), 0) *
-        (7 / 100)
-    );
-    return response.status(200).json({ earnings: earnings });
-  } else {
-    return response.status(200).json({ message: "No referrals found" });
+  try {
+    const authCode = request.cookies._rt;
+    const { id } = jwt.decode(authCode);
+    const { referrals } = await getReferralsfromUserId(id);
+    // console.log(referrals)
+    if (referrals) {
+      const ids = referrals.map((val) => val.referreId);
+      const orders = await getOrders(ids);
+      const orderValues = orders
+        .reduce((arr, val) => arr.concat(val.orders), [])
+        .map((val) => val.products)
+        .flat(2)
+        .filter((val) => val.status === "delivered")
+        .map((val) => val.orderValue);
+      const earnings = Math.round(
+        orderValues.reduce((totalValue, value) => (totalValue += value), 0) * (7 / 100)
+      );
+      return response.status(200).json({ earnings: earnings });
+    } else {
+      return response.status(200).json({ message: "No referrals found" });
+    }
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
-}catch(err){
-  console.log(err);
-  return response.status(500).json({ error: INTERNAL_SERVER_ERROR});
-}
 };
- 
+
 export const getReferrals = async (request, response) => {
   try {
-    const authCode = request.headers.authorization.split(" ")[1];
+    const authCode =request.cookies._rt;
     const { id } = jwt.decode(authCode);
     const res = await User.findOne({
       _id: mongoose.Types.ObjectId(id),
@@ -341,9 +395,7 @@ export const getReferrals = async (request, response) => {
     return response.status(200).json({ referrals: res.referrals });
   } catch (error) {
     console.log(error);
-    return response
-      .status(500)
-      .json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -351,24 +403,24 @@ export const addOrder = async (request, response) => {
   try {
     const products = request.body.products;
     if (products) {
-      const authCode = request.headers.authorization.split(" ")[1];
+      const authCode = request.cookies._rt;
       const { id } = jwt.decode(authCode);
       const orderedProducts = products.map((val) => {
-        return { ...val, status: "" ,productId:mongoose.Types.ObjectId(val.productId)};
+        return { ...val, status: "", productId: mongoose.Types.ObjectId(val.productId) };
       });
       // console.log(orderedProducts)
       const result = await User.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(id),
-        }, 
+        },
         {
           $push: {
             orders: {
               //add orderDate and deliveryDate fields and trackingId--DONE
               orderId: new mongoose.Types.ObjectId(),
-              orderDate:new Date(),
-              deliveryDate:"",
-              trackingId:new mongoose.Types.ObjectId(),
+              orderDate: new Date(),
+              deliveryDate: "",
+              trackingId: new mongoose.Types.ObjectId(),
               products: orderedProducts,
             },
           },
@@ -380,52 +432,62 @@ export const addOrder = async (request, response) => {
     return response.status(200).json({ message: "ok" });
   } catch (err) {
     console.log(err);
-    return response
-      .status(500)
-      .json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const logout = async (request, response) => {
   try {
-    if (request.user.id) {
-      let expirySuccessful=false;
-      const id=request.user.id;
-      const token=request.user.token;
-      const currentToken = await findCurrentToken(id);
-      if (token === currentToken) {
-        expirySuccessful = await expireToken(id, currentToken);
+    const refreshToken = request.cookies._rt;
+    const accessToken = request.cookies._at;
+    if (refreshToken && accessToken) {
+      let expirySuccessful = false;
+      const { id } = jwt.decode(accessToken);
+      const session = await findCurrentToken(id, refreshToken);
+      await expireToken(id, session.sessions[0].refreshToken, accessToken).then(() => {
+        expirySuccessful = true;
+        console.log(expirySuccessful);
+      });
+      if (expirySuccessful) {
+        response.clearCookie("_at");
+        response.clearCookie("_rt");
+        return response.status(200).json({ message: "Succesfully logged out!" });
       } else {
-        expirySuccessful = await expireToken(id, token);
+        return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
       }
-      clearCurrentToken(id);
-      if (expirySuccessful)
-          return response.status(200).json({ message: "Succesfully logged out!" });
     } else {
-      return response
-        .status(401)
-        .json({ message: "You are not authenticated!" });
+      return response.status(401).json({ error: "You are not authenticated!" });
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR } );
+    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
-export const clearBlackList=async()=>{
-  let expiredTokens=await BlackList.find({},{expiredTokens:1,_id:0});
-  if(expiredTokens){
-    expiredTokens.map((expiredToken)=>expiredToken.expiredTokens).flat(1).forEach(async(val)=>{
-      const {id,exp}=jwt.decode(val);
-      if(Date.now() > new Date(exp*1000)){
-        const {acknowledged}=await BlackList.updateOne({user_id:mongoose.Types.ObjectId(id)},{$pull:{expiredTokens:{$in:val}}});
-        if (acknowledged){
-          console.log(`deleted token`)
+export const clearBlackList = async () => {
+  let expiredTokens = await BlackList.find({}, { expiredTokens: 1, _id: 0 });
+  if (expiredTokens && expiredTokens.length > 0) {
+    expiredTokens
+      .map((expiredToken) => expiredToken.expiredTokens)
+      .flat(1)
+      .forEach(async (val) => {
+        if (val !== null) {
+          const { id, exp } = jwt.decode(val);
+          if (Date.now() > new Date(exp * 1000)) {
+            const { acknowledged } = await BlackList.updateOne(
+              { user_id: mongoose.Types.ObjectId(id) },
+              { $pull: { expiredTokens: val } },
+              { safe: true }
+            );
+            if (acknowledged) {
+              console.log(`deleted token`);
+            }
+          } else {
+            console.log("no expiredTokens found");
+          }
         }
-      }
-    });
-  }else{
-    console.log("no expiredTokens found")
+      });
+  } else {
+    console.log("no expiredTokens remaining to be cleared");
   }
-}
-  
+};

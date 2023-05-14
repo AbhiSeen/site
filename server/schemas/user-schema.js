@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     orders:{
         type:Array,
     },
-    authToken:{type:String},
+    sessions:{type:Array},
     referralCode:{type:String}
 });
 

@@ -115,7 +115,6 @@ const Slide = ({ products ,title }) => {
             >
                 
                     {products.map(product => (
-                        console.log(product),
                         <div className='shadow m-2   bg-white rounded-sm ' key={product._id}>
                         <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card ">
                             <Image className='px-2' src={product.image.url} alt='product' />
