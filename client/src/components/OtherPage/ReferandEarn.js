@@ -7,9 +7,6 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 const ReferNdEarn = () => {
   const [earnings,setEarnings]=useState(0);
-  axios.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
 
   const getEarnings=async()=>{
     const response=await axios.get("http://localhost:8000/getEarnings")

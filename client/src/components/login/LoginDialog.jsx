@@ -210,26 +210,25 @@ const LoginDialog = ({ open, setOpen }) => {
   const loginUser = async () => {
     setDisabled({ ...disabled, login: true });
     const response = await authenticateLogin(login);
-    const {  fullName } = response.data;
-    if(response?.data?.message.includes("Invalid username/password")){
-        setLoginError("Invalid Credentials");
-    }
-    if (response.status === 200) {
-        console.log({fullName})
-      if (!fullName.includes("admin")) {
-        setTimeout(() => {
-
-   localStorage.setItem("accountUser", fullName.split(" ")[0]);
-          setAccount(fullName.split(" ")[0]);
-          handleClose();
-        }, 1000);
-      }else{
-        setOpen(false);
-        navigate("/dashboard");
+    if(response.status===200){
+      const {  fullName } = response.data;
+      if (response.status === 200) {
+        if (!fullName.includes("admin")) {
+          setTimeout(() => {
+            localStorage.setItem("accountUser", fullName.split(" ")[0]);
+            setAccount(fullName.split(" ")[0]);
+            handleClose();
+          }, 1000);
+        }else{
+          setOpen(false);
+          navigate("/dashboard");
+        }
+      } else {
+        setError(true);
       }
-    } else {
-      setError(true);
-    }
+    }else{
+      setLoginError("Invalid Credentials");
+    }  
     setDisabled({ ...disabled, login: false });
   };
 

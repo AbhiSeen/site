@@ -38,7 +38,7 @@ export const authenticateLogin = async (data) => {
     return await axios.post(`${url}/login`, data, { withCredentials: true });
   } catch (error) {
     // console.log("error while calling login API: ");
-    return;
+    return error ;
   }
 };
 

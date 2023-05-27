@@ -4,21 +4,21 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 function Referral({ delivered }) {
-  const token = localStorage.getItem("token");
+  const token = document.cookie.split("=")[1];
   const input = useRef("");
   const [referrals, setReferrals] = useState([]);
   let user = {};
-  axios.defaults.headers={
-    Authorization: `Bearer ${token}`,
-  }
-  if (token) {
-    user = jwt_decode(token);
+  if (document.cookie) {
+    if (token) {
+      user=jwt_decode(token);
+    }
   }
   // console.log(user)
-  const addReferral = async (code) => {
+  const addReferral = async (user,code) => {
     const response = await axios.post(
       `http://localhost:8000/addReferral`,
       {
+        user,
         referralCode: code,
         delivered: delivered,
       } ,
@@ -39,20 +39,18 @@ function Referral({ delivered }) {
   },[])
   return (
     <>
-      {user && user.username ? (
-        <>
           <div id="heading">
-            Hey <span>{user && user.username}</span>, Your Referral Code is
-            <h2>#{user.username.toUpperCase()}20</h2>
+            Hey <span>{localStorage.getItem("accountUser")}</span>, Your Referral Code is
+            <h2>{user.fullName?.substring(0,5)?.toUpperCase()}#R20</h2>
           </div>
-          <section id="referall-section">
+          <section id="referall-section"> 
             <label>Got referral code? Enter code here: </label>
-            <input type="textbox" ref={input}></input>
+            <input type="textbox" ref={input} onChange={(e)=>input.current.value=e.target.value}></input>
             <button
               type="submit"
               onClick={async (e) => {
                 const response = await addReferral(
-                  input.current.value && input.current.value.toUpperCase()
+                  {user,referralCode:input.current.value}
                 );
                 // setReferrals(referrals);
                 // console.log(response)
@@ -72,17 +70,13 @@ function Referral({ delivered }) {
               </tr>
               <tr>
                 {referrals && referrals.map((val) => (
-                  <td key={val.referreId}>{val.name}</td>
+                  <td key={val.referreId}>{val.email}</td>
                 ))}
               </tr>
               </tbody>
             </table>
           </section>
         </>
-      ) : (
-        ""
-      )}
-    </>
   );
 }
 
