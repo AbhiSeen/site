@@ -29,6 +29,7 @@ import CategoryPage from "./components/details/CategoryPage";
 import Electronics from "./components/details/Electronics";
 import HomeDecor from "./components/details/HomeDecor";
 import Appliances from "./components/details/Appliances";
+import Referral from "./components/Referral/Referral";
 
 function App() {
   return (
@@ -113,7 +114,7 @@ function App() {
             <Route path="/CategoryPage" element={<CategoryPage />} />
             <Route path="/Electronics" element={<Electronics />} />
             <Route path="/HomeDecor" element={<HomeDecor />} />
-
+            <Route path="/ReferandEarn" element={<ProtectedRoute><Referral/></ProtectedRoute>}/>
             <Route path="/Appliances" element={<Appliances />} />
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/contactUs" element={<ContactPage />} />

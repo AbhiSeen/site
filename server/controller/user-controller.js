@@ -22,6 +22,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
+      fullName:user.fullName
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXP_TIME }
@@ -32,7 +33,7 @@ const generateRefreshToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      email: user.email,
+      email: user.email
     },
     process.env.JWT_SECRET,
     { expiresIn: "10m" }
@@ -91,7 +92,6 @@ const modifyUserInfo = async (id, token) => {
         new: true,
       }
     );
-    console.log(result);
     return true;
   } catch (error) {
     console.log("Error is:", error);
@@ -99,7 +99,7 @@ const modifyUserInfo = async (id, token) => {
   return false;
 };
 
-const addReferrals = async (referredId, referreId, username) => {
+const addReferrals = async (referredId, referreId, email) => {
   const user = await User.findOneAndUpdate(
     {
       _id: referredId,
@@ -108,7 +108,7 @@ const addReferrals = async (referredId, referreId, username) => {
       $push: {
         referrals: {
           referreId: mongoose.Types.ObjectId(referreId),
-          username: username,
+          email,
         },
       },
     },
@@ -116,14 +116,13 @@ const addReferrals = async (referredId, referreId, username) => {
       new: true,
     }
   );
-  // console.log(referredId+" "+referreId)
   return user;
 };
 
-const getIdAndOrderfromUsername = async (name) => {
-  const user = await User.findOne({
-    username: name,
-  });
+const getIdAndOrderfromID= async (userID) => {
+  const user = await User.find({
+    fullName: {$regex:userID,$options: "i"},
+  }).lean();
   return user;
 };
 
@@ -143,7 +142,7 @@ const getReferralsfromUserId = async (id) => {
     },
     { _id: 0, referrals: 1 }
   );
-  return res;
+  return res.referrals;
 };
 
 const getIdfromReferralCode = async (referralCode) => {
@@ -179,7 +178,6 @@ const clearCurrentToken = async (id, token) => {
         },
       }
     );
-    console.log(result);
   } catch (error) {
     console.log("Error is:", error);
   }
@@ -201,7 +199,7 @@ export const signUp = async (request, response) => {
     return response.status(200).json({ message: "successfully signed up" });
   } catch (error) {
     console.log("Error is: ", error);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -211,7 +209,7 @@ export const login = async (request, response) => {
       email: request.body.email,
     });
     if (user) {
-      const decryptedPassword = bcrypt.compareSync(request.body.password, user.password);
+      const decryptedPassword =bcrypt.compareSync(request.body.password, user.password);
       const refreshToken = generateRefreshToken(user);
       const accessToken = generateAccessToken(user);
       delete user._doc.password;
@@ -219,14 +217,16 @@ export const login = async (request, response) => {
       if (modified && decryptedPassword) {
         response.cookie("_at", accessToken, { ...options,httpOnly:false,maxAge:240000});
         response.cookie("_rt", refreshToken, options);
+        return response.json({ message: "ok", ...user._doc });
+      }else {
+        return response.status(401).json({ message: "Invalid username/password" });
       }
-      return response.json({ message: "ok", ...user._doc });
     } else {
       return response.status(401).json({ message: "Invalid username/password" });
     }
   } catch (error) {
     console.log("Error is: ", error.message);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -258,7 +258,7 @@ export const refreshTokens = async (request, response) => {
           };*/
     } catch (error) {
       console.log("Error is: ", error.message);
-      return response.status(500).json({ error: error.message || INTERNAL_SERVER_ERROR });
+      return response.status(400).json({ error: error.message || INTERNAL_SERVER_ERROR });
     }
   } else {
     return response.status(401).json({ error: "You are not authenticated!" });
@@ -305,7 +305,7 @@ export const verifyToken = async (request, response, next) => {
     }
   }catch(error){
     console.log(error.message);
-    return response.status(500).json({message: INTERNAL_SERVER_ERROR});
+    return response.status(400).json({message: INTERNAL_SERVER_ERROR});
   } 
 };
 
@@ -329,30 +329,36 @@ export const addReferralLink = async (request, response) => {
     return response.status(200).json("referral added successfully");
   } catch (err) {
     console.error(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const addReferral = async (request, response) => {
   try {
-    const { referralCode } = request.body;
-    const authCode = request.cookies._rt;
-    const { id, email } = jwt.decode(authCode);
-    let userInfo = "";
-    if (referralCode.indexOf("#") !== -1) {
-      const userName = referralCode.replace(/[0-9]+/, "").split("#")[1];
-      userInfo = await getIdAndOrderfromUsername(userName.toLowerCase());
-    } else {
-      userInfo = await getIdfromReferralCode(referralCode);
-      // console.log(userInfo)
+    const { user } = request.body;
+    const authCode = request.cookies._at;
+    const refreshToken=request.user.refreshToken;
+    const { id } = jwt.decode(authCode);
+    const {email} =jwt.decode(refreshToken);
+    const referrals=await getReferralsfromUserId(id);
+    if(referrals && user){
+        const referralID=user.referralCode.split("#")[0];
+        const userInfo = await getIdAndOrderfromID(referralID);
+        if(userInfo && referrals && userInfo[0]._id.equals(referrals[0].referreId)){
+          return response.status(200).json({ message: "Already added" });
+        }else{
+          const referralID=user.referralCode.split("#")[0];
+          const userInfo = await getIdAndOrderfromID(referralID);
+          if(userInfo && userInfo[0].fullName?.substring(0,5).toUpperCase()===referralID){
+            await addReferrals(userInfo[0]._id, id,email);
+            return response.status(200).json({ message: "referral added successfully." });
+          }
+      }
     }
-    await addReferrals(userInfo._id, id, username);
-    return response.status(200).json({ message: "referral added successfully." });
-
-    // console.log("in else case");
+    return response.status(403).json({ error: "Invalid referralCode" });
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -361,7 +367,6 @@ export const getEarnings = async (request, response) => {
     const authCode = request.cookies._rt;
     const { id } = jwt.decode(authCode);
     const { referrals } = await getReferralsfromUserId(id);
-    // console.log(referrals)
     if (referrals) {
       const ids = referrals.map((val) => val.referreId);
       const orders = await getOrders(ids);
@@ -380,22 +385,21 @@ export const getEarnings = async (request, response) => {
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
 export const getReferrals = async (request, response) => {
   try {
-    const authCode =request.cookies._rt;
+    const authCode =request.user.refreshToken;
     const { id } = jwt.decode(authCode);
     const res = await User.findOne({
       _id: mongoose.Types.ObjectId(id),
     });
-    // console.log(res);
     return response.status(200).json({ referrals: res.referrals });
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -432,7 +436,7 @@ export const addOrder = async (request, response) => {
     return response.status(200).json({ message: "ok" });
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -453,14 +457,14 @@ export const logout = async (request, response) => {
         response.clearCookie("_rt");
         return response.status(200).json({ message: "Succesfully logged out!" });
       } else {
-        return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+        return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
       }
     } else {
       return response.status(401).json({ error: "You are not authenticated!" });
     }
   } catch (err) {
     console.log(err);
-    return response.status(500).json({ error: INTERNAL_SERVER_ERROR });
+    return response.status(400).json({ error: INTERNAL_SERVER_ERROR });
   }
 };
 
