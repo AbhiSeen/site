@@ -1,20 +1,19 @@
-import homeAppliances from "../images/HomeAppliances.png";
-import furniturImg from "../images/furnitureImg3.png";
-import ElectronicsImg from "../images/ElectronicsImg.png";
+import homeAppliances from "../images/homeAppliancesImage.png";
+import furniturImg from "../images/FurnitureImg.png";
+import ElectronicsImg from "../images/ElectronicsDevices.png";
 import MobileImg from "../images/MobileImg.png";
-import TopOffersImg from "../images/TopOffersImg.png";
+import TopOffersImg from "../images/TopOffersImage.png";
 import FashionImg from "../images/FashionImg.jpg";
-import SmartPhoneImg from "../images/SmartPhoneImg.png";
-import FashionNewImg from "../images/FashionNewImg.png";
+import SmartPhoneImg from "../images/SmartPhoneImage1.png";
+import FashionNewImg from "../images/FashionImage.png";
 
 export const navData = [
-  { url: TopOffersImg, text: "Top Offers", page: "TopOffers" },
-  { url: SmartPhoneImg, text: "Mobile", page: "Mobile" },
-  { url: FashionNewImg, text: "Fashion", page: "Fashion" },
-  { url: ElectronicsImg, text: "Electronics", page: "Electronics" },
-  { url: furniturImg, text: "Home", page: "HomeDecor" },
-  { url: homeAppliances, text: "Appliances", page: "Appliances" },
-  // { url: 'https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100', text: 'Beauty, Toys & More' }
+  { id: 1, url: TopOffersImg, text: "Top Offers", page: "TopOffers" },
+  { id: 2, url: SmartPhoneImg, text: "Mobile", page: "Mobile" },
+  { id: 3, url: FashionNewImg, text: "Fashion", page: "Fashion" },
+  { id: 4, url: ElectronicsImg, text: "Electronics", page: "Electronics" },
+  { id: 5, url: furniturImg, text: "Home", page: "HomeDecor" },
+  { id: 6, url: homeAppliances, text: "Appliances", page: "Appliances" },
 ];
 
 export const bannerData = [

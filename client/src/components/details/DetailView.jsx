@@ -43,7 +43,7 @@ const DetailView = () => {
     }, []);
   return (
     <div style={{backgroundColor:'#fff'}} className='box-border h-screen'>
-        <Header/>
+        {/* <Header/> */}
         {product && Object.keys(product).length &&
             <div className=' flex detail-view'> 
                 <Grid item lg={4} md={4} sm={8} xs={12}>

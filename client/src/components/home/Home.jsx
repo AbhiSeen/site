@@ -14,6 +14,7 @@ const Component = styled(Box)`
 
 padding:10px;
 background:#F2F2F2;
+padding-top:5rem;
 `
 
 const Home = () => {
@@ -24,10 +25,11 @@ const Home = () => {
 
   return (
     <Fragment>
-      <Header/>
-      <NavBar />
-      <Component> 
+      {/* <Header/> */}
+      <Component>
+
         <Banner />
+      <NavBar />
         <MidSlide products={products}  title="Men's Fashion"/>
         {/* <MideSection/> */}
         <Slide products={products} title="Men's Fashion" timer={false}/>
