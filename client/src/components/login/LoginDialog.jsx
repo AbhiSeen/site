@@ -306,7 +306,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <button
                 className="button-24"
                 role="button"
-                style={{width:'100%',padding:0 ,margin:0}}
+               style={{width:'100%',padding:'1rem 0',margin: '1rem 0'}}
                 onClick={() => loginUser()}
                 >
                 Login
@@ -354,6 +354,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <button
                 className="button-24"
                 role="button"
+                style={{width:'100%',padding:'1rem 0',margin: '1rem 0'}}
                 onClick={() => signupUser()}
               >
                 Explore Now

@@ -27,7 +27,7 @@ const responsive = {
 const Component = styled(Box)`
     margin-top: 20px;
     background: #f6f6f6;
-    background:red;
+    // background:red;
 `;
 
 const Deal = styled(Box)`
@@ -114,24 +114,24 @@ const Slide = ({ products ,title }) => {
                 autoPlaySpeed={10000}
                 keyBoardControl={true}
                 showDots={false}
-                style={{backgroundColor:'red'}}
+                // style={{backgroundColor:'red'}}
                 containerClass="carousel-container"
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
                 
                     {products.map(product => (
-                        <div className='shadow m-2   bg-white rounded-lg ' key={product._id}>
+                        <div className='shadow m-2  p-2  bg-white rounded-lg ' key={product._id}>
                         <Link to={`product/${product._id}`} style={{textDecoration: 'none'}} key={product._id} className="product-card ">
                             <Image className='px-2' src={product.image.url} alt='product' />
                             <div className="product-details">
-                                <div className='productTitle  text-black capitalize'>{product.name}</div>
+                                <div className='productTitle   capitalize'>{product.name}</div>
                                 {/* <div className='text-left w-full font-light px-2 pb-2'>{product.description}</div> */}
-                                <div className="product-bottom-details px-2 py-1">
+                                {/* <div className="product-bottom-details px-2 py-1"> */}
                                     {/* <div style={{color:'#00265d' ,width:'100%', textDecoration: 'line-through'}}>${product.mrp}</div> */}
-                                    <div  className="w-full text-left text-yellow-500">$ {(product.mrp-((product.mrp*product.discount)/100))}</div>
-                                    <div className="product-price w-full text-right">{product.discount}% off</div>
-                                </div>
+                                    <div  className="productTitle">$ {(product.mrp-((product.mrp*product.discount)/100))}</div>
+                                    {/* <div className="product-price w-full text-right">{product.discount}% off</div> */}
+                                {/* </div> */}
                             </div>
                         </Link>
                         </div>

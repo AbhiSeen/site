@@ -37,10 +37,12 @@ const Profile = ({ account, setAccount }) => {
             localStorage.removeItem("accountUser");
             let newdata = localStorage.getItem("accountUser");
             // setStore()
+            console.log(newdata)
             setAccount(newdata);
             console.log({newdata})
             navigate("/")
         }
+        handleClose();
     }
     
     return (
@@ -55,7 +57,7 @@ const Profile = ({ account, setAccount }) => {
                 open={Boolean(open)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => {  handleClose(); logoutUser();}}>
+                <MenuItem onClick={() => {   logoutUser();}}>
                     <PowerSettingsNew fontSize='small' color='primary'/> 
                     <Logout>Logout</Logout>
                 </MenuItem>

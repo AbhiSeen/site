@@ -14,7 +14,8 @@ import "./CategoryCard.css";
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-
+import { logout } from '../service/api';
+import LoginDialog from "../login/LoginDialog"
 
 const SmallText = styled(Box)`
     font-size: 14px;
@@ -54,12 +55,13 @@ const ProductDetail = ({ product }) => {
     const navigate = useNavigate();
     const { _id :id} = product; 
         
+    console.log({product})
     const [quantity, setQuantity] = useState(1);
     const priceDiscount = ((product.mrp*product.discount)/100);
     const realVal = (product.mrp - priceDiscount);
     const [productDisc, setProductDisc]=useState(priceDiscount);
     const [price, setPrice] = useState(realVal);
-
+    const [open, setOpen] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -73,16 +75,24 @@ const ProductDetail = ({ product }) => {
     // }
     // console.log(product.productImage)
 
-    const addItemToCart = () => {
-        console.log({id,quantity
+    const addItemToCart = async () => {
+        const response=await logout(localStorage.getItem("token"));
+        console.log({id,quantity,response
         })
-        dispatch(addToCart(id, quantity));
-        navigate('/cart');
+        if(response){
+            dispatch(addToCart(id, quantity));
+            navigate('/cart');
+        }else{
+              setOpen(true);
+            // return( <LoginDialog open={open} setOpen={setOpen}/>)
+        }
     }
+    
 
 
 
     return (
+        <div>
         <div className='p-5 px-10 w-full flex flex-wrap flex-col mainDIv'>
             <div className='flex flex-col bg-red'>
                 <h1 style={{    fontWeight: 500,color:' #000',    fontSize: '2rem',textTransform:'capitalize',}}>{product.name}</h1>
@@ -136,6 +146,8 @@ const ProductDetail = ({ product }) => {
                 </div>
                
              </div>
+        </div>
+         <LoginDialog open={open} setOpen={setOpen}/>
         </div>
     )
 }
