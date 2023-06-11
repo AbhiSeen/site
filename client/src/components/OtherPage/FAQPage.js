@@ -13,7 +13,7 @@ import Header from "../header/Header";
 const FAQPage = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="faqPage">
         <h2 className="faqTitle">FAQs</h2>
         <div className="faq-underline"></div>
@@ -52,7 +52,7 @@ const FAQPage = () => {
           </Accordion>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

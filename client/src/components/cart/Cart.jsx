@@ -71,7 +71,7 @@ const Cart = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {cart && cart.length>0 ? (
         <CartComp className="h-screen">
           {/* <Component container> */}

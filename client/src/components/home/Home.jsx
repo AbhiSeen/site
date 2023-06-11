@@ -30,13 +30,13 @@ const Home = () => {
 
         <Banner />
       <NavBar />
-        <MidSlide products={products}  title="Men's Fashion"/>
+        {/* <MidSlide products={products}  title="Men's Fashion"/> */}
         {/* <MideSection/> */}
         <Slide products={products} title="Men's Fashion" timer={false}/>
         <Slide products={products} title="Kids Wear's" timer={false}/>
         <Slide products={products} title="Home Decor" timer={false}/>
       </Component>
-      <Footer/>
+     
     </Fragment>
   )
 }

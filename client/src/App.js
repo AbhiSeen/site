@@ -32,6 +32,7 @@ import Appliances from "./components/details/Appliances";
 import Referral from "./components/Referral/Referral";
 import NavBar from "./components/home/NavBar";
 import Header from "./components/header/Header";
+import Footer from "./components/home/Footer";
 
 function App() {
   return (
@@ -130,6 +131,7 @@ function App() {
             <Route path="/contactUs" element={<ContactPage />} />
           </Routes>
         </Box>
+        <Footer />
       </BrowserRouter>
     </DataProvider>
   );

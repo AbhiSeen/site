@@ -7,7 +7,7 @@ const CategoryPage = ({ navigation }) => {
   const { product } = useSelector((state) => state.getProductDetails);
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div class="row">
         <div class="col-4">
           <img src="https://i.ibb.co/47Sk9QL/product-1.jpg" alt="" />
