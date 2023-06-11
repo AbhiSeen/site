@@ -9,22 +9,26 @@ function ProtectedRoute({ children }) {
   const logoutUser = async () => {
     const response = await logout();
     if (response) {
-      localStorage.removeItem("accountUser");
+      localStorage.setItem("accountUser","guest");
       navigate("/");
     }
   };
 
-  const token = document.cookie.split("=")[1];
-  if(token){
-    const user = jwt_decode(token);
-      let current_time = Date.now();
-      if (current_time > user.exp * 1000) {
-        logoutUser().then(() => console.log("logged out due to expiry"));
-      } else {
-        return children;
-      }
-  }else {
-    return <Navigate to="/" replace />;
+  if(localStorage.getItem("accountUser")!=="guest"){
+    const token = document.cookie?.split("=")[1];
+    if(token){
+      const user = jwt_decode(token);
+        let current_time = Date.now();
+        if (current_time > user.exp * 1000) {
+          logoutUser().then(() => alert("logged out due to session timeout"));
+        } else {
+          return children;
+        }
+    }else {
+      return <Navigate to="/" replace />;
+    }
+  }else{
+    return children;
   }
 }
 export default ProtectedRoute;

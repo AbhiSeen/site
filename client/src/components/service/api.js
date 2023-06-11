@@ -7,20 +7,18 @@ const axiosJWT = axios;
 
 setInterval(() => {
   if (document.cookie) {
-    const token = document.cookie.split("=")[1];
+    const token = document.cookie?.split("=")[1];
     if (token) {
         refreshToken().then((response)=>{
           if(response.data.message.includes("expiry")){
-            localStorage.clear();
-            document.location.reload();
+            localStorage.setItem("accountUser","guest");
           }else{
             console.log("refreshed")
           }
         });
     }
   }else{
-    localStorage.clear();
-    document.location.reload();
+    localStorage.setItem("accountUser","guest");
   }
 }, 120000);
 

@@ -80,8 +80,8 @@ const ProductDetail = ({ product }) => {
                 // onClick={() => addReferral()}
                 >Buy Now <ShoppingCartCheckoutRoundedIcon/></button>            
                 <button
-                    onClick={() => addItemToCart()}
                 className="button-81"
+                onClick={() => addItemToCart()}
                 >
                     Add to Cart
                     <ShoppingBagOutlinedIcon className='m-1' />

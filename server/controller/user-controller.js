@@ -6,7 +6,6 @@ import BlackList from "../schemas/blacklist-schema.js";
 import mongoose from "mongoose";
 import { INTERNAL_SERVER_ERROR } from "../Constants/response.js";
 import user from "../schemas/user-schema.js";
-import { request } from "express";
 
 dotenv.config();
 
@@ -305,7 +304,7 @@ export const verifyToken = async (request, response, next) => {
     }
   }catch(error){
     console.log(error.message);
-    return response.status(400).json({message: INTERNAL_SERVER_ERROR});
+    return response.status(400).json({message: error.message || INTERNAL_SERVER_ERROR});
   } 
 };
 

@@ -19,8 +19,12 @@ background:#F2F2F2;
 const Home = () => {
   const { products } = useSelector(state => state.getProducts)
   useEffect(() => {
-   getProducts()
-  }, [products])
+    getProducts()
+  }, [products]);
+
+  useEffect(()=>{
+    !localStorage.getItem("accountUser")  && localStorage.setItem("accountUser","guest")
+  },[])
 
   return (
     <Fragment>

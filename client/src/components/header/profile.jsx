@@ -35,10 +35,9 @@ const Profile = ({ account, setAccount }) => {
         if (response) {
             localStorage.clear();
             localStorage.removeItem("accountUser");
-            let newdata = localStorage.getItem("accountUser");
+            let newdata = localStorage.getItem("accountUser")!=="guest" ? localStorage.getItem("accountUser") : "" ;
             // setStore()
             setAccount(newdata);
-            console.log({newdata})
             navigate("/")
         }
     }

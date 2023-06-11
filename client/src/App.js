@@ -38,7 +38,7 @@ function App() {
         <Box>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
             <Route
               path="/dashboard"
               element={
@@ -103,9 +103,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/product/:id" element={<DetailView />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/ContactUs" element={<ContactPage />} />
+            <Route path="/product/:id" element={<ProtectedRoute><DetailView /></ProtectedRoute>} />
+            <Route path="/About" element={<ProtectedRoute><About /></ProtectedRoute>} />
+            <Route path="/ContactUs" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
             <Route path="/FAQ" element={<FAQPage />} />
             <Route path="/ReturnPolicy" element={<ReturnPolicy />} />
             <Route path="/CategoryDetail" element={<CategoryDetail />} />
@@ -116,7 +116,7 @@ function App() {
             <Route path="/HomeDecor" element={<HomeDecor />} />
             <Route path="/ReferandEarn" element={<ProtectedRoute><Referral/></ProtectedRoute>}/>
             <Route path="/Appliances" element={<Appliances />} />
-            <Route path="/Wallet" element={<Wallet />} />
+            <Route path="/Wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
             <Route path="/contactUs" element={<ContactPage />} />
           </Routes>
         </Box>

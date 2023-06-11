@@ -83,7 +83,7 @@ const CusttomButtons = () => {
   const [open, setOpen] = useState(false);
   const {account , setAccount}  = useContext(DataContext);
   const [storedata,setStore]=useState('');
-   const Userresponse= (localStorage.getItem("accountUser"));
+   const Userresponse= (localStorage.getItem("accountUser")!=="guest" ? localStorage.getItem("accountUser") : "");
    
 
   const getQuantity=()=>{
