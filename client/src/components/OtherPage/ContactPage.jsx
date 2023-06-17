@@ -10,7 +10,7 @@ import Header from '../header/Header';
 const ContactPage = () => {
   return (
         <>
-        <Header/>
+        {/* <Header/> */}
     <div className='contactUsPage'>	
         <svg className='contactUsImg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
             <g id="Image">
@@ -356,7 +356,7 @@ const ContactPage = () => {
         </div>
         
     </div>
-    <Footer/>
+  
     </>
   )
 }

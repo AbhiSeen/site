@@ -10,7 +10,7 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
 import Referral from "../Referral/Referral";
 import axios from "axios";
-import _ from "underscore";
+//import _ from "underscore";
 
 
 // import { post } from '../../utils/paytm';
@@ -71,7 +71,7 @@ const Cart = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {cart && cart.length>0 ? (
         <CartComp className="h-screen">
           {/* <Component container> */}

@@ -42,10 +42,10 @@ const DetailView = () => {
             dispatch(getProductDetails(id));
     }, []);
   return (
-    <div style={{backgroundColor:'rgb(238, 238, 238)'}} className='  box-border h-screen'>
-        <Header/>
+    <div style={{backgroundColor:'#fff'}} className='box-border h-screen'>
+        {/* <Header/> */}
         {product && Object.keys(product).length &&
-            <div className='flex pt-24 px-14'> 
+            <div className=' flex detail-view'> 
                 <Grid item lg={4} md={4} sm={8} xs={12}>
                     <ActionItem product={product} />
                 </Grid>

@@ -3,8 +3,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-
+import CurrencyRupeeOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { Link } from "react-router-dom";
 
 const Widget = ({ type ,value}) => {
   let data;
@@ -16,7 +16,8 @@ const Widget = ({ type ,value}) => {
       data = {
         title: "USERS",
         isMoney: false,
-        link: "See all users",
+        // link: "See all users",
+        link: (<Link to="/dashboard/users">See all users</Link>),
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -33,7 +34,8 @@ const Widget = ({ type ,value}) => {
       data = {
         title: "ORDERS",
         isMoney: false,
-        link: "View all orders",
+        // link: "View all orders",
+        link: (<Link to="/dashboard/orders">View all orders</Link>),
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -52,7 +54,7 @@ const Widget = ({ type ,value}) => {
         isMoney: true,
         link: "View net earnings",
         icon: (
-          <MonetizationOnOutlinedIcon
+          <CurrencyRupeeOutlinedIcon
             className="icon"
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
@@ -86,7 +88,7 @@ const Widget = ({ type ,value}) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {data.amount}
+          {data.isMoney && "₹"} {data.amount}
         </span>
         <span className="link">{data.link}</span>
       </div>

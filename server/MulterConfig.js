@@ -6,10 +6,12 @@ const memstorage = multer.memoryStorage();
 
 var uploadFile = multer({ memstorage }).single("image");
 
-
 const parser = new DatauriParser();
 
 const dataUri = (req) =>
-  parser.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+  parser.format(
+    path.extname(req.file.originalname).toString(),
+    req.file.buffer
+  );
 
-export { uploadFile, dataUri};
+export { uploadFile, dataUri };

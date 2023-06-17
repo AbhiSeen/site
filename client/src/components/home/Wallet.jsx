@@ -21,7 +21,8 @@ const Wallet = () => {
   },[]);
 
   return (
-    <><Header />
+    <>
+    {/* <Header /> */}
     <div className="ReferAndEarn">
       <h1 className="ReferHeading">Add Money to your Wallet.</h1>
       <h3 className="ReferSubHeading">
@@ -30,7 +31,7 @@ const Wallet = () => {
       <img src={WalletImg} className='walletImg'/>
       <div className='earning'>You Have Earned &#x20b9; <span className='money'> {earnings} </span>  </div>
       <button  className="LearnMoreBtn">
-        <a className="mcnButton moreBtn" title="Learn more" href="https://www.postable.com/login" target="_blank">
+        <a className="mcnButton moreBtn" title="Learn more" href="" target="_blank">
           Withdraw Now
         </a>
       </button>

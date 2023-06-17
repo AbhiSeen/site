@@ -1,45 +1,42 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./ReferAndEarn.css";
-import WalletImg from "../images/WalletImg.png"
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-
+import WalletImg from "../images/WalletImg.png";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const ReferNdEarn = () => {
-  const [earnings,setEarnings]=useState(0);
+  const [earnings, setEarnings] = useState(0);
 
-  const getEarnings=async()=>{
-    const response=await axios.get("http://localhost:8000/getEarnings")
-    setEarnings(response.data.earnings??0);
-  }
+  const getEarnings = async () => {
+    const response = await axios.get("http://localhost:8000/getEarnings");
+    setEarnings(response.data.earnings ?? 0);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getEarnings();
-  },[]);
+  }, []);
 
   return (
     <div className="ReferAndEarn">
-      <h1 className="ReferHeading">
-        Add Money to your Wallet 
-      </h1>
+      <h1 className="ReferHeading">Add Money to your Wallet</h1>
       <h3 className="ReferSubHeading">
         The more friends you refer or share, the more money you make.
       </h3>
-      <img src={WalletImg}m className='walletImg'/>
-      <button
-        className="LearnMoreBtn"
-      >
+      <img src={WalletImg} m className="walletImg" />
+      <button className="LearnMoreBtn">
         <a
           className="mcnButton moreBtn"
           title="Learn more"
-          href="https://www.postable.com/login"
+          //   href="https://www.postable.com/login"
           target="_blank"
         >
           Withdraw Now
         </a>
       </button>
-      <div className='earning'>You Have Earned <span className='money'> {earnings} </span> &#x20b9; </div>
-      
+      <div className="earning">
+        You Have Earned <span className="money"> {earnings} </span> &#x20b9;{" "}
+      </div>
+
       {/* <center>
       <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%"
       width="100%" id="bodyTable" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;height: 100%;margin: 0;padding: 0;width: 100%;background-color: #ffffff;">

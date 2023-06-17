@@ -14,7 +14,7 @@ import Return from "../images/returnPolicyImg.png";
 const ReturnPolicy = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="returnPolicyPage">
         <h2 className="faqTitle">Return Policy</h2>
         <div className="return-underline"></div>
@@ -95,7 +95,7 @@ const ReturnPolicy = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

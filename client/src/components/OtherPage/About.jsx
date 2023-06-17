@@ -13,7 +13,7 @@ import Header from '../header/Header';
 const About = () => {
   return (
     <>
-        <Header/>
+        {/* <Header/> */}
         <div className='aboutUsPage'>
         {/* <img  className='aboutUsImg' src={AboutUspageHd}/>         */}
         <div className="aboutUstext">
@@ -50,7 +50,7 @@ const About = () => {
                 </div>
             </div>
         </div>
-        <Footer/>
+    
     </>
 
   )

@@ -23,7 +23,7 @@ const Footer = () => {
         <div className='footerCon'>
                 <div className="main">
                     <div className="col1">
-                    <h3 className="heading">
+                    <h3 className="heading text-color">
                         About the store
                         <div className='header-underline'></div>
                     </h3>
@@ -31,46 +31,46 @@ const Footer = () => {
                     <ul className='about-list'>
                         <li >
                         <NavLink exact="true" to="/" className='navlink '>
-                        <RoofingRoundedIcon className='footer-icons'/><p className='about-sec-con'>Home</p>
+                        <RoofingRoundedIcon className='footer-icons'/><p className='about-sec-con text-color'>Home</p>
                         </NavLink>
                         </li>
                         <li>
                         <NavLink exact="true" to="/About" className='navlink'> 
-                        <LiveHelpRoundedIcon className='footer-icons'/><p className='about-sec-con'> About us</p> 
+                        <LiveHelpRoundedIcon className='footer-icons'/><p className='about-sec-con text-color'> About us</p> 
                         </NavLink>
                         </li>
                         <li>
                         <NavLink exact="true" to="/FAQ" className='navlink'> 
-                        <ForumRoundedIcon className='footer-icons'/><p className='about-sec-con'> FAQ</p> 
+                        <ForumRoundedIcon className='footer-icons'/><p className='about-sec-con text-color'> FAQ</p> 
                         </NavLink>
                         </li>
                         <li>
                         <NavLink exact="true" to="/ReturnPolicy" className='navlink'> 
-                        <PublishedWithChangesRoundedIcon className='footer-icons'/><p className='about-sec-con'>Return policy</p> 
+                        <PublishedWithChangesRoundedIcon className='footer-icons'/><p className='about-sec-con text-color'>Return policy</p> 
                         </NavLink>
                         </li>
                         <li>
                         <NavLink exact="true" to="/ContactUs" className='navlink'> 
-                        <PermPhoneMsgRoundedIcon className='footer-icons'/> <p className='about-sec-con'>Contact us </p>
+                        <PermPhoneMsgRoundedIcon className='footer-icons'/> <p className='about-sec-con text-color'>Contact us </p>
                         </NavLink>
                         </li>
                     </ul>
                     </div>
 
                     <div className="col2">
-                    <h3 className="heading">
+                    <h3 className="heading text-color">
                     Make Money with Us
                     <div className='header-underline'></div>
                     </h3>
                     <div className="languages">
                         <NavLink exact="true" to="/ReferandEarn" className='navlink about-sec-money'> 
-                        <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con2'>Refer and Earn</p>
+                        <PriceCheckRoundedIcon className='footer-icons'/><p className='about-sec-con text-color'>Refer and Earn</p>
                         </NavLink>
                     </div>
                     </div>
 
                     <div className="col3">
-                    <h3 className="heading">
+                    <h3 className="heading text-color">
                         Get in touch
                         <div className='header-underline'></div>
                     </h3>
@@ -90,11 +90,11 @@ const Footer = () => {
                 </div>
 
                 <p className="terms">
-                    <a href="#">Terms of purchase</a>
-                    <a href="#">Security and privacy</a>
-                    <a href="#">Help Center</a>
+                    <a className='text-color' href="#">Terms of purchase</a>
+                    <a className='text-color' href="#">Security and privacy</a>
+                    <a className='text-color' href="#">Help Center</a>
                 </p>
-                <p className="terms">
+                <p className="terms text-color">
                 amfashio.com
                 </p>
         </div>

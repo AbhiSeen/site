@@ -63,11 +63,11 @@ border-bottom: 10px solid #8686b7;
 border-top: 10px solid #8686b7;
 height: 77vh;
 margin: 50px 40px;
-padding: 25px 35px;
+padding: 10px 35px;
 background-color:white;
 display: flex;
 flex: 1;
-overflow: auto;
+overflow: hidden;
 flex-direction: column;
 & > div,
 & > button,
@@ -233,10 +233,10 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   const signupUser = async () => {
-    // console.log(signup);
+
     setDisabled({ ...disabled, signUp: true });
     let response = await authenticateSignup(signup);
-    // console.log({response});
+    
     setUserAccount(response?.data?.message);
     if(response?.data?.message == "successfully signed up")
     {
@@ -244,7 +244,7 @@ const LoginDialog = ({ open, setOpen }) => {
     toggleAccount(accountInitialValues.login);
     setError(false);
     }
-    // console.log(useraccount,'useraccount');
+  
     if (!response) return;
     setDisabled({ ...disabled, signUp: false });
   };
@@ -280,7 +280,6 @@ const LoginDialog = ({ open, setOpen }) => {
                 name="email"
                 label="Enter Your Email"
               />
-              {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='email' label="Enter Your Email" /> */}
               <ValidationTextField
                 type="password"
                 variant="outlined"
@@ -288,25 +287,8 @@ const LoginDialog = ({ open, setOpen }) => {
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Your Password"
-                // id="outlined-adornment-password"
-                // type={values.showPassword ? 'text' : 'password'}
-                // value={values.password}
-                // onChange={handleChange('password')}
-                // endAdornment={
-                  //   <InputAdornment position="end">
-                  //     <IconButton
-                  //       aria-label="toggle password visibility"
-                  //       onClick={handleClickShowPassword}
-                  //       onMouseDown={handleMouseDownPassword}
-                  //       edge="end"
-                  //     >
-                  //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  //     </IconButton>
-                  //   </InputAdornment>
-                  // }
                   />
 
-              {/* <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label="Enter Your Password" /> */}
               {error && <Error>Please enter valid email/password</Error>}
               <Text>
                 By continuing, you agree to AMFashion's Terms of Use and Privacy
@@ -324,6 +306,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <button
                 className="button-24"
                 role="button"
+               style={{width:'100%',padding:'1rem 0',margin: '1rem 0'}}
                 onClick={() => loginUser()}
                 >
                 Login
@@ -371,6 +354,7 @@ const LoginDialog = ({ open, setOpen }) => {
               <button
                 className="button-24"
                 role="button"
+                style={{width:'100%',padding:'1rem 0',margin: '1rem 0'}}
                 onClick={() => signupUser()}
               >
                 Explore Now

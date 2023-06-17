@@ -32,18 +32,24 @@ ul{
  padding-inline-start: 0px;
 }
 .footerCon{
-    background: rgb(57 54 78);
+    /* background: rgb(57 54 78); */
+    background: #697ca2;
+
     /* border-radius: 15px; */
     box-shadow: #2f4374 0 10px 20px 5px;
     padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: rgb(0, 0, 0);
     overflow-x: hidden;
 }
 
+.text-color{
+    color: rgb(43, 43, 43);
+}
 .about-sec-con{
+    color: white;
   text-decoration: none;
     padding: 3px 10px;
     font-size: 14px;
@@ -52,6 +58,7 @@ ul{
     margin: 4px;
 }
 .about-sec-con2{
+    color: white;
   text-decoration: none;
   padding-top: -10px;
     padding: 3px 10px;
@@ -103,10 +110,10 @@ ul{
 
 .about-sec-con:hover {
   text-decoration: none;
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 .footer-icons:hover{
-    color: #58bed5;
+    color: rgb(104, 85, 224);
     cursor: pointer;
 }
 .col2 .languages {
@@ -117,6 +124,7 @@ ul{
 }
 .navlink {
   display: flex;
+  align-items: center;
   padding: 3px 5px;
   border-radius: 3px;
   color: white;
@@ -124,10 +132,10 @@ ul{
 }
 .navlink:hover{
 
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 .col2 a:hover {
-  color: #58bed5;
+  color: rgb(104, 85, 224);
 }
 
 .social {

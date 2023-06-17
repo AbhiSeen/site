@@ -461,7 +461,7 @@ width: 80%;
     
     .returns-questions {
         background-color: #f2f2f2;
-        padding: 2rem;
+        padding: 1rem 0;
         /* margin: 10px; */
         color: black;
     }
@@ -505,11 +505,12 @@ width: 80%;
     }
      .content {
         display: flex;
+        flex-direction: column;
         position: relative;
-        margin: 0px 20px;
+        margin: 0px 0px;
         width: 100vw;
         text-align: center;
-        padding: 1rem 1rem 1rem 2rem;
+        padding: 0;
     }
     .returns-questions .content {
         text-align: left;
@@ -517,6 +518,7 @@ width: 80%;
     
     .how-works .three-steps {
         width: 33.3333333%;
+        /* padding: 2rem 0; */
     }
     
     .how-works .hw-step {

@@ -54,19 +54,17 @@ const DashHome = () => {
           <Widget type="user" value={number.numberofUsers}/>
           <Widget type="order" value={number.numberofOrders}/>
           <Widget type="earning" value={number.earnings}/>
-          <Widget type="balance" />
+          
         </div>
-        <div className="charts">
+        {/* <div className="charts">
           <Featured />
           <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
-        </div>
-        <div className="listContainer">
+        </div> */}
+        {/* <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
-          <Transactionstable />
-        </div>
+          <List />
+        </div> */}
       </div>
-
-
     </div>
   )
 }
