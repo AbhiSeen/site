@@ -267,6 +267,7 @@ export const refreshTokens = async (request, response) => {
 export const verifyToken = async (request, response, next) => {
   try{
     const refreshToken = request.cookies._rt;
+    const accessToken=request.cookies._at;
     let expired = false;
     if (refreshToken ) {
       jwt.verify(refreshToken, process.env.JWT_SECRET,async(err,decodedPayload)=>{
@@ -287,7 +288,7 @@ export const verifyToken = async (request, response, next) => {
               message: "Invalid creds!",
             });
           } else {
-            request.user = { id, refreshToken };
+            request.user = { id, refreshToken,accessToken };
             next();
           }
         } else {
@@ -310,7 +311,7 @@ export const verifyToken = async (request, response, next) => {
 
 export const addReferralLink = async (request, response) => {
   try {
-    const authCode = request.cookies._rt;
+    const authCode = request.user.refreshToken;
     const { id } = jwt.decode(authCode);
     const referralCode = request.body.referralCode;
     // console.log(referralCode)
@@ -335,7 +336,7 @@ export const addReferralLink = async (request, response) => {
 export const addReferral = async (request, response) => {
   try {
     const { user } = request.body;
-    const authCode = request.cookies._at;
+    const authCode = request.user.accessToken;
     const refreshToken=request.user.refreshToken;
     const { id } = jwt.decode(authCode);
     const {email} =jwt.decode(refreshToken);
@@ -363,7 +364,7 @@ export const addReferral = async (request, response) => {
 
 export const getEarnings = async (request, response) => {
   try {
-    const authCode = request.cookies._rt;
+    const authCode = request.user.accessToken;
     const { id } = jwt.decode(authCode);
     const { referrals } = await getReferralsfromUserId(id);
     if (referrals) {
@@ -406,12 +407,11 @@ export const addOrder = async (request, response) => {
   try {
     const products = request.body.products;
     if (products) {
-      const authCode = request.cookies._rt;
+      const authCode = request.user.refreshToken;
       const { id } = jwt.decode(authCode);
       const orderedProducts = products.map((val) => {
         return { ...val, status: "", productId: mongoose.Types.ObjectId(val.productId) };
       });
-      // console.log(orderedProducts)
       const result = await User.findOneAndUpdate(
         {
           _id: mongoose.Types.ObjectId(id),
