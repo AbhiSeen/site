@@ -13,6 +13,7 @@ const Component = styled(Box)(({ theme }) => ({
     overflowX: 'overlay',
     overflow: 'hidden',
     [theme.breakpoints.down('lg')]: {
+        justifyContent: 'space-evenly',
         margin: '0px !important'
     }
 }))

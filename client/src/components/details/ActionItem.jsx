@@ -94,7 +94,7 @@ const ActionItem = ({ product }) => {
      <Zoom indicators={indicators} scale={1.1}>
         {
             productImage.map((each, index) => 
-                <img src={each} style={productStyle} key={index}   alt="none" />
+                <img src={each} style={{height:'350px',width:'300px'}} key={index}   alt="none" />
             )
         }
     </Zoom>

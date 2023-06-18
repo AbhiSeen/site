@@ -42,7 +42,7 @@ const DetailView = () => {
             dispatch(getProductDetails(id));
     }, []);
   return (
-    <div style={{backgroundColor:'#fff'}} className='box-border h-screen'>
+    <div style={{backgroundColor:'#fff'}} className='box-border '>
         {/* <Header/> */}
         {product && Object.keys(product).length &&
             <div className=' flex detail-view'> 

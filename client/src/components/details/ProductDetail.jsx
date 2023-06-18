@@ -92,7 +92,7 @@ const ProductDetail = ({ product }) => {
 
 
     return (
-        <div>
+        <>
         <div className='p-5 px-10 w-full flex flex-wrap flex-col mainDIv'>
             <div className='flex flex-col bg-red'>
                 <h1 style={{    fontWeight: 500,color:' #000',    fontSize: '2rem',textTransform:'capitalize',}}>{product.name}</h1>
@@ -148,7 +148,7 @@ const ProductDetail = ({ product }) => {
              </div>
         </div>
          <LoginDialog open={open} setOpen={setOpen}/>
-        </div>
+        </>
     )
 }
 
