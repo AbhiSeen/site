@@ -127,7 +127,7 @@ function App() {
               }
             />
             <Route path="/Appliances" element={<Appliances />} />
-            <Route path="/Wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
+            <Route path="/Wallet" element={<Wallet />} />
             <Route path="/contactUs" element={<ContactPage />} />
           </Routes>
         </Box>

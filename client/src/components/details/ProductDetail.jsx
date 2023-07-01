@@ -49,13 +49,11 @@ const StyledBadge = styled(Badge)`
 `;
 
 const ProductDetail = ({ product }) => { 
-    console.log({product})
     const date = new Date(new Date().getTime()+(4*24*60*60*1000));
     
     const navigate = useNavigate();
     const { _id :id} = product; 
         
-    console.log({product})
     const [quantity, setQuantity] = useState(1);
     const priceDiscount = ((product.mrp*product.discount)/100);
     const realVal = (product.mrp - priceDiscount);
