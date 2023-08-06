@@ -92,17 +92,18 @@ const TotalView = ({cartItems}) => {
     }
 
   const addProducts = async () => {
-    if(document.cookie && document.cookie.split("=")[1]){
-    const products = cartItems.map((val) => {
-      const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.discount/100))),quantity:val.quantity};
-      return temp;
-    });
-    const response = await axios.post("http://localhost:8000/addOrder", {
-      products: products,
-    },{withCredentials: true});
-  }else{
-    setOpen(true);
-  }};
+        if(document.cookie && document.cookie.split("=")[1]){
+            const products = cartItems.map((val) => {
+            const temp = { productId: val._id, name: val.name ,orderValue:Math.round(val.mrp*val.quantity-(val.mrp*val.quantity*(val.discount/100))),quantity:val.quantity};
+            return temp;
+            });
+            const response = await axios.post("http://localhost:8000/addOrder", {
+            products: products,
+            },{withCredentials: true});
+        }else{
+            setOpen(true);
+        }
+    };
   
 
 
@@ -124,7 +125,7 @@ const TotalView = ({cartItems}) => {
                 <TotalAmount>Total Amount
                     <Price>₹{price- discount + 40}</Price>
                 </TotalAmount>
-                <Discount>You will save ₹{40-discount} on this order</Discount>
+                <Discount>You will save ₹{discount-40} on this order</Discount>
                 <StyledButton variant="contained" onClick={() => addProducts()}>
                   Place Order
                 </StyledButton>

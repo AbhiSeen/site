@@ -38,7 +38,7 @@ function Referral({ delivered }) {
       getReferrals();
   },[])
   return (
-         localStorage.getItem("accountUser")!=="guest" ? <> <div id="heading">
+         !localStorage.getItem("accountUser")?.includes("guest") ? (<> <div id="heading">
             Hey <span>{localStorage.getItem("accountUser")}</span>, Your Referral Code is
             <h2>{user.fullName?.substring(0,5)?.toUpperCase()}#R20</h2>
           </div>
@@ -75,7 +75,8 @@ function Referral({ delivered }) {
               </tbody>
             </table>
           </section>
-          </> : <div id="heading">
+          </> ) : 
+          <div id="heading" style={{"padding":"8rem"}}>
             Hey <span>Friend</span>, looks like you are not logged in 
             <h2>Please login to see your referrals</h2>
           </div>

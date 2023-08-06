@@ -83,7 +83,8 @@ const CusttomButtons = () => {
   const [open, setOpen] = useState(false);
   const {account , setAccount}  = useContext(DataContext);
   const [storedata,setStore]=useState('');
-   const Userresponse= (localStorage.getItem("accountUser")!=="guest" ? localStorage.getItem("accountUser") : "");
+  const [noofItems,setNoOfItems]=useState(0);
+  const Userresponse= (localStorage.getItem("accountUser")!=="guest" ? localStorage.getItem("accountUser") : "");
    
 
   const getQuantity=()=>{
@@ -92,6 +93,11 @@ const CusttomButtons = () => {
     }
   }
   
+  useEffect(()=>{
+    console.log("in useEffect")
+    setNoOfItems(getQuantity());
+  });
+
 // setStore(Userresponse)
   const openDialog = () => {
       setOpen(true);
@@ -107,11 +113,13 @@ const CusttomButtons = () => {
 
       <TypographyBtn style={{ color:'#6855e0'}}>
         <NavLink exact="true" to="/Wallet" className='navlink about-sec-money fontColorStyle' style={{color:'#6855e0',fontWeight:600}}> 
-          <AccountBalanceWalletIcon style={{marginRight:'4px'}} className='fontColorStyle'/>Wallet
+          <AccountBalanceWalletIcon style={{marginRight:'4px'}} className='fontColorStyle'/>
+          Wallet
         </NavLink>
       </TypographyBtn> 
       <Container to="/cart">
-        <Badge badgeContent={localStorage.getItem("cartItem") && JSON.parse(localStorage.getItem("cartItem")).cartItems?getQuantity():0} color="secondary">
+        {/* ToDo - Refresh quantity after adding new items*/}
+        <Badge badgeContent={noofItems} color="secondary">
             <LocalMallRoundedIcon  className='fontColorStyle' style={{color:'#6855e0'}}/>
         </Badge>
         <Typography style={{ marginLeft: 4 ,color:'#6855e0',fontWeight:600 ,marginTop:4}} className='fontColorStyle'>Cart</Typography>

@@ -85,10 +85,14 @@ const Header = () => {
           onClick={handleOpen}
         >
           <Menu />
-        </MenuButton>
-        <Drawer open={open} onClose={handleClose}>
+        </MenuButton>       
+        {
+        //Whats the use of this?
+
+        /* <Drawer open={open} onClose={handleClose}>
           {list()}
-        </Drawer>
+        </Drawer> */
+        }
         <Component to='/'>
           <img src={AmfashionLogoImg} alt="none" style={{ height: '60px',
           width:' 160px',

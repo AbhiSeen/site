@@ -5,6 +5,7 @@ import { ShoppingCart as Cart, FlashOn as Flash, Share } from '@mui/icons-materi
 import { useNavigate } from 'react-router-dom';
 // import { payUsingPaytm } from '../../service/api';
 // import { post } from '../../utils/paytm';
+import jwt_decode from "jwt-decode";
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
@@ -72,18 +73,32 @@ const ProductDetail = ({ product }) => {
     //     // post(information);
     // }
     // console.log(product.productImage)
+    const redirectToDetailsPage=()=>{
+        let loggedIn=false;
+        if(localStorage.getItem("accountUser")!=="guest"){
+            const token = document.cookie?.split("=")[1];
+            if(token){
+                const user = jwt_decode(token);
+                if(user){
+                   loggedIn=true;
+                }else{
+                    loggedIn=false;
+                   
+                }
+            }
+        }
+        if(loggedIn){
+            //redirect to delivery/payment details page
+        }else{
+            setOpen(true);
+        }
 
-    const addItemToCart = async () => {
-        const response=await logout(localStorage.getItem("token"));
-        console.log({id,quantity,response
-        })
-        if(response){
+    }
+
+    const addItemToCart = async () =>{
             dispatch(addToCart(id, quantity));
             navigate('/cart');
-        }else{
-              setOpen(true);
-            // return( <LoginDialog open={open} setOpen={setOpen}/>)
-        }
+        
     }
     
 
@@ -101,7 +116,7 @@ const ProductDetail = ({ product }) => {
             </div>
             <div className='flex flex-wrap'>
                 <button className="button-24"
-                // onClick={() => addReferral()}
+                onClick={() => redirectToDetailsPage()}
                 >Buy Now <ShoppingCartCheckoutRoundedIcon/></button>            
                 <button
                 className="button-81"
