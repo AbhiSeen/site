@@ -77,7 +77,7 @@ const NavBar = () => {
         {
         navData.map((data) => (
             <Container key={data.id}>
-                <Button onClick={(e)=>CategoryDetail(data.page,e,data)}>
+                <Button >
                     <LazyLoadImage src={data.url}
                         width={140} style={{height: '200px'}}
                         alt="Image Alt"

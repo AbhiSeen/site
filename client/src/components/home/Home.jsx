@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Fragment } from 'react';
 import NavBar from './NavBar';
 import Banner from './Banner';
@@ -10,6 +10,7 @@ import MidSlide from './MidSlide';
 import MideSection from './MidSection';
 import Footer from './Footer';
 import Header from '../header/Header';
+import { lazy } from 'react';
 const Component = styled(Box)`
 
 padding:10px;
@@ -20,21 +21,24 @@ padding-top:5rem;
 const Home = () => {
   const { products } = useSelector(state => state.getProducts)
   useEffect(() => {
-   getProducts()
-  }, [products])
+    getProducts()
+  }, [products]);
+
+  useEffect(()=>{
+    !localStorage.getItem("accountUser")  && localStorage.setItem("accountUser","guest")
+  },[])
 
   return (
     <Fragment>
       {/* <Header/> */}
       <Component>
-
-        <Banner />
-      <NavBar />
+       <Banner />
+       <NavBar />
         {/* <MidSlide products={products}  title="Men's Fashion"/> */}
         {/* <MideSection/> */}
-        <Slide products={products} title="Men's Fashion" timer={false}/>
-        <Slide products={products} title="Kids Wear's" timer={false}/>
-        <Slide products={products} title="Home Decor" timer={false}/>
+          <Slide products={products} title="Men's Fashion" timer={false}/>    
+          <Slide products={products} title="Kids Wear's" timer={false}/>
+          <Slide products={products} title="Home Decor" timer={false} />
       </Component>
      
     </Fragment>

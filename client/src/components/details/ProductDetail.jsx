@@ -5,6 +5,7 @@ import { ShoppingCart as Cart, FlashOn as Flash, Share } from '@mui/icons-materi
 import { useNavigate } from 'react-router-dom';
 // import { payUsingPaytm } from '../../service/api';
 // import { post } from '../../utils/paytm';
+import jwt_decode from "jwt-decode";
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
@@ -49,13 +50,11 @@ const StyledBadge = styled(Badge)`
 `;
 
 const ProductDetail = ({ product }) => { 
-    console.log({product})
     const date = new Date(new Date().getTime()+(4*24*60*60*1000));
     
     const navigate = useNavigate();
     const { _id :id} = product; 
         
-    console.log({product})
     const [quantity, setQuantity] = useState(1);
     const priceDiscount = ((product.mrp*product.discount)/100);
     const realVal = (product.mrp - priceDiscount);
@@ -74,18 +73,32 @@ const ProductDetail = ({ product }) => {
     //     // post(information);
     // }
     // console.log(product.productImage)
+    const redirectToDetailsPage=()=>{
+        let loggedIn=false;
+        if(localStorage.getItem("accountUser")!=="guest"){
+            const token = document.cookie?.split("=")[1];
+            if(token){
+                const user = jwt_decode(token);
+                if(user){
+                   loggedIn=true;
+                }else{
+                    loggedIn=false;
+                   
+                }
+            }
+        }
+        if(loggedIn){
+            //redirect to delivery/payment details page
+        }else{
+            setOpen(true);
+        }
 
-    const addItemToCart = async () => {
-        const response=await logout(localStorage.getItem("token"));
-        console.log({id,quantity,response
-        })
-        if(response){
+    }
+
+    const addItemToCart = async () =>{
             dispatch(addToCart(id, quantity));
             navigate('/cart');
-        }else{
-              setOpen(true);
-            // return( <LoginDialog open={open} setOpen={setOpen}/>)
-        }
+        
     }
     
 
@@ -103,11 +116,11 @@ const ProductDetail = ({ product }) => {
             </div>
             <div className='flex flex-wrap'>
                 <button className="button-24"
-                // onClick={() => addReferral()}
+                onClick={() => redirectToDetailsPage()}
                 >Buy Now <ShoppingCartCheckoutRoundedIcon/></button>            
                 <button
-                    onClick={() => addItemToCart()}
                 className="button-81"
+                onClick={() => addItemToCart()}
                 >
                     Add to Cart
                     <ShoppingBagOutlinedIcon className='m-1' />

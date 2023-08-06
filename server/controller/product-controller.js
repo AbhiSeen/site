@@ -20,6 +20,8 @@ export const getProducts = async (request, response) => {
       if(product){
         const isCached=product._id.equals(cachedProduct._id);
         if (isCached) {
+            const ttl= await client.ttl(`${id}`);
+            ttl > 0 && client.expire(`${id}`,ttl+1400);
             return response.status(200).json(cachedProduct);
         } else {
             client.setex(`${id}`, 1400, JSON.stringify(product));
@@ -35,6 +37,8 @@ export const getProducts = async (request, response) => {
       const isCached = isinCache(dbproducts, cachedProducts);
       if(dbproducts && dbproducts.length > 0){
         if (isCached) {
+            const ttl= await client.ttl("products");
+            ttl > 0 && client.expire("products",ttl+1400);
             return response.status(200).json(cachedProducts);
         } else {
             client.setex("products", 1400, JSON.stringify(dbproducts));

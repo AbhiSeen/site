@@ -215,7 +215,7 @@ const LoginDialog = ({ open, setOpen }) => {
       if (response.status === 200) {
         if (!fullName.includes("admin")) {
           setTimeout(() => {
-            localStorage.setItem("accountUser", fullName.split(" ")[0]);
+            localStorage.setItem("accountUser", fullName.split(" ")?.length>0 ? fullName.split(" ")[0] : fullName);
             setAccount(fullName.split(" ")[0]);
             handleClose();
           }, 1000);

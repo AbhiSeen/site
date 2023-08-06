@@ -11,7 +11,7 @@ cron.schedule('*/10 * * * *', async() => {
     await clearBlackList();
 });
 
-//login & signup
+
 router.post('/signup',signUp);
 router.post('/login',login); 
 router.post('/logout',logout);

@@ -42,7 +42,7 @@ function App() {
         <Box>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
             <Route
               path="/dashboard"
               element={
@@ -107,9 +107,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/product/:id" element={<DetailView />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/ContactUs" element={<ContactPage />} />
+            <Route path="/product/:id" element={<ProtectedRoute><DetailView /></ProtectedRoute>} />
+            <Route path="/About" element={<ProtectedRoute><About /></ProtectedRoute>} />
+            <Route path="/ContactUs" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
             <Route path="/FAQ" element={<FAQPage />} />
             <Route path="/ReturnPolicy" element={<ReturnPolicy />} />
             <Route path="/CategoryDetail" element={<CategoryDetail />} />

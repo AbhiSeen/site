@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase, List, ListItem, Box, styled } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'; 
 import { getProducts as listProducts } from '../../redux/actions/productActions';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 
 
 const SearchContainer = styled(Box)`
@@ -46,14 +47,11 @@ const Search = () => {
         setOpen(false)
     }
 
-    const getProducts = useSelector(state => state.getProducts);
-    const { products } = getProducts;
+    const {products} = useSelector(state => state.getProducts);
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(listProducts())
-    }, [dispatch])
+    useMemo(() => dispatch(listProducts()), [])
 
   return (
     <SearchContainer>

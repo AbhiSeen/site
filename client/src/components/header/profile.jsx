@@ -5,6 +5,8 @@ import { Typography, Menu, MenuItem, Box, styled } from '@mui/material';
 import { PowerSettingsNew } from '@mui/icons-material';
 import {logout} from "../service/api";
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
+import LoginDialog from '../login/LoginDialog';
 
 const Component = styled(Menu)`
     margin-top: 5px;
@@ -29,28 +31,32 @@ const Profile = ({ account, setAccount }) => {
     };
 
     const logoutUser = async() => {
-       
-         const response=await logout(localStorage.getItem("token"));
-         console.log({response})
-        if (response) {
-            localStorage.clear();
-            localStorage.removeItem("accountUser");
-            let newdata = localStorage.getItem("accountUser");
-            // setStore()
-            console.log(newdata)
-            setAccount(newdata);
-            console.log({newdata})
-            navigate("/")
+        const token = document.cookie?.split("=")[1];
+        if(token){
+            const user = jwt_decode(token);
+            if(user){
+                const response=await logout();
+                console.log({response})
+                if (response) {
+                    localStorage.clear();
+                    let newdata = localStorage.getItem("accountUser")!=="guest" ? localStorage.getItem("accountUser") : "" ;
+                    // setStore()
+                    console.log(newdata)
+                    setAccount(newdata);
+                    navigate("/")
+                }
+                handleClose();
+            }
         }
-        handleClose();
     }
     
     return (
         <>
+            {/*ToDo- Fix the profile button after logout */}
             <Box onClick={handleClick}>
-                <Typography style={{ marginTop: '5px' ,cursor :'pointer',color:'#6855e0', display:'flex',verticalAlign:'center'}}>    
-                    <PersonPinRoundedIcon/> <span style={{marginLeft:'4px'}}>{account}</span>
-                </Typography>
+            <Typography style={{ marginTop: '5px' ,cursor :'pointer',color:'#6855e0', display:'flex',verticalAlign:'center'}}>    
+                    <PersonPinRoundedIcon/> <span style={{marginLeft:'4px'}}>{localStorage.getItem("accountUser")}</span>
+            </Typography>   
             </Box>
             <Component
                 anchorEl={open}

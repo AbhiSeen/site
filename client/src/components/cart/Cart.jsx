@@ -10,7 +10,6 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./cartItem";
 import Referral from "../Referral/Referral";
 import axios from "axios";
-//import _ from "underscore";
 
 
 // import { post } from '../../utils/paytm';
@@ -38,9 +37,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const [cart,setCart]=useState([]);
 
-  axios.defaults.headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
+
 
   useEffect(()=>{
     if (cartItems && id) dispatch(addToCart(id));
@@ -93,7 +90,7 @@ const Cart = () => {
       ) : (
         <EmptyCart />
       )}
-      <Referral delivered={true} />
+      {/* <Referral delivered={true} /> */}
     </>
   );
 };
